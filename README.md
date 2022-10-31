@@ -41,3 +41,11 @@ sudo pacman -S lazygit
 ```
 sudo pacman -S xsel
 ```
+- Java
+```
+sudo pacman -S jdk8-openjdk jdk11-openjdk jdk-openjdk
+```
+- Maven
+```
+sudo pacman -S maven
+```
