@@ -13,5 +13,5 @@ end
 if test -e /etc/os-release
     # Linux
     alias pbcopy="xsel --clipboard --input"
-    alias pbpaste-"xsel --clipboard --output"
+    alias pbpaste="xsel --clipboard --output"
 end
