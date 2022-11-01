@@ -36,3 +36,7 @@ go install github.com/x-motemen/ghq@latest
 ```
 sudo pacman -S lazygit
 ```
+- xsel
+```
+sudo pacman -S xsel
+```

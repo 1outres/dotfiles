@@ -27,6 +27,7 @@ link_to_homedir() {
       	command mkdir -p "$(dirname "$HOME/.dotbackup/$f")"
         command mv "$HOME/$f" "$HOME/.dotbackup/$f"
       fi
+      command mkdir -p "$(dirname "$HOME/$f")"
       command ln -snvf "$dotdir/$f" "$HOME/$f"
     done
   else
