@@ -19,3 +19,7 @@ fisher add jethrokuan/fzf
 ```
 sudo pacman -S fzf
 ```
+- neovim
+```
+sudo pacman -S neovim
+```
