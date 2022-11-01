@@ -3,7 +3,7 @@
 !bin
 
 ### exlude ignore ###
-!.config/fish/config.fish
+!/.config/fish/config.fish
 
 ### git files ###
 !/README.md
