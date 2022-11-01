@@ -3,6 +3,8 @@
 !bin
 
 ### exlude ignore ###
+!/.config/
+!/.config/fish
 !/.config/fish/config.fish
 
 ### git files ###
