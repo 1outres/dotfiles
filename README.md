@@ -9,3 +9,13 @@ bin/setup.sh
 
 ## Requirements
 - fish
+```
+curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
+fisher install jethrokuan/z
+fisher install 0rax/fish-bd
+fisher add jethrokuan/fzf
+```
+- fzf
+```
+sudo pacman -S fzf
+```
