@@ -17,14 +17,14 @@ link_to_homedir() {
   local dotdir=$(dirname ${script_dir})
   if [[ "$HOME" != "$dotdir" ]];then
     for f in $dotdir/.??*; do
-      [[ "$f" == ".git*" ]] && continue
+      [[ `basename $f` == ".git" ]] && continue
       if [[ -L "$HOME/`basename $f`" ]];then
         command rm -f "$HOME/`basename $f`"
       fi
       if [[ -e "$HOME/`basename $f`" ]];then
         command mv "$HOME/`basename $f`" "$HOME/.dotbackup"
       fi
-      command ln -snf $f $HOME
+      command ln -snvf $f $HOME
     done
   else
     command echo "same install src dest"
