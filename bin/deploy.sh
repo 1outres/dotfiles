@@ -17,7 +17,7 @@ link_to_homedir() {
   local dotdir=$(dirname ${script_dir})
   if [[ "$HOME" != "$dotdir" ]];then
     for f in $dotdir/.??*; do
-      [[ $f == ".git*"]] && continue
+      [[ "$f" == ".git*"]] && continue
       if [[ -L "$HOME/`basename $f`" ]];then
         command rm -f "$HOME/`basename $f`"
       fi
