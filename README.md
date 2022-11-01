@@ -23,3 +23,16 @@ sudo pacman -S fzf
 ```
 sudo pacman -S neovim
 ```
+- go
+```
+sudo pacman -S go
+set -U fish_user_paths $HOME/go/bin $fish_user_paths
+```
+- ghq
+```
+go install github.com/x-motemen/ghq@latest
+```
+- lazygit
+```
+sudo pacman -S lazygit
+```

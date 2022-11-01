@@ -15,16 +15,19 @@ link_to_homedir() {
 
   local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
   local dotdir=$(dirname ${script_dir})
+  cd $dotdir
   if [[ "$HOME" != "$dotdir" ]];then
-    for f in $dotdir/.??*; do
-      [[ `basename $f` =~ ^\.git.* ]] && continue
-      if [[ -L "$HOME/`basename $f`" ]];then
-        command rm -f "$HOME/`basename $f`"
+
+    for f in `find . -path "./.*" -type f`; do
+      [[ $f =~ ^\.\/\.git.* ]] && continue
+      if [[ -L "$HOME/$f" ]];then
+        command rm -f "$HOME/$f"
       fi
-      if [[ -e "$HOME/`basename $f`" ]];then
-        command mv "$HOME/`basename $f`" "$HOME/.dotbackup"
+      if [[ -e "$HOME/$f" ]];then
+      	command mkdir -p "$(dirname "$HOME/.dotbackup/$f")"
+        command mv "$HOME/$f" "$HOME/.dotbackup/$f"
       fi
-      command ln -snvf $f $HOME
+      command ln -snvf "$dotdir/$f" "$HOME/$f"
     done
   else
     command echo "same install src dest"
