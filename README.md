@@ -20,6 +20,14 @@ fisher install oh-my-fish/theme-bobthefish
 ```
 sudo pacman -S fzf
 ```
+- bat
+```
+sudo pacman -S bat
+```
+- ripgrep
+```
+sudo pacman -S ripgrep
+```
 - neovim
 ```
 sudo pacman -S neovim

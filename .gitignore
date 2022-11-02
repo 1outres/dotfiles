@@ -3,7 +3,7 @@
 !bin
 
 ### exlude ignore ###
-!/.config/
+!/.config
 !/.config/fish
 !/.config/fish/fish_plugins
 !/.config/fish/config.fish
@@ -11,7 +11,9 @@
 !/.config/fish/functions/**.fish
 !/.config/nvim
 !/.config/nvim/init.vim
-
+!/.vim
+!/.vim/dein.toml
+!/.vim/dein_lazy.toml
 
 
 ### git files ###
