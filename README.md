@@ -8,6 +8,18 @@ bin/setup.sh
 ```
 
 ## Requirements
+- setup
+```
+sudo pacman -S git base-devel
+```
+- yay
+```
+git clone https://aur.archlinux.org/yay-bin.git yay-bin
+cd yay-bin
+makepkg -si --noconfirm
+cd ..
+rm -rf yay-bin
+```
 - fish
 ```
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
@@ -56,4 +68,10 @@ sudo pacman -S jdk8-openjdk jdk11-openjdk jdk-openjdk
 - Maven
 ```
 sudo pacman -S maven
+```
+- Node.js
+```
+sudo yay -S nvm
+fisher install jorgebucaran/fish-nvm
+nvm install v18.12.0
 ```
