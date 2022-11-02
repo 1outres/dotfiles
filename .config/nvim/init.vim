@@ -103,6 +103,7 @@ let g:airline_section_z = ''
 
 " dracula - theme
 colorscheme dracula
+let g:airline_theme='dracula'
 
 " fern - filer
 let g:fern#default_hidden=1
@@ -117,6 +118,11 @@ let g:gitgutter_sign_modified = '>'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '<'
+
+" coc.nvim
+" エンターで確定
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
 
 " functions ======================================
 

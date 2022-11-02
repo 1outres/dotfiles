@@ -5,6 +5,9 @@ repo = 'vim-jp/vimdoc-ja'
 repo = 'vim-airline/vim-airline'
 
 [[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
 repo = 'dracula/vim'
 name = 'dracula'
 
@@ -31,3 +34,16 @@ build = './install -all'
 repo = 'junegunn/fzf.vim'
 depends = 'fzf'
 
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merged = 0
+rev = 'release'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'junegunn/rainbow_parentheses.vim'
