@@ -11,6 +11,8 @@ bin/setup.sh
 - setup
 ```
 sudo pacman -S git base-devel
+git config --global user.email "64413934+cronree-91@users.noreply.github.com"
+git config --global user.name "cronree-91"
 ```
 - yay
 ```
@@ -22,6 +24,8 @@ rm -rf yay-bin
 ```
 - fish
 ```
+sudo pacman -S fish
+chsh -s /usr/bin/fish
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 fisher install jethrokuan/z
 fisher install 0rax/fish-bd
