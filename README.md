@@ -10,6 +10,10 @@ bin/setup.sh
 ## Requirements
 - setup
 ```
+sudo pacman-mirrors --fasttrack
+sudo pacman -Syy
+sudo pacman -Syu
+LANG=C xdg-user-dirs-gtk-update
 sudo pacman -S git base-devel
 git config --global user.email "64413934+cronree-91@users.noreply.github.com"
 git config --global user.name "cronree-91"
@@ -78,4 +82,8 @@ sudo pacman -S maven
 sudo yay -S nvm
 fisher install jorgebucaran/fish-nvm
 nvm install v18.12.0
+```
+- teleport
+```
+sudo yay -S teleport
 ```
