@@ -47,3 +47,9 @@ repo = 'cohama/lexima.vim'
 
 [[plugins]]
 repo = 'junegunn/rainbow_parentheses.vim'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+
+[[plugins]]
+repo = 'wakatime/vim-wakatime'
