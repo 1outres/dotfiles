@@ -87,3 +87,9 @@ nvm install v18.12.0
 ```
 sudo yay -S teleport
 ```
+- rust
+```
+sudo pacman -S rustup
+rustup default stable
+rustup component add rls rust-analysis rust-src
+```

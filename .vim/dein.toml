@@ -53,3 +53,6 @@ repo = 'simeji/winresizer'
 
 [[plugins]]
 repo = 'wakatime/vim-wakatime'
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
