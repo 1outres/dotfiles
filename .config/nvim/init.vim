@@ -119,10 +119,17 @@ let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '<'
 
+" lexima
+" to be able to override keymaps of lexima
+let g:lexima_no_default_rules = 1
+let g:lexima_map_escape = ""
+call lexima#set_default_rules()
+
 " coc.nvim
 " エンターで確定
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C-r>=lexima#expand('<LT>CR>', 'i')\<CR><C-r>=coc#on_enter()\<CR>"
+" Escで閉じる
+inoremap <silent><expr> <buffer> <nowait> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<C-r>=lexima#insmode#escape()\<Cr>\<Esc>"
 
 " functions ======================================
 
