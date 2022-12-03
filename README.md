@@ -93,3 +93,11 @@ sudo pacman -S rustup
 rustup default stable
 rustup component add rls rust-analysis rust-src
 ```
+- cloudflared
+```
+sudo pacman -S cloudflared
+```
+- network
+```
+sudo pacman -S net-tools tcpdump iftop
+```
