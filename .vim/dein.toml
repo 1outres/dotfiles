@@ -56,3 +56,6 @@ repo = 'wakatime/vim-wakatime'
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
+
+[[plugins]]
+repo = 'vim-scripts/vim-auto-save'

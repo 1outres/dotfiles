@@ -125,6 +125,9 @@ let g:lexima_no_default_rules = 1
 let g:lexima_map_escape = ""
 call lexima#set_default_rules()
 
+" auto-save
+let g:auto_save = 1
+
 " coc.nvim
 " エンターで確定
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C-r>=lexima#expand('<LT>CR>', 'i')\<CR><C-r>=coc#on_enter()\<CR>"
