@@ -13,6 +13,7 @@ bin/setup.sh
 sudo pacman-mirrors --fasttrack
 sudo pacman -Syy
 sudo pacman -Syu
+sudo pacman -S openssl-1.1
 LANG=C xdg-user-dirs-gtk-update
 sudo pacman -S git base-devel
 git config --global user.email "64413934+cronree-91@users.noreply.github.com"
@@ -50,7 +51,7 @@ sudo pacman -S ripgrep
 ```
 - neovim
 ```
-sudo pacman -S neovim
+sudo pacman -S vim neovim
 ```
 - go
 ```
@@ -101,3 +102,25 @@ sudo pacman -S cloudflared
 ```
 sudo pacman -S net-tools tcpdump iftop
 ```
+- python
+```
+sudo pacman -S python python-pip
+pip3 install pipx
+set -U fish_user_paths $HOME/.local/bin $fish_user_paths
+```
+
+## Japanese
+```
+sudo pacman -S ibus-mozc ibus-qt
+```
+
+## GUI
+```
+sudo yay -S ibus-mozc discord_arch_electron jetbrains-toolbox
+sudo pacman -S code vivaldi guake steam
+```
+
+- Install M+ Fonts
+https://github.com/coz-m/MPLUS_FONTS
+
+- GNOME Themes
