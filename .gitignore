@@ -16,6 +16,7 @@
 !/.vim/dein.toml
 !/.vim/dein_lazy.toml
 !/.nvmrc
+!/.tmux.conf
 
 
 ### git files ###
