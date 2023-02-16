@@ -17,6 +17,14 @@
 !/.vim/dein_lazy.toml
 !/.nvmrc
 !/.tmux.conf
+!/.config/powerline
+!/.config/powerline/themes
+!/.config/powerline/colorschemes
+!/.config/powerline/themes/tmux
+!/.config/powerline/colorschemes/tmux
+!/.config/powerline/**.json
+!/.config/powerline/themes/tmux/**.json
+!/.config/powerline/colorschemes/tmux/**.json
 
 
 ### git files ###
