@@ -17,6 +17,7 @@
 !/.vim/dein_lazy.toml
 !/.nvmrc
 !/.tmux.conf
+!/.latexmkrc
 !/.config/powerline
 !/.config/powerline/themes
 !/.config/powerline/colorschemes
