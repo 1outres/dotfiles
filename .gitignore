@@ -18,6 +18,7 @@
 !/.nvmrc
 !/.tmux.conf
 !/.latexmkrc
+!/.ideavimrc
 !/.config/powerline
 !/.config/powerline/themes
 !/.config/powerline/colorschemes
