@@ -27,6 +27,10 @@
 !/.config/powerline/**.json
 !/.config/powerline/themes/tmux/**.json
 !/.config/powerline/colorschemes/tmux/**.json
+!/.config/discord
+!/.config/discord/settings.json
+!/.config/discordcanary
+!/.config/discordcanary/settings.json
 
 
 ### git files ###
