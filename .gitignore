@@ -35,6 +35,15 @@
 !/.config/hypr/bg.png
 !/.config/hypr/hyprland.conf
 !/.config/hypr/xdg-portal-hyprland
+!/.config/waybar
+!/.config/waybar/config.jsonc
+!/.config/waybar/scripts
+!/.config/waybar/scripts/waybar-wttr.py
+!/.config/waybar/style.css
+
+!/,config/waybar
+
+
 
 
 ### git files ###
