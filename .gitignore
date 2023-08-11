@@ -29,6 +29,8 @@
 !/.config/powerline/colorschemes/tmux/**.json
 !/.config/discord
 !/.config/discord/settings.json
+!/.config/discordptb
+!/.config/discordptb/settings.json
 !/.config/discordcanary
 !/.config/discordcanary/settings.json
 !/.config/hypr
