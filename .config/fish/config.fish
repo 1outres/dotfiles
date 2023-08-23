@@ -2,6 +2,8 @@ alias l="lazygit"
 alias vim="nvim"
 alias ls="ls --color -a"
 
+alias Gnome="XDG_SESSION_TYPE=wayland dbus-run-session gnome-session"
+
 function fish_user_key_bindings
   bind \cr 'fzf_select_history (commandline -b)'
   bind \cf fzf_select_ghq_repository
