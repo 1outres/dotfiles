@@ -3,6 +3,7 @@
 !bin
 
 ### exlude ignore ###
+!/.xinitrc
 !/.config
 !/.config/fish
 !/.config/fish/fish_plugins
