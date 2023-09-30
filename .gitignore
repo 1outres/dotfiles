@@ -3,6 +3,7 @@
 !bin
 
 ### exlude ignore ###
+!/.xinitrc
 !/.config
 !/.config/fish
 !/.config/fish/fish_plugins
@@ -30,11 +31,14 @@
 !/.config/powerline/colorschemes/tmux/**.json
 !/.config/discord
 !/.config/discord/settings.json
+!/.config/discordptb
+!/.config/discordptb/settings.json
 !/.config/discordcanary
 !/.config/discordcanary/settings.json
 !/.config/hypr
 !/.config/hypr/bg.png
 !/.config/hypr/hyprland.conf
+!/.config/hypr/split-monitor-workspaces.so
 !/.config/hypr/xdg-portal-hyprland
 !/.config/waybar
 !/.config/waybar/config.jsonc
@@ -47,8 +51,11 @@
 !/.config/tmux-powerline/segments
 !/.config/tmux-powerline/segments/*.sh
 
-!/,config/waybar
+!/.config/waybar
 
+!/.config/swaylock
+!/.config/swaylock/config
+!/.config/screenshot.sh
 
 
 
