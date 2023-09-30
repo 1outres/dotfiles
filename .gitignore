@@ -19,6 +19,7 @@
 !/.tmux.conf
 !/.latexmkrc
 !/.ideavimrc
+!/.tmux-powerlinerc
 !/.config/powerline
 !/.config/powerline/themes
 !/.config/powerline/colorschemes
@@ -40,6 +41,11 @@
 !/.config/waybar/scripts
 !/.config/waybar/scripts/waybar-wttr.py
 !/.config/waybar/style.css
+!/.config/tmux-powerline
+!/.config/tmux-powerline/themes
+!/.config/tmux-powerline/themes/*.sh
+!/.config/tmux-powerline/segments
+!/.config/tmux-powerline/segments/*.sh
 
 !/,config/waybar
 
