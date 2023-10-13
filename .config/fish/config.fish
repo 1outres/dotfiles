@@ -7,6 +7,7 @@ function fish_user_key_bindings
   bind \cf fzf_select_ghq_repository
   bind \co fzf_select_file_to_edit
 end
+fish_vi_key_bindings
 
 if test -e /etc/os-release
     # Linux
@@ -14,9 +15,10 @@ if test -e /etc/os-release
     alias pbpaste="xsel --clipboard --output"
 end
 
-set -x EDITOR /usr/sbin/nvim
+set -x EDITOR $(which nvim)
 set -x M3_HOME /opt/maven
 
 alias keymap="echo 'Ctrl+R History';echo 'Ctrl+F ghq repo';echo 'Ctrl+O Open a file with editor';echo 'Ctrl+T Find File';echo 'Alt+C  sub-dir'"
 
 nvm use
+
