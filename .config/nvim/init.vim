@@ -85,6 +85,9 @@ let mapleader = "\<Space>" " スペースをリーダーキーにする
 
 " keymap ======================================
 
+nnoremap j gj
+nnoremap k gk
+
 
 " 文字列検索のハイライトオフ
 nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
