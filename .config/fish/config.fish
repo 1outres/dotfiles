@@ -2,13 +2,6 @@ alias l="lazygit"
 alias vim="nvim"
 alias ls="ls --color -a"
 
-function fish_user_key_bindings
-  bind \cr 'fzf_select_history (commandline -b)'
-  bind \cf fzf_select_ghq_repository
-  bind \co fzf_select_file_to_edit
-end
-fish_vi_key_bindings
-
 if test -e /etc/os-release
     # Linux
     alias pbcopy="xsel --clipboard --input"
