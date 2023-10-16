@@ -50,6 +50,8 @@
 !/.config/tmux-powerline/themes/*.sh
 !/.config/tmux-powerline/segments
 !/.config/tmux-powerline/segments/*.sh
+!/.config/alacritty
+!/.config/alacritty/alacritty.yml
 
 !/.config/waybar
 
