@@ -82,6 +82,8 @@ set mouse-=a           " マウス操作を無効にする
 
 let mapleader = "\<Space>" " スペースをリーダーキーにする
 
+set clipboard+=unnamed
+
 
 " keymap ======================================
 
@@ -105,6 +107,8 @@ nnoremap <silent> <leader>r :Rg<CR>
 
 nnoremap <Leader>w ^
 nnoremap <Leader>s $
+
+nnoremap x "_x
 
 " plugins ======================================
 
