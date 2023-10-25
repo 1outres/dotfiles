@@ -4,6 +4,8 @@
 
 ### exlude ignore ###
 !/.xinitrc
+!/.skhdrc
+!/.yabairc
 !/.config
 !/.config/fish
 !/.config/fish/fish_plugins
