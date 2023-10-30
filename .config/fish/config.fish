@@ -16,5 +16,4 @@ eval (/opt/homebrew/bin/brew shellenv)
 
 alias keymap="echo 'Ctrl+R History';echo 'Ctrl+F ghq repo';echo 'Ctrl+O Open a file with editor';echo 'Ctrl+T Find File';echo 'Alt+C  sub-dir'"
 
-nvm use
 
