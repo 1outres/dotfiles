@@ -1,5 +1,5 @@
 alt - c : yabai -m window --close
-alt - q : /Applications/Alacritty.app/Contents/MacOS/alacritty
+alt - q : alacritty
 
 # focus window
 alt - h : yabai -m window --focus west
