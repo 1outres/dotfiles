@@ -1,6 +1,7 @@
 alias l="lazygit"
 alias vim="nvim"
 alias ls="ls --color -a"
+alias sed="gsed"
 
 if test -e /etc/os-release
     # Linux
