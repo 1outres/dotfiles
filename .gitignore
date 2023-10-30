@@ -3,6 +3,7 @@
 !bin
 
 ### exlude ignore ###
+!/Brewfile
 !/.xinitrc
 !/.skhdrc
 !/.yabairc
