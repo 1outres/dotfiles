@@ -72,8 +72,7 @@ fi
 # "hostname 33 0 {TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD} 33 0 right_disable separator_disable"
 #
 # Note that although redundant the non_default_separator, separator_background_color and
-# separator_foreground_color options must still be specified so that appropriate index
-# of options to support the spacing_disable and separator_disable features can be used
+# separator_foreground_color options must still be specified so that appropriate index of options to support the spacing_disable and separator_disable features can be used
 
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
