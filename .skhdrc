@@ -47,6 +47,7 @@ alt - 0 : yabai -m space --balance
 
 # rotate tree
 alt - r : yabai -m space --rotate 90
+shift + alt - r : yabai --restart-service
 
 # toggle window fullscreen zoom
 alt - f : yabai -m window --toggle zoom-fullscreen
