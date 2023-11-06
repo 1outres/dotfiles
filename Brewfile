@@ -26,6 +26,7 @@ cask "docker"
 cask "notion"
 cask "fig"
 cask "mongodb-compass"
+cask "drawio"
 
 brew "tmux"
 brew "fish"
