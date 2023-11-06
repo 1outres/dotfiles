@@ -11,13 +11,13 @@ end
 if test (uname -s) = "Darwin"
   eval (/opt/homebrew/bin/brew shellenv)
   alias sed="gsed"
+  gpgconf --launch gpg-agent
 end
 
 set -x EDITOR $(which nvim)
 set -x M3_HOME /opt/maven
 
 set -x GPG_TTY $(tty)
-gpgconf --launch gpg-agent
 set -x SSH_AUTH_SOCK $(gpgconf --list-dirs agent-ssh-socket)
 
 alias keymap="echo 'Ctrl+R History';echo 'Ctrl+F ghq repo';echo 'Ctrl+O Open a file with editor';echo 'Ctrl+T Find File';echo 'Alt+C  sub-dir'"
