@@ -24,7 +24,6 @@ cask "signal"
 cask "lunar-client"
 cask "docker"
 cask "notion"
-cask "fig"
 cask "mongodb-compass"
 cask "drawio"
 cask "microsoft-teams"
@@ -73,3 +72,18 @@ brew "git-lfs"
 brew "yt-dlp"
 
 cask "deepl"
+
+cask "iterm2"
+cask "microsoft-office"
+
+brew "jq"
+brew "iproute2mac"
+brew "watch"
+
+brew "gtk+3"
+brew "pkg-config"
+
+brew "htop"
+brew "coreutils"
+brew "nasm"
+brew "qemu"
