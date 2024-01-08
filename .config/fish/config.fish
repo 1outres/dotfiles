@@ -64,12 +64,15 @@ function cd
   end
 end
 
-if test -z $TMUX && status --is-login
-  attach_tmux_session_if_needed
-else
-  create_date_folder
-end
+
 if test -d ~/.cargo
     fish_add_path $HOME/.cargo/bin
+end
+create_date_folder
+
+if test -z $TMUX && status --is-login && test -n $INTELLIJ_ENVIRONMENT_READER
+  attach_tmux_session_if_needed
+else
+  set -x __CFBundleIdentifier org.alacritty
 end
 
