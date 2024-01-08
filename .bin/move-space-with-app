@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [[ -z "$(cat /tmp/move-space-with-app 2> /dev/null)" ]]; then
+  touch /tmp/move-space-with-app
+fi
+
+if [[ -n "$(cat /tmp/move-space-with-app | grep $1)" ]]; then
+  COUNT=$(($(cat /tmp/move-space-with-app | grep $1 | awk -F ',' '{print $2}')+1))
+else
+  COUNT=0
+fi
+echo "$1,$COUNT" > /tmp/move-space-with-app
+
+IFS=$'\n' read -r -d '' -a SPACES < <( yabai -m query --windows | jq -c '.[] | [.app, .space]' | jq -r 'join(",")' | grep $1 | awk -F ',' '{print $2}' | sort | uniq && printf '\0' )
+
+if [[ -z "${SPACES[@]}" ]]; then
+  exit 1
+fi
+
+# yabai -m query --windows | jq -c '.[] | [.app, .space]' | jq -r 'join(",")' | grep $1 >&2
+
+LENGTH=$(wc -w <<< "${SPACES[@]}")
+
+SPACE=${SPACES[$(( $COUNT % $LENGTH ))]}
+
+yabai -m space --focus $SPACE

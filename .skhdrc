@@ -1,11 +1,18 @@
 alt - c : yabai -m window --close
-alt - q : alacritty
+alt - q : alacritty msg create-window
 
 # focus window
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
+
+# app focus
+shift + alt - a : move-space-with-app 'Alacritty'
+shift + alt - f : move-space-with-app 'Chrome'
+shift + alt - d : move-space-with-app 'Discord'
+shift + alt - i : move-space-with-app 'IntelliJ'
+shift + alt - s : move-space-with-app 'Signal'
 
 # swap window
 shift + alt - h : yabai -m window --swap west
@@ -57,6 +64,5 @@ alt - t : yabai -m window --toggle float && yabai -m window --grid 4:4:1:1:2:2
 
 # create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
 alt - n : yabai -m space --create && \
-                  index="$(yabai -m query --spaces --display | jq '.[-1].index')" && \
-                  yabai -m window --space "${index}" && \
+                  index="$(yabai -m query --spaces --display | /opt/homebrew/bin/jq '.[-1].index')" && \
                   yabai -m space --focus "${index}"
