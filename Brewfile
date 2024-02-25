@@ -1,3 +1,9 @@
+tap "homebrew/bundle"
+tap "homebrew/services"
+tap "koekeishiya/formulae"
+tap "stripe/stripe-cli"
+tap "utkuozdemir/pv-migrate"
+tap "virtualzone/tap"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "mongodb/brew"
@@ -30,6 +36,19 @@ cask "microsoft-teams"
 cask "minecraft"
 cask "prismlauncher"
 cask "anki"
+cask "deepl"
+cask "iterm2"
+cask "microsoft-office"
+cask "adoptopenjdk"
+cask "android-ndk"
+cask "apache-directory-studio"
+cask "fig"
+cask "font-monaspace"
+cask "microsoft-auto-update"
+cask "ngrok"
+cask "raspberry-pi-imager"
+cask "temurin8"
+cask "zoom"
 
 brew "tmux"
 brew "fish"
@@ -49,41 +68,79 @@ brew "axel"
 brew "wget"
 brew "brew-gem"
 brew "cloudflared"
-brew "signal-cli"
 brew "mongodb-database-tools"
 brew "mongodb-community"
 brew "rustup"
 brew "llvm"
-
 brew "java"
-brew "openjdk@17"
-brew "openjdk@11"
+brew "openjdk@17" brew "openjdk@11"
 brew "java11"
-cask "temurin8"
-cask "zoom"
 brew "cliclick"
 brew "ffmpeg"
-
 brew "pinentry-mac"
 brew "gpg"
 brew "tree"
-
 brew "git-lfs"
 brew "yt-dlp"
-
-cask "deepl"
-
-cask "iterm2"
-cask "microsoft-office"
-
 brew "jq"
 brew "iproute2mac"
 brew "watch"
-
 brew "gtk+3"
 brew "pkg-config"
-
 brew "htop"
 brew "coreutils"
 brew "nasm"
 brew "qemu"
+brew "stripe/stripe-cli/stripe"
+brew "ngrok"
+brew "yq"
+brew "neofetch"
+brew "font-monaspace"
+brew "cilium-cli"
+brew "cmake"
+brew "gem-madness"
+brew "gnupg"
+brew "haproxy"
+brew "influxdb-cli"
+brew "isc-dhcp"
+brew "libmicrohttpd"
+brew "mongodb/brew/mongodb-community"
+brew "mongodb/brew/mongodb-database-tools"
+brew "mongosh"
+brew "nginx", restart_service: true
+brew "node"
+brew "openjdk"
+brew "openstackclient"
+brew "python-cryptography"
+brew "python@3.11"
+brew "python@3.12"
+brew "rclone"
+brew "rename"
+brew "rustup-init"
+brew "signal-cli"
+brew "signalbackup-tools", args: ["HEAD"]
+brew "spoof-mac"
+brew "step"
+brew "telnet"
+brew "unbound"
+brew "utkuozdemir/pv-migrate/pv-migrate"
+brew "virtualzone/tap/onedrive-uploader"
+brew "xsv"
+brew "yarn"
+brew "ykman"
+
+mas "Bitwarden", id: 1352778147
+mas "CopyClip", id: 595191960
+mas "Display Menu", id: 549083868
+mas "Keynote", id: 409183694
+mas "LINE", id: 539883307
+mas "LadioCast", id: 411213048
+mas "LanScan", id: 472226235
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "RunCat", id: 1429033973
+mas "Skitch", id: 425955336
+mas "Spark", id: 1176895641
+mas "Trello", id: 1278508951
+mas "WireGuard", id: 1451685025
+
