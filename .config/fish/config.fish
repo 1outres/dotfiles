@@ -1,6 +1,7 @@
 alias l="lazygit"
 alias vim="nvim"
 alias ls="ls --color -a"
+alias :q="exit"
 
 if test -e /etc/os-release
   # Linux
@@ -19,6 +20,8 @@ set -x M3_HOME /opt/maven
 
 set -x GPG_TTY $(tty)
 set -x SSH_AUTH_SOCK $(gpgconf --list-dirs agent-ssh-socket)
+
+set -x OS_CLOUD admin
 
 alias keymap="echo 'Ctrl+R History';echo 'Ctrl+F ghq repo';echo 'Ctrl+O Open a file with editor';echo 'Ctrl+T Find File';echo 'Alt+C  sub-dir'"
 
@@ -70,7 +73,7 @@ if test -d ~/.cargo
 end
 create_date_folder
 
-if test -z $TMUX && status --is-login && test -n $INTELLIJ_ENVIRONMENT_READER
+if test -z $TMUX && status --is-login && test -n $INTELLIJ_ENVIRONMENT_READER && test "$TERM" = "alacritty"
   attach_tmux_session_if_needed
 else
   set -x __CFBundleIdentifier org.alacritty
