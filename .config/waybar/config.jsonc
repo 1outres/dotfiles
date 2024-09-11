@@ -8,7 +8,7 @@
     "height": 30,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["custom/clock"],
-    "modules-right": ["network", "battery","pulseaudio","pulseaudio#microphone","tray"],
+    "modules-right": ["network", "battery","custom/brightness","pulseaudio","pulseaudio#microphone","tray"],
     "wlr/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -28,7 +28,8 @@
     },
 
     "battery": {
-      "bat": "macsmc-battery"
+      "bat": "macsmc-battery",
+      "full-at$": 99
     },
     
     //"custom/weather" : {
@@ -90,12 +91,21 @@
     },
 
     "bluetooth": {
-	    "format": " {status}",
-	    "format-disabled": "", // an empty format will hide the module
-	    "format-connected": " {num_connections}",
-	    "tooltip-format": "{device_alias}",
-	    "tooltip-format-connected": " {device_enumerate}",
-	    "tooltip-format-enumerate-connected": "{device_alias}"
+      "format": " {status}",
+      "format-disabled": "", // an empty format will hide the module
+      "format-connected": " {num_connections}",
+      "tooltip-format": "{device_alias}",
+      "tooltip-format-connected": " {device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}"
+    },
+    "custom/brightness": {
+      "format": "{icon} {}%",
+      "format-icons": ["", ""],
+      "exec": "brightnessctl get -P",
+      "on-scroll-up": "brightnessctl set +5%",
+      "on-scroll-down": "brightnessctl set 5%-",
+      "interval": 1,
+      "tooltip": false
     }
 }
 
