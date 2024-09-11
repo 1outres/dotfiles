@@ -6,14 +6,9 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 30,
-    "modules-left": ["clock"],
-    //"modules-left": ["clock","hyprland/window"],
-    "modules-center": [],
-    "modules-right": ["network","custom/power_profile","pulseaudio","pulseaudio#microphone","tray"],
-    "hyprland/window": {
-        "format": "{}"
-    },
-
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["custom/clock"],
+    "modules-right": ["network", "battery","pulseaudio","pulseaudio#microphone","tray"],
     "wlr/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -31,16 +26,11 @@
             "10": []
         }
     },
-    
-    //"custom/power_profile":{
-        //shows the current power profile and switches to next on click
-    //    "exec": "asusctl profile -p | sed s:'Active profile is'::",
-    //    "interval": 30,
-    //    "format": "󰈐{}", 
-    //    "on-click": "asusctl profile -n; pkill -SIGRTMIN+8 waybar",
-    //    "signal": 8
-    //},
 
+    "battery": {
+      "bat": "macsmc-battery"
+    },
+    
     //"custom/weather" : {
         //shows the current weather and forecast
         // "tooltip" : true,
@@ -55,9 +45,10 @@
         "spacing": 10
     },
 
-    "clock": {
-        "format": "{: %I:%M %p   %a, %b %e}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "custom/clock": {
+        "format": "{}",
+        "exec": "LANG=C date +\"%a %b %d %-I:%M %p\"",
+        "interval": 1
     },
 
     "pulseaudio": {
