@@ -6,14 +6,9 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "height": 30,
-    "modules-left": ["clock"],
-    //"modules-left": ["clock","hyprland/window"],
-    "modules-center": [],
-    "modules-right": ["network","custom/power_profile","pulseaudio","pulseaudio#microphone","tray"],
-    "hyprland/window": {
-        "format": "{}"
-    },
-
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["custom/clock"],
+    "modules-right": ["network", "battery","custom/brightness","pulseaudio","pulseaudio#microphone","tray"],
     "wlr/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -31,16 +26,12 @@
             "10": []
         }
     },
-    
-    //"custom/power_profile":{
-        //shows the current power profile and switches to next on click
-    //    "exec": "asusctl profile -p | sed s:'Active profile is'::",
-    //    "interval": 30,
-    //    "format": "󰈐{}", 
-    //    "on-click": "asusctl profile -n; pkill -SIGRTMIN+8 waybar",
-    //    "signal": 8
-    //},
 
+    "battery": {
+      "bat": "macsmc-battery",
+      "full-at$": 99
+    },
+    
     //"custom/weather" : {
         //shows the current weather and forecast
         // "tooltip" : true,
@@ -55,9 +46,10 @@
         "spacing": 10
     },
 
-    "clock": {
-        "format": "{: %I:%M %p   %a, %b %e}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "custom/clock": {
+        "format": "{}",
+        "exec": "LANG=C date +\"%a %b %d %-I:%M %p\"",
+        "interval": 1
     },
 
     "pulseaudio": {
@@ -99,12 +91,21 @@
     },
 
     "bluetooth": {
-	    "format": " {status}",
-	    "format-disabled": "", // an empty format will hide the module
-	    "format-connected": " {num_connections}",
-	    "tooltip-format": "{device_alias}",
-	    "tooltip-format-connected": " {device_enumerate}",
-	    "tooltip-format-enumerate-connected": "{device_alias}"
+      "format": " {status}",
+      "format-disabled": "", // an empty format will hide the module
+      "format-connected": " {num_connections}",
+      "tooltip-format": "{device_alias}",
+      "tooltip-format-connected": " {device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}"
+    },
+    "custom/brightness": {
+      "format": "{icon} {}%",
+      "format-icons": ["", ""],
+      "exec": "brightnessctl get -P",
+      "on-scroll-up": "brightnessctl set +5%",
+      "on-scroll-down": "brightnessctl set 5%-",
+      "interval": 1,
+      "tooltip": false
     }
 }
 
