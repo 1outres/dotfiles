@@ -60,6 +60,8 @@ function create_date_folder
   set DATE (date -Idate | sed -e "s/-/\//g")
   if ! test -d "$HOME/Documents/$DATE"
     mkdir -p "$HOME/Documents/$DATE"
+    unlink "$HOME/today"
+    ln -s "$HOME/Documents/$DATE" "$HOME/today"
     echo "Created today's folder!"
   end
   cd "$HOME/Documents/$DATE/"
@@ -85,3 +87,8 @@ else
   set -x __CFBundleIdentifier org.alacritty
 end
 
+
+# Created by `pipx` on 2024-07-07 05:28:48
+set PATH $PATH /Users/loutres/.local/bin
+
+set -q KREW_ROOT; and set -gx PATH $PATH $KREW_ROOT/.krew/bin; or set -gx PATH $PATH $HOME/.krew/bin
