@@ -151,6 +151,13 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C
 " Escで閉じる
 inoremap <silent><expr> <buffer> <nowait> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<C-r>=lexima#insmode#escape()\<Cr>\<Esc>"
 
+" tuskk.vim
+inoremap <c-j> <cmd>call tuskk#toggle()<cr>
+cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
+
+" preview-markdown.vim
+let g:preview_markdown_auto_update = 1
+
 " functions ======================================
 
 " カーソルの位置を記憶

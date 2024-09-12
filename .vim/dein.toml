@@ -77,3 +77,6 @@ hook_add = '''
   let g:test#python#runner = 'pytest'
   let g:test#python#pytest#executable = 'python3 -m pytest'
 '''
+
+[[plugins]]
+repo = 'kawarimidoll/tuskk.vim'
