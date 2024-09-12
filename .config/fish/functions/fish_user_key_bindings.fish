@@ -4,6 +4,7 @@ function fish_user_key_bindings
     bind -M $mode \cr 'fzf_select_history (commandline -b)'
     bind -M $mode \cf fzf_select_ghq_repository
     bind -M $mode \co fzf_select_file_to_edit
+    bind -M $mode \ck fzf_select_kube_context
   end
   fish_vi_key_bindings --no-erase
 end

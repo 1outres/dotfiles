@@ -2,6 +2,7 @@ alias l="lazygit"
 alias vim="nvim"
 alias ls="ls --color -a"
 alias :q="exit"
+alias k="kubectl"
 
 if test -e /etc/os-release
   # Linux
@@ -22,6 +23,11 @@ set -x GPG_TTY $(tty)
 set -x SSH_AUTH_SOCK $(gpgconf --list-dirs agent-ssh-socket)
 
 set -x OS_CLOUD admin
+
+set -x KUBECONFIG $(sh -c "echo `ls ~/.kube/configs/*`" | tr ' ' ':')
+
+set -g theme_display_k8s_context yes
+set -g theme_display_k8s_namespace no
 
 alias keymap="echo 'Ctrl+R History';echo 'Ctrl+F ghq repo';echo 'Ctrl+O Open a file with editor';echo 'Ctrl+T Find File';echo 'Alt+C  sub-dir'"
 
