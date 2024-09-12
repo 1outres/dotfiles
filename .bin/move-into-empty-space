@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+IFS=$'\n' read -r -d '' -a EMPTY_SPACES < <(((yabai -m query --spaces | jq '.[].index') && (yabai -m query --windows | jq -c '.[].space' | sort -n | uniq) ) | sort -n | uniq -u)
+
+if [[ -z "${EMPTY_SPACES[@]}" ]]; then
+  exit
+fi
+
+SPACE=${EMPTY_SPACES[0]}
+
+yabai -m window --space $SPACE && \
+  yabai -m space --focus $SPACE

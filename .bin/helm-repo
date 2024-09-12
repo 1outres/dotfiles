@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+  echo "No arguments supplied"
+elif [ $# -eq 1 ]; then
+  curl -s "$1/index.yaml" | yq ".entries.* | key"
+elif [ $# -eq 2 ]; then
+  curl -s "$1/index.yaml" | yq "[.entries.$2[].version] | sort_by(.Value | split(\".\") | map(tonumber)) | reverse"
+else
+  echo "Too many arguments supplied"
+fi
