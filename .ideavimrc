@@ -24,6 +24,7 @@ nnoremap <space>t :action FileStructurePopup<cr>
 nnoremap <space>T :action GotoSymbol<cr>
 nnoremap <space>a :action GotoAction<cr>
 nnoremap <space>b :action ToggleLineBreakpoint<cr>
+map <c-x> <Action>(ShowErrorDescription)
 
 " code navigation
 nnoremap <space>] :action GotoImplementation<cr>

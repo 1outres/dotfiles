@@ -12,8 +12,10 @@ shift + alt - t : move-space-with-app 'Alacritty'
 shift + alt - f : move-space-with-app 'Arc'
 shift + alt - d : move-space-with-app 'Discord'
 shift + alt - i : move-space-with-app 'IntelliJ'
+shift + alt - j : move-space-with-app 'GoLand'
 shift + alt - s : move-space-with-app 'Signal'
 shift + alt - n : move-space-with-app 'Notion'
+shift + alt - z : move-space-with-app 'Zed'
 
 # swap window
 shift + alt - h : yabai -m window --swap west || yabai -m window --display west && yabai -m display --focus west
@@ -30,6 +32,8 @@ alt - 6 : yabai -m space --focus $(yabai -m query --displays --display | jq .spa
 alt - 7 : yabai -m space --focus $(yabai -m query --displays --display | jq .spaces[6]) 
 alt - 8 : yabai -m space --focus $(yabai -m query --displays --display | jq .spaces[7]) 
 alt - 9 : yabai -m space --focus $(yabai -m query --displays --display | jq .spaces[0]) 
+
+shift + alt - 0 : move-into-empty-space
 
 shift + alt - 1 : yabai -m window --space $(yabai -m query --displays --display | jq .spaces[0]) && \
                   yabai -m space --focus $(yabai -m query --displays --display | jq .spaces[0])
