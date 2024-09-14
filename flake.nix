@@ -54,6 +54,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     split-monitor-workspaces = {
       url = "github:Duckonaut/split-monitor-workspaces";
@@ -63,5 +68,6 @@
     nixcord = {
       url = "github:kaylorben/nixcord";
     };
+
   };
 }
