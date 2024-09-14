@@ -1,8 +1,13 @@
-{ inputs, pkgs, config, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 
 {
-    home.stateVersion = "24.05";
-    imports = [
-        ./git
-    ];
+  home.stateVersion = "24.05";
+  imports = [
+    ./git
+  ];
 }
