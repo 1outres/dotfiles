@@ -1,0 +1,10 @@
+[font]
+size = 15
+
+[font.normal]
+family = "MonaspiceKr Nerd Font"
+style = "Regular"
+
+[window]
+decorations = "None"
+opacity = 0.9

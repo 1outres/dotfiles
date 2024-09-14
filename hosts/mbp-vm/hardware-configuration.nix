@@ -16,24 +16,19 @@
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
-    "uhci_hcd"
-    "ehci_pci"
-    "ahci"
-    "usbhid"
-    "sd_mod"
     "sr_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/097fddd3-c6d3-47d1-b17c-2015dc13e110";
+    device = "/dev/disk/by-uuid/b72410c5-c1a0-407e-94d3-e994269e31a1";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/8BCE-2713";
+    device = "/dev/disk/by-uuid/C785-102D";
     fsType = "vfat";
     options = [
       "fmask=0022"
@@ -60,5 +55,5 @@
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp0s1.useDHCP = lib.mkDefault true;
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }

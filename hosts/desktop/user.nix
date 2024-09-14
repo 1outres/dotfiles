@@ -6,11 +6,10 @@
 }:
 
 {
-  imports = [ ../../modules/default.nix ];
-  config.modules = {
-    git.enable = true;
-    fish.enable = true;
-    packages.enable = true;
-    tmux.enable = true;
-  };
+  home.stateVersion = "24.05";
+  imports = [
+    ../../home-manager/cli
+    ../../home-manager/desktop
+    ../../home-manager/gui
+  ];
 }
