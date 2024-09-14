@@ -25,6 +25,7 @@
       common-gpu-nvidia
       common-pc-ssd
     ]);
+  hardware.nvidia.open = false;
 
   boot = {
     loader = {
