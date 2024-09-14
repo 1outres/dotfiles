@@ -17,6 +17,7 @@
       ../../modules/programs/ssh.nix
       ../../modules/desktop/fonts.nix
       ../../modules/desktop/i18n.nix
+      ../../modules/desktop/sound.nix
 
       ./hardware-configuration.nix
     ]
@@ -26,6 +27,19 @@
       common-pc-laptop
       common-pc-ssd
     ]);
+
+  hardware = {
+    bluetooth.enable = true;
+    opengl = {
+      enable = true;
+      driSupport = true;
+    }
+  };
+
+  networking = {
+    hostName = "loutres-desktop";
+    networkmanager.enable = true;
+  };
 
   boot = {
     loader = {

@@ -9,7 +9,6 @@
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
-            { networking.hostName = "loutres-" + hostname; }
             (./. + "/hosts/${hostname}/nixos.nix")
             inputs.home-manager.nixosModules.home-manager
             {

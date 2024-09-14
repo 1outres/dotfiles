@@ -17,6 +17,7 @@
       ../../modules/programs/ssh.nix
       ../../modules/desktop/fonts.nix
       ../../modules/desktop/i18n.nix
+      ../../modules/desktop/sound.nix
 
       ./hardware-configuration.nix
     ]
@@ -25,7 +26,19 @@
       common-gpu-nvidia-nonprime
       common-pc-ssd
     ]);
-  hardware.nvidia.open = true;
+
+  hardware = {
+    nvidia.open = true;
+    bluetooth.enable = false;
+    opengl = {
+      enable = true;
+      driSupport = true;
+    }
+  };
+
+  networking = {
+    hostName = "loutres-desktop";
+  }
 
   boot = {
     loader = {
