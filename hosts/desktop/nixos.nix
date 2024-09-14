@@ -32,13 +32,12 @@
     bluetooth.enable = false;
     opengl = {
       enable = true;
-      driSupport = true;
-    }
+    };
   };
 
   networking = {
     hostName = "loutres-desktop";
-  }
+  };
 
   boot = {
     loader = {
