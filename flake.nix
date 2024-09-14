@@ -21,6 +21,10 @@
                 };
                 users.loutres = (./. + "/hosts/${hostname}/user.nix");
               };
+              nixpkgs.overlays = [
+                inputs.nixpkgs-wayland.overlay
+                inputs.nur.overlay
+              ];
             }
           ];
           specialArgs = {
@@ -68,6 +72,11 @@
 
     nixcord = {
       url = "github:kaylorben/nixcord";
+    };
+
+    nixpkgs-wayland = {
+      url = "github:nix-community/nixpkgs-wayland";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
