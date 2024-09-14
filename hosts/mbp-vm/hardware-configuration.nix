@@ -41,12 +41,13 @@
     ];
   };
 
-  fileSystems."/root/dotfiles" = {
+  fileSystems."/home/loutres/dotfiles" = {
     device = "share";
     fsType = "9p";
     options = [
       "trans=virtio"
       "version=9p2000.L"
+      "noacl"
     ];
   };
 

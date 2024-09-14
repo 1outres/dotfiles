@@ -20,6 +20,8 @@
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  programs.fish.enable = true;
+
   users.users.loutres = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -27,6 +29,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMC+yqYwjmaYCymDJnA/rrVE+jyjLkjYAyTe266CQlDP"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDOQ5t8xM3HkDRKSrv5h36e0oKOkp2+OnYCzEtqJrJR5"
     ];
+    shell = pkgs.fish;
   };
 
   environment.systemPackages = with pkgs; [
