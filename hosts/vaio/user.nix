@@ -21,4 +21,8 @@
       sensitivity = -0.2;
     };
   };
+  programs.waybar.settings[0].battery = {
+    bat = "BAT1";
+    full-at = 100;
+  };
 }
