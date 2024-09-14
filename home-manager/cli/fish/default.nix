@@ -24,7 +24,7 @@
     '';
     interactiveShellInit = ''
       create_date_folder
-      if test -z $TMUX && status --is-login && test -n $INTELLIJ_ENVIRONMENT_READER && test "$TERM" = "alacritty"
+      if test -z $TMUX && test "$TERM" = "alacritty"
         attach_tmux_session_if_needed
       else
         set -x __CFBundleIdentifier org.alacritty
