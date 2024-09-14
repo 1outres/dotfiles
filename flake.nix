@@ -9,8 +9,19 @@
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
-            inputs.home-manager.nixosModules.home-manager
+            { networking.hostName = "loutres-" + hostname; }
             (./. + "/hosts/${hostname}/nixos.nix")
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                users.loutres = (./. + "/hosts/${hostname}/user.nix");
+              };
+            }
           ];
           specialArgs = {
             inherit inputs;

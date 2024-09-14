@@ -9,8 +9,6 @@
 {
   imports = [
     ../../modules/core/i18n.nix
-    ../../modules/core/home-manager.nix
-    ../../modules/core/network.nix
     ../../modules/core/nix.nix
     ../../modules/core/user.nix
     ../../modules/programs/hyprland.nix
