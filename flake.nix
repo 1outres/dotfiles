@@ -59,5 +59,9 @@
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
     };
+
+    nixcord = {
+      url = "github:kaylorben/nixcord";
+    };
   };
 }

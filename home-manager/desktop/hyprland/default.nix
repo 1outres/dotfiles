@@ -8,6 +8,7 @@
     wofi
     swaybg
   ];
+  home.file.".config/hypr/bg.png".source = ./bg.png;
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;

@@ -9,9 +9,7 @@
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       "waybar"
       "swaybg -m fill -i ~/.config/hypr/bg.png"
-      "xdg-portal-hyprland"
       "fcitx5"
-      "hyprpm reload"
     ];
     exec = [
       "gsettings set org.gnome.desktop.interface gtk-theme \"YOUR_DARK_GTK3_THEME\""
