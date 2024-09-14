@@ -17,7 +17,7 @@
       ../../modules/programs/ssh.nix
       ../../modules/desktop/fonts.nix
       ../../modules/desktop/i18n.nix
-      ../../modules/desktop/sound.nix
+      ../../modules/desktop/audio.nix
 
       ./hardware-configuration.nix
     ]
@@ -32,8 +32,7 @@
     bluetooth.enable = true;
     opengl = {
       enable = true;
-      driSupport = true;
-    }
+    };
   };
 
   networking = {
