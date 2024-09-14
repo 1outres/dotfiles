@@ -29,7 +29,7 @@
       "float,class:^(mozc_renderer)$"
     ];
     input = {
-      kb_layout = "us";
+      kb_layout = lib.mkDefault("us");
       kb_options = "ctrl:nocaps";
       touchpad = {
         natural_scroll = false;
@@ -37,7 +37,7 @@
         tap-to-click = false;
         clickfinger_behavior = true;
       };
-      sensitivity = -0.2;
+      sensitivity = lib.mkDefault(-0.2);
     };
     general = {
       gaps_in = 5;

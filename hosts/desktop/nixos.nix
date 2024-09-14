@@ -22,10 +22,10 @@
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
-      common-gpu-nvidia
+      common-gpu-nvidia-nonprime
       common-pc-ssd
     ]);
-  hardware.nvidia.open = false;
+  hardware.nvidia.open = true;
 
   boot = {
     loader = {

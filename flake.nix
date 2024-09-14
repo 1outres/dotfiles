@@ -36,9 +36,8 @@
     {
       nixosConfigurations = {
         desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop";
-        mbp-vm = mkNixosSystem inputs.nixpkgs "aarch64-linux" "mbp-vm";
-        mbp-nix = mkDarwinSystem inputs.nixpkgs "aarch64-linux" "mbp-nix";
-        mbp = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp";
+        # mbp-nix = mkDarwinSystem inputs.nixpkgs "aarch64-linux" "mbp-nix";
+        # mbp = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp";
       };
     };
 
