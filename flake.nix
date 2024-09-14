@@ -36,6 +36,7 @@
     {
       nixosConfigurations = {
         desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop";
+        vaio = mkNixosSystem inputs.nixpkgs "x86_64-linux" "vaio";
         # mbp-nix = mkDarwinSystem inputs.nixpkgs "aarch64-linux" "mbp-nix";
         # mbp = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp";
       };
