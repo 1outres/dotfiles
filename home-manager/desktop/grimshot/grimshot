@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+GRIM_DEFAULT_DIR=$HOME/Screenshots grim -t png -g "$(slurp)"
+xclip -sel c -target image/png < $(ls -Art $HOME/Screenshots/* | tail -n1

@@ -44,6 +44,7 @@
 
       "$mainMod, F, fullscreen"
       "$mainMod CTRL, L, exec, swaylock"
+      "$mainMod SHIFT, S, exec, /home/loutres/.bin/grimshot"
     ];
     bindm = [
       "$mainMod, mouse:272, movewindow"

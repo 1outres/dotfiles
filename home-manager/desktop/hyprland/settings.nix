@@ -3,6 +3,8 @@
   wayland.windowManager.hyprland.settings = {
     env = [
       "QT_QPA_PLATFORMTHEME, qt6ct"
+      "HYPRCURSOR_THEME, default"
+      "HYPRCURSOR_SIZE, 20"
     ];
     exec-once = [
       "mako"

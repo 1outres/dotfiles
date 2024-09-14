@@ -9,5 +9,6 @@
     git
     vim
     pciutils
+    glib
   ];
 }

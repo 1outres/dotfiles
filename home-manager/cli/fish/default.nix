@@ -10,6 +10,7 @@
       k = "kubectl";
     };
     shellInit = ''
+      fish_add_path $HOME/.bin
       set -g theme_display_k8s_context yes
       set -g theme_display_k8s_namespace no
       set -x KUBECONFIG $(sh -c "echo `ls ~/.kube/configs/*`" | tr ' ' ':')
