@@ -3,7 +3,7 @@ let
   applications = {
     common = [
       ./alacritty
-      ./socials.nix
+      ./signal-desktop.nix
       ./developments.nix
       ./firefox.nix
     ];
