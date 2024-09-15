@@ -6,6 +6,7 @@
   ];
   home.packages = with pkgs; [
     wofi
+    mako
     swaybg
   ];
   home.file.".config/hypr/bg.png".source = ./bg.png;
