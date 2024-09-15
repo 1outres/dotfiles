@@ -8,7 +8,7 @@ let
       ./firefox.nix
     ];
     x86_64-linux = [
-      ./discord
+      ./discord.nix
     ];
     aarch64-linux = [
       ./vesktop.nix
