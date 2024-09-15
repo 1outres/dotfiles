@@ -3,8 +3,8 @@ let
   applications = {
     common = [
       ./alacritty
+      ./zed
       ./signal-desktop.nix
-      ./developments.nix
       ./firefox.nix
     ];
     x86_64-linux = [

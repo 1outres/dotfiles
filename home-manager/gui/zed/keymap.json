@@ -1,0 +1,54 @@
+[
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "space r r": "editor::Rename",
+      "space h": "editor::Hover",
+      "space ]": "editor::GoToDefinition",
+      "space o": "file_finder::Toggle",
+      "space n": "editor::GoToDiagnostic",
+      "j": [
+        "vim::Down",
+        {
+          "displayLines": true
+        }
+      ],
+      "k": [
+        "vim::Up",
+        {
+          "displayLines": true
+        }
+      ],
+      "ctrl-b h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-b l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-b k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-b j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-b |": "pane::SplitLeft",
+      "ctrl-b -": "pane::SplitUp",
+      "ctrl-b x": "pane::CloseActiveItem",
+      "ctrl-b z": "workspace::ToggleZoom"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-enter": "editor::ToggleCodeActions",
+      "ctrl-t": "editor::ShowCompletions"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-t": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "ctrl-b h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-b l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-b k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-b j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  }
+]

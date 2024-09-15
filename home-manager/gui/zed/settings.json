@@ -1,0 +1,46 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "languages": {
+    "Markdown": {
+      "show_inline_completions": false
+    }
+  },
+  "show_inline_completions": true,
+  "base_keymap": "VSCode",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 13,
+  "theme": "Dracula",
+  "collaboration_panel": {
+    // collaborationは使用しないので非表示
+    "button": false
+  },
+  "chat_panel": {
+    // chatは使用しないので非表示
+    "button": false
+  },
+  // 使用しない機能なので非表示
+  "show_call_status_icon": false,
+  "autosave": "on_focus_change",
+  "tabs": {
+    "git_status": true
+  },
+  "terminal": {
+    "font_family": "MonaspiceKr Nerd Font",
+    "font_size": 12
+  },
+  "buffer_font_family": "MonaspiceKr Nerd Font",
+  "soft_wrap": "editor_width"
+  // "relative_line_numbers": true
+}
