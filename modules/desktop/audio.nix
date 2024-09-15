@@ -1,5 +1,8 @@
 { inputs, pkgs, ... }:
 {
+  environment.systemPackages = [
+    pkgs.pamixer
+  ];
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {

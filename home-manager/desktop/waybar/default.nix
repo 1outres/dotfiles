@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, ... }:
+{ inputs, pkgs, vars, lib, ... }:
 {
   home.packages = with pkgs; [
     brightnessctl
@@ -31,8 +31,7 @@
       ];
 
       battery = {
-        bat = lib.mkDefault("BAT1");
-        full-at = lib.mkDefault(100);
+        bat = vars.battery or "BAT1";
       };
 
       tray = {
@@ -85,7 +84,7 @@
       "custom/brightness" = {
         format = "{icon} {}%";
         format-icons = ["" ""];
-        exec = "brightnessctl get -P";
+        exec = "brightnessctl info | grep -Eo '[0-9]{1,3}%'";
         on-scroll-up = "brightnessctl set +5%";
         on-scroll-down = "brightnessctl set 5%-";
         interval = 1;

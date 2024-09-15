@@ -1,9 +1,19 @@
-{ pkgs, ...}:
+{ pkgs, system, ...}:
+let
+  applications = {
+    common = [
+      ./alacritty
+      ./socials.nix
+      ./firefox.nix
+    ];
+    x86_64-linux = [
+      ./discord
+    ];
+    aarch64-linux = [
+      ./vesktop.nix
+    ];
+  };
+in
 {
-  imports = [
-    ./alacritty
-    ./socials.nix
-    ./firefox.nix
-  ];
-# ++ (if pkgs.system != "aarch64-linux" then [ ./discord ] else []);
+  imports = (applications.common or []) ++ (applications.${system} or []);
 }

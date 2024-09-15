@@ -17,6 +17,8 @@
                 useGlobalPkgs = true;
                 extraSpecialArgs = {
                   inherit inputs;
+                  inherit system;
+                  vars = import (./. + "/hosts/${hostname}/vars.nix");
                 };
                 users.loutres = (./. + "/hosts/${hostname}/user.nix");
               };
@@ -28,6 +30,7 @@
           ];
           specialArgs = {
             inherit inputs;
+            vars = import (./. + "/hosts/${hostname}/vars.nix");
           };
         };
       mkDarwinSystem =
