@@ -1,8 +1,9 @@
+{ pkgs, ...}:
 {
   imports = [
     ./alacritty
-    ./discord
     ./socials.nix
     ./firefox.nix
   ];
+# ++ (if pkgs.system != "aarch64-linux" then [ ./discord ] else []);
 }
