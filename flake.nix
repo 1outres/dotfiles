@@ -40,8 +40,8 @@
       nixosConfigurations = {
         desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop";
         vaio = mkNixosSystem inputs.nixpkgs "x86_64-linux" "vaio";
-        # mbp-nix = mkDarwinSystem inputs.nixpkgs "aarch64-linux" "mbp-nix";
-        # mbp = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp";
+        mbp = mkNixosSystem inputs.nixpkgs "aarch64-linux" "mbp";
+        # mbp-darwin = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp-darwin";
       };
     };
 
@@ -75,6 +75,11 @@
 
     nixpkgs-wayland = {
       url = "github:nix-community/nixpkgs-wayland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    apple-silicon = {
+      url = "github:tpwrules/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
