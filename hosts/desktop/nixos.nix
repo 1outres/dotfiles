@@ -37,6 +37,28 @@
 
   networking = {
     hostName = "loutres-desktop";
+    interfaces."enp6s0" = {
+      useDHCP = false;
+      ipv4 = {
+        addresses = [{
+          address = "10.225.128.250";
+          prefixLength = 24;
+        }];
+        routes = [{
+          address = "10.225.0.0";
+          prefixLength = 16;
+          via = "10.225.128.254";
+        }
+        {
+          address = "192.168.51.0";
+          prefixLength = 24;
+          via = "10.225.128.254";
+        }];
+      };
+    };
+    interfaces."enp9s0" = {
+      useDHCP = true;
+    };
   };
 
   boot = {
