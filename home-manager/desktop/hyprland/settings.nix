@@ -32,7 +32,7 @@
       kb_layout = lib.mkDefault("us");
       kb_options = "ctrl:nocaps";
       touchpad = {
-        natural_scroll = false;
+        natural_scroll = true;
         scroll_factor = 0.1;
         tap-to-click = false;
         clickfinger_behavior = true;
