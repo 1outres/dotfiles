@@ -15,6 +15,7 @@
       set -g theme_display_k8s_namespace no
       set -x KUBECONFIG $(sh -c "echo `ls ~/.kube/configs/*`" | tr ' ' ':')
       set -x EDITOR nvim
+      set -x ZED_ALLOW_EMULATED_GPU 1
       function cd
         if test "$argv[1]" = "today"
           create_date_folder
