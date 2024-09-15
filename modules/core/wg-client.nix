@@ -1,7 +1,7 @@
 {
   networking.wireguard.interfaces = {
     wg0 = {
-      privateKeyFile = "~/.config/wgkey";
+      privateKeyFile = "/home/loutres/.config/wgkey";
       peers = [{
         publicKey = "kyNy9VZqg3TFxIvH5t81J609Z937mWq1807UVFtOgnc=";
         endpoint = "36.3.99.131:51820";

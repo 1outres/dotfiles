@@ -6,7 +6,9 @@
 
   xdg.desktopEntries.signal-desktop = {
     name = "Signal";
-    exec = "${pkgs.signal-desktop.outPath}/bin/signal-desktop --no-sandbox --enable-features=UseOzonePlatform --ozone-platform=wayland %U";
+    # waylandサポートを有効化するとfcitxが使えない
+    #exec = "${pkgs.signal-desktop.outPath}/bin/signal-desktop --no-sandbox --enable-features=UseOzonePlatform --ozone-platform=wayland %U";
+    exec = "${pkgs.signal-desktop.outPath}/bin/signal-desktop --no-sandbox %U";
     terminal = false;
     type = "Application";
     icon = "signal-desktop";
