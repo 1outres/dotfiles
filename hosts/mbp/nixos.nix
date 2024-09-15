@@ -12,6 +12,7 @@
       ../../modules/core/i18n.nix
       ../../modules/core/nix.nix
       ../../modules/core/user.nix
+      ../../modules/core/wg-client.nix
       ../../modules/programs/hyprland.nix
       ../../modules/programs/shell.nix
       ../../modules/programs/ssh.nix
@@ -40,6 +41,10 @@
   networking = {
     hostName = "loutres-mbp";
     networkmanager.enable = true;
+
+    wireguard.interfaces.wg0 = {
+      ips = [ "10.225.11.131/32" ];
+    };
   };
 
   boot = {
