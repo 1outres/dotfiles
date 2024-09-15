@@ -4,6 +4,7 @@ let
     common = [
       ./alacritty
       ./socials.nix
+      ./developments.nix
       ./firefox.nix
     ];
     x86_64-linux = [
