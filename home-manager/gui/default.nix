@@ -6,6 +6,7 @@ let
       ./zed
       ./signal-desktop.nix
       ./firefox.nix
+      ./minecraft.nix
     ];
     x86_64-linux = [
       ./discord.nix

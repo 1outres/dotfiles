@@ -1,9 +1,9 @@
 {
   imports = [
-    ./git
+    ./git.nix
     ./fish
-    ./packages
-    ./tmux
+    ./packages.nix
+    ./tmux.nix
     ./nvim
   ];
 }
