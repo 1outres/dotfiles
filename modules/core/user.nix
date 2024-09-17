@@ -1,6 +1,6 @@
 {
   users.users.loutres = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "dialout" ];
+    extraGroups = [ "wheel" "dialout" "docker" ];
   };
 }
