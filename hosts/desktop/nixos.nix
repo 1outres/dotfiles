@@ -37,8 +37,6 @@
     };
   };
 
-# test
-
   networking = {
     hostName = "loutres-desktop";
     interfaces."enp6s0" = {
