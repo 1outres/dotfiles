@@ -4,6 +4,8 @@
     enable = true;
     shellAliases = {
       ls = "ls --color -a";
+      pbcopy = "xsel --clipboard --input";
+      pbpaste = "xsel --clipboard --output";
     };
     shellAbbrs = {
       l = "lazygit";
