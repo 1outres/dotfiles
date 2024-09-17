@@ -4,6 +4,10 @@
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";
+    extraSetFlags = [
+      "--accept-routes=false"
+      "--accept-dns=false"
+    ];
   };
   networking.firewall = {
     trustedInterfaces = ["tailscale0"];
