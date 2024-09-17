@@ -2,15 +2,17 @@
 {
   programs.firefox = {
     enable = true;
+    package = pkgs.firefox-devedition;
 
-    profiles.loutres = {
-      id = 0;
+    profiles.default = {
+      name = "dev-edition-default";
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         decentraleyes
         ublock-origin
         h264ify
         bitwarden
+        tree-style-tab
       ];
       settings = {
         "browser.send_pings" = false;

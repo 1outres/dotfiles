@@ -18,6 +18,7 @@
                 extraSpecialArgs = {
                   inherit inputs;
                   inherit system;
+                  inherit hostname;
                   vars = import (./. + "/hosts/${hostname}/vars.nix");
                 };
                 users.loutres = (./. + "/hosts/${hostname}/user.nix");

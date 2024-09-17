@@ -2,6 +2,7 @@
 let
   applications = {
     common = [
+      ./packages.nix
       ./alacritty
       ./zed
       ./signal-desktop.nix

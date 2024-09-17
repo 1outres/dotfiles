@@ -8,7 +8,7 @@
     enable = true;
     style = ./style.css;
     settings = [{
-      height = 30;
+      height = 33;
       layer = "top";
       position = "top";
       mod = "dock";
