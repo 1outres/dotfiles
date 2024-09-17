@@ -13,6 +13,7 @@
     settings = {
       PasswordAuthentication = false;
       PermitRootLogin = "no";
+      StreamLocalBindUnlink = "yes";
     };
   };
 }
