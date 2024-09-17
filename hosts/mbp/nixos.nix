@@ -15,7 +15,7 @@
       ../../modules/core/yubikey.nix
       ../../modules/programs/hyprland.nix
       ../../modules/programs/shell.nix
-      ../../modules/programs/ssh.nix
+      ../../modules/programs/sshd.nix
       ../../modules/programs/wireguard.nix
       ../../modules/programs/tailscale.nix
       ../../modules/desktop/fonts.nix

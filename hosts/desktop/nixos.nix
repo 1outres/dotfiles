@@ -15,7 +15,7 @@
       ../../modules/core/yubikey.nix
       ../../modules/programs/hyprland.nix
       ../../modules/programs/shell.nix
-      ../../modules/programs/ssh.nix
+      ../../modules/programs/sshd.nix
       ../../modules/programs/tailscale.nix
       ../../modules/desktop/fonts.nix
       ../../modules/desktop/i18n.nix
@@ -36,6 +36,8 @@
       enable = true;
     };
   };
+
+# test
 
   networking = {
     hostName = "loutres-desktop";
