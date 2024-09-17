@@ -3,11 +3,20 @@
   programs.firefox = {
     enable = true;
 
-
     profiles.loutres = {
       id = 0;
       isDefault = true;
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        decentraleyes
+        ublock-origin
+        h264ify
+        bitwarden
+      ];
+      bookmarks = [
+        {
+          name = "MyNixOS";
+          url = "https://mynixos.com/flakes";
+        }
       ];
       settings = {
         "browser.send_pings" = false;
@@ -24,7 +33,7 @@
         "app.shield.optoutstudies.enabled" = false;
         "dom.security.https_only_mode_ever_enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.toolbars.bookmarks.visibility" = "never";
+        "browser.toolbars.bookmarks.visibility" = "always";
         "geo.enabled" = false;
 
         # Disable telemetry
