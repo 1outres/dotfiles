@@ -11,6 +11,7 @@ let
     ];
     x86_64-linux = [
       ./discord.nix
+      ./spacedrive.nix
     ];
     aarch64-linux = [
       ./vesktop.nix
