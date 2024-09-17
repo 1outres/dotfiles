@@ -25,5 +25,5 @@
     AG3Eqafj2DNl9j+0+WA=
     -----END CERTIFICATE-----
   ''
-  ]
+  ];
 }
