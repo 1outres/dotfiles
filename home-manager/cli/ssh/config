@@ -1,0 +1,2 @@
+Host 10.225.128.250
+  RemoteForward /run/user/1000/gnupg/S.gpg-agent /run/user/1000/gnupg/S.gpg-agent.extra

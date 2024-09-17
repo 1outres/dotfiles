@@ -5,5 +5,6 @@
     ./packages.nix
     ./tmux.nix
     ./nvim
+    ./ssh
   ];
 }

@@ -5,14 +5,17 @@
   services.pcscd.enable = true;
   programs.gnupg.agent = {
      enable = true;
-     pinentryPackage = pkgs.pinentry-curses;
+     # pinentryPackage = pkgs.pinentry-curses;
+     pinentryPackage = pkgs.pinentry-gtk2;
      enableSSHSupport = true;
+     enableExtraSocket = true;
   };
 
   environment.systemPackages = with pkgs; [
     gnupg
     yubikey-personalization
-    pinentry-curses
+    # pinentry-curses
+    pinentry-gtk2
   ];
 
   environment.shellInit = ''
