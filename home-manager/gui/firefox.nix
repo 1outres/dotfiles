@@ -12,12 +12,6 @@
         h264ify
         bitwarden
       ];
-      bookmarks = [
-        {
-          name = "MyNixOS";
-          url = "https://mynixos.com/flakes";
-        }
-      ];
       settings = {
         "browser.send_pings" = false;
         "browser.urlbar.speculativeConnect.enabled" = false;
@@ -33,10 +27,10 @@
         "app.shield.optoutstudies.enabled" = false;
         "dom.security.https_only_mode_ever_enabled" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.toolbars.bookmarks.visibility" = "always";
         "geo.enabled" = false;
+        "browser.aboutConfig.showWarning" = false;
 
-        # Disable telemetry
+# Disable telemetry
         "browser.newtabpage.activity-stream.feeds.telemetry" = false;
         "browser.ping-centre.telemetry" = false;
         "browser.tabs.crashReporting.sendReport" = false;
@@ -45,24 +39,24 @@
         "toolkit.telemetry.unified" = false;
         "toolkit.telemetry.server" = "";
 
-        # Disable Pocket
+# Disable Pocket
         "browser.newtabpage.activity-stream.feeds.discoverystreamfeed" = false;
         "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
         "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
         "browser.newtabpage.activity-stream.showSponsored" = false;
         "extensions.pocket.enabled" = false;
 
-        # Disable prefetching
+# Disable prefetching
         "network.dns.disablePrefetch" = true;
         "network.prefetch-next" = false;
 
-        # Disable JS in PDFs
+# Disable JS in PDFs
         "pdfjs.enableScripting" = false;
 
-        # Harden SSL 
+# Harden SSL 
         "security.ssl.require_safe_negotiation" = true;
 
-        # Extra
+# Extra
         "identity.fxaccounts.enabled" = false;
         "browser.search.suggest.enabled" = false;
         "browser.urlbar.shortcuts.bookmarks" = false;
@@ -80,6 +74,6 @@
         "privacy.firstparty.isolate" = true;
         "network.http.sendRefererHeader" = 0;
       };
+      };
     };
-  };
-}
+  }
