@@ -19,6 +19,7 @@
       ../../modules/programs/wireguard.nix
       ../../modules/programs/tailscale.nix
       ../../modules/programs/dnsmasq.nix
+      ../../modules/programs/docker.nix
       ../../modules/desktop/fonts.nix
       ../../modules/desktop/i18n.nix
       ../../modules/desktop/audio.nix
