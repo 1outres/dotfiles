@@ -5,19 +5,17 @@ function attach_tmux_session_if_needed
     else
       set ID (echo SSH DevServer\nCreate New Session | fzf | cut -d: -f1)
     end
-  else if test (uname -s) = "Darwin"
+  else
     if test -n "$SSH_CLIENT"
       set ID (tmux list-sessions | sed '1iCreate New Session' | fzf | cut -d: -f1)
     else
       set ID (tmux list-sessions | sed '1iSSH DevServer\nCreate New Session' | fzf | cut -d: -f1)
     end
-  else 
-    set ID (tmux list-sessions | sed '1iCreate New Session' | fzf | cut -d: -f1)
   end
   if test "$ID" = "Create New Session"
     tmux new-session
   else if test "$ID" = "SSH DevServer"
-    ssh dev.cron.home
+    ssh loutres@10.225.128.250
   else if test -n "$ID"
     tmux attach-session -t "$ID"
   end
