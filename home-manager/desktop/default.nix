@@ -5,5 +5,6 @@
     ./swaylock
     ./cursor.nix
     ./grimshot
+    ./swayidle
   ];
 }

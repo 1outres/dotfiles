@@ -12,6 +12,7 @@
       "waybar"
       "swaybg -m fill -i ~/.config/hypr/bg.png"
       "fcitx5"
+      "sh ~/.bin/sleep.sh"
     ];
     exec = [
       "gsettings set org.gnome.desktop.interface gtk-theme \"YOUR_DARK_GTK3_THEME\""
