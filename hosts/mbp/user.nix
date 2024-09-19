@@ -15,7 +15,7 @@
   ];
   wayland.windowManager.hyprland.settings = {
     monitor = [
-      "eDP-1, 3024x1890@60, 0x0, 1"
+      "eDP-1, 3024x1890@60, 0x0, 1.5"
     ];
     input = {
       kb_layout = "us";
