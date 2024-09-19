@@ -8,6 +8,7 @@ let
       ./signal-desktop.nix
       ./firefox.nix
       ./minecraft.nix
+      ./thunderbird.nix
     ];
     x86_64-linux = [
       ./discord.nix
