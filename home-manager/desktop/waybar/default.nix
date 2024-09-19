@@ -6,9 +6,9 @@
 
   programs.waybar = {
     enable = true;
-    style = ./style.css;
+    style = pkgs.substituteAll{ src = ./style.css; fontsize = (vars.waybar-font-size or ""); };
     settings = [{
-      height = 33;
+      height = vars.waybar-height or 33;
       layer = "top";
       position = "top";
       mod = "dock";
