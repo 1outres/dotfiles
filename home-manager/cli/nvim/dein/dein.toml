@@ -43,40 +43,8 @@ rev = 'release'
 repo = 'tpope/vim-surround'
 
 [[plugins]]
-repo = 'cohama/lexima.vim'
-
-[[plugins]]
 repo = 'junegunn/rainbow_parentheses.vim'
-
-[[plugins]]
-repo = 'simeji/winresizer'
 
 [[plugins]]
 repo = 'wakatime/vim-wakatime'
 
-[[plugins]]
-repo = 'rust-lang/rust.vim'
-
-[[plugins]]
-repo = 'vim-scripts/vim-auto-save'
-
-[[plugins]]
-repo = 'kassio/neoterm'
-
-[[plugins]]
-repo = 'janko-m/vim-test'
-depends = ['neoterm']
-hook_add = '''
-  let g:neoterm_default_mod='belowright'
-  let g:neoterm_size=10
-  let g:neoterm_autoscroll=1
-  let g:neoterm_shell = '$SHELL -l'
-
-  let g:test#strategy = 'neoterm'
-  let g:test#preserve_screen = 1
-  let g:test#python#runner = 'pytest'
-  let g:test#python#pytest#executable = 'python3 -m pytest'
-'''
-
-[[plugins]]
-repo = 'kawarimidoll/tuskk.vim'

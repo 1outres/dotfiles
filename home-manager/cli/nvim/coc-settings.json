@@ -12,6 +12,12 @@
       ],
       "initializationOptions": {},
       "settings": {}
+    },
+    "dockercompose": {
+      "command": "docker-compose-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["dockercompose"],
+      "rootPatterns": [".git", ".env", "docker-compose.yml", "compose.yml"]
     }
   }
 }

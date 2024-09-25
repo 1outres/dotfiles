@@ -1,3 +1,12 @@
 [[plugins]]
 repo = 'skanehira/preview-markdown.vim'
+on_ft = "markdown"
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+on_i = 1
+
+[[plugins]]
+repo = 'vim-scripts/vim-auto-save'
+on_i = 1
 

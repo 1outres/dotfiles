@@ -45,11 +45,11 @@ if dein#check_install()
   call dein#install()
 endif
 "
-"let s:removed_plugins = dein#check_clean()
-"if len(s:removed_plugins) > 0
-"  call map(s:removed_plugins, "delete(v:val, 'rf')")
-"  call dein#recache_runtimepath()
-"endif
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+  call map(s:removed_plugins, "delete(v:val, 'rf')")
+  call dein#recache_runtimepath()
+endif
 
 " ===============================================
 
@@ -102,8 +102,6 @@ nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>g :GFiles<CR>
 nnoremap <silent> <leader>G :GFiles?<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>h :History<CR>
-nnoremap <silent> <leader>r :Rg<CR>
 
 nnoremap <Leader>w ^
 nnoremap <Leader>s $
@@ -150,6 +148,14 @@ let g:auto_save = 1
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C-r>=lexima#expand('<LT>CR>', 'i')\<CR><C-r>=coc#on_enter()\<CR>"
 " Escで閉じる
 inoremap <silent><expr> <buffer> <nowait> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<C-r>=lexima#insmode#escape()\<Cr>\<Esc>"
+
+" dockercompose filetype
+au FileType yaml if bufname("%") =~# "docker-compose.yml" | set ft=yaml.docker-compose | endif
+au FileType yaml if bufname("%") =~# "compose.yml" | set ft=yaml.docker-compose | endif
+
+let g:coc_filetype_map = {
+  \ 'yaml.docker-compose': 'dockercompose',
+  \ }
 
 " tuskk.vim
 inoremap <c-j> <cmd>call tuskk#toggle()<cr>
