@@ -38,6 +38,25 @@
         pkgs: system: hostname:
         pkgs.lib.darwinSystem {
           system = system;
+          modules = [
+            (./. + "/hosts/${hostname}/darwin.nix")
+            inputs.home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useUserPackages = true;
+                useGlobalPkgs = true;
+                users.loutres = (./. + "/hosts/${hostname}/user.nix");
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit system;
+                  inherit hostname;
+                };
+              };
+            }
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
         };
     in
     {
@@ -45,7 +64,9 @@
         desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop";
         vaio = mkNixosSystem inputs.nixpkgs "x86_64-linux" "vaio";
         mbp = mkNixosSystem inputs.nixpkgs "aarch64-linux" "mbp";
-        # mbp-darwin = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "mbp-darwin";
+      };
+      darwinConfigurations = {
+        darwin = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "darwin";
       };
     };
 
