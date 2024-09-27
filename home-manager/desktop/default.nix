@@ -1,3 +1,4 @@
+{ vars, ... }:
 {
   imports = [
     ./hyprland
@@ -5,6 +6,5 @@
     ./swaylock
     ./cursor.nix
     ./grimshot
-    ./swayidle
-  ];
+  ] ++ (if (vars.enable-swayidle or true) then [ ./swayidle ] else []);
 }
