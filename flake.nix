@@ -5,7 +5,7 @@
     inputs:
     let
       mkNixosSystem =
-        pkgs: system: hostname:
+        pkgs: system: hostname: rootDir:
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
@@ -19,6 +19,7 @@
                   inherit inputs;
                   inherit system;
                   inherit hostname;
+                  inherit rootDir;
                   vars = import (./. + "/hosts/${hostname}/vars.nix");
                 };
                 users.loutres = (./. + "/hosts/${hostname}/user.nix");
@@ -35,7 +36,7 @@
           };
         };
       mkDarwinSystem =
-        pkgs: system: hostname:
+        pkgs: system: hostname: rootDir:
         pkgs.lib.darwinSystem {
           system = system;
           modules = [
@@ -50,6 +51,7 @@
                   inherit inputs;
                   inherit system;
                   inherit hostname;
+                  inherit rootDir;
                 };
               };
             }
@@ -61,12 +63,12 @@
     in
     {
       nixosConfigurations = {
-        desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop";
-        vaio = mkNixosSystem inputs.nixpkgs "x86_64-linux" "vaio";
-        mbp = mkNixosSystem inputs.nixpkgs "aarch64-linux" "mbp";
+        desktop = mkNixosSystem inputs.nixpkgs "x86_64-linux" "desktop" "/home/loutres/dotfiles";
+        vaio = mkNixosSystem inputs.nixpkgs "x86_64-linux" "vaio" "/home/loutres/dotfiles";
+        mbp = mkNixosSystem inputs.nixpkgs "aarch64-linux" "mbp" "/home/loutres/dotfiles";
       };
       darwinConfigurations = {
-        darwin = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "darwin";
+        darwin = mkDarwinSystem inputs.nix-darwin "aarch64-darwin" "darwin" "/Users/loutres/ghq/github.com/1outres/dotfiles";
       };
     };
 

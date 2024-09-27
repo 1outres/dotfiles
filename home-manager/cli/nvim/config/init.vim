@@ -75,6 +75,7 @@ set incsearch         " インクリメンタルサーチ
 
 set noswapfile        " スワップファイル(.swp)を生成しない
 set nobackup          " バックアップファイル(~)を生成しない
+set nowritebackup
 set noundofile        " undoファイル(.un~)を生成しない
 set encoding=utf-8    " Vim内部で使われる文字エンコーディングにutf-8にする
 
@@ -90,18 +91,38 @@ set clipboard+=unnamed
 nnoremap j gj
 nnoremap k gk
 
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+
 
 " 文字列検索のハイライトオフ
 nmap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
 
 " Open fern
-nnoremap <C-n> :Fern . -reveal=%<CR>
+"nnoremap <C-n> :Fern . -reveal=%<CR>
+nnoremap <silent> <C-n> :Fern . -drawer -toggle<CR>
 
 " fzf
 nnoremap <silent> <leader>f :Files<CR>
-nnoremap <silent> <leader>g :GFiles<CR>
-nnoremap <silent> <leader>G :GFiles?<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
+"nnoremap <silent> <leader>g :GFiles<CR>
+"nnoremap <silent> <leader>G :GFiles?<CR>
+"nnoremap <silent> <leader>b :Buffers<CR>
+
+" coc.nvim
+nnoremap <silent> <leader><leader> :CocFzfList<CR>
+nnoremap <silent> <leader>m        :CocFzfList diagnostics<CR>
+nnoremap <silent> <leader>c        :CocFzfList diagnostics --current-buf<CR>
+nnoremap <silent> <leader>o        :CocFzfList outline<CR>
+nnoremap <silent> <leader>h        :call ShowDocumentation()<CR>
+nnoremap <silent> <leader>rr       <Plug>(coc-rename)
+nnoremap <silent> <leader>]        <Plug>(coc-definition)
+nnoremap <silent> <leader>i        <Plug>(coc-implementation)
+nnoremap <silent> <leader>re       <Plug>(coc-references)
+nnoremap <silent> <leader>n        <Plug>(coc-diagnostic-next)
+nnoremap <silent> <M-CR>           <Plug>(coc-codeaction-cursor)
+
+"xnoremap <silent> <leader>rr  <Plug>(coc-codeaction-refactor-selected)
+"nnoremap <silent> <leader>rr  <Plug>(coc-codeaction-refactor-selected)
 
 nnoremap <Leader>w ^
 nnoremap <Leader>s $
@@ -109,6 +130,27 @@ nnoremap <Leader>s $
 nnoremap x "_x
 
 " plugins ======================================
+
+" coc.nvim
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " vimdoc-ja - helpの日本語化
 set helplang=ja,en
@@ -122,6 +164,7 @@ let g:airline_theme='dracula'
 
 " fern - filer
 let g:fern#default_hidden=1
+let g:fern#default_exclude = '^\%(\.git\|\.DS_Store\)$'
 let g:fern#renderer = 'nerdfont'
 let g:fern#renderer#nerdfont#indent_markers = 1
 
@@ -141,7 +184,8 @@ let g:lexima_map_escape = ""
 call lexima#set_default_rules()
 
 " auto-save
-let g:auto_save = 1
+" let g:auto_save = 1
+let g:auto_save = 0
 
 " coc.nvim
 " エンターで確定

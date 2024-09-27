@@ -48,3 +48,18 @@ repo = 'junegunn/rainbow_parentheses.vim'
 [[plugins]]
 repo = 'wakatime/vim-wakatime'
 
+[[plugins]]
+repo = 'github/copilot.vim'
+
+[[plugins]]
+repo = 'antoinemadec/coc-fzf'
+
+[[plugins]]
+repo = 'skanehira/preview-markdown.vim'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'vim-scripts/vim-auto-save'
+

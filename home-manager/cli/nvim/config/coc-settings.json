@@ -1,6 +1,8 @@
 {
+  "coc.preferences.formatOnSave": true,
   "coc.preferences.formatOnSaveFiletypes": [
-    "rust"
+    "rust",
+    "go"
   ],
   "languageserver": {
     "terraform": {
