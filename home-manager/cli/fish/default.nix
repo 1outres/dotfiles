@@ -6,6 +6,7 @@
       ls = "ls --color -a";
       pbcopy = "xsel --clipboard --input";
       pbpaste = "xsel --clipboard --output";
+      rm = "trash-put";
     };
     shellAbbrs = {
       l = "lazygit";
@@ -13,6 +14,7 @@
     };
     shellInit = ''
       fish_add_path $HOME/.bin
+      fish_add_path $HOME/go/bin
       set -g theme_display_k8s_context yes
       set -g theme_display_k8s_namespace no
       set -x KUBECONFIG $(sh -c "echo `ls ~/.kube/configs/*`" | tr ' ' ':')
