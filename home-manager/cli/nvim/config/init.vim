@@ -159,8 +159,10 @@ set helplang=ja,en
 let g:airline_section_z = ''
 
 " dracula - theme
+let g:dracula_colorterm = 0
 colorscheme dracula
 let g:airline_theme='dracula'
+
 
 " fern - filer
 let g:fern#default_hidden=1
