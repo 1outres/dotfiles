@@ -1,0 +1,37 @@
+onboarding = false
+# herdr config — host-independent settings only.
+# The [theme] section is generated per host by modules/home/herdr.nix and
+# appended to this file, so apply changes with a rebuild followed by
+# `herdr server reload-config`.
+
+[ui]
+# Let herdr own the mouse: drag-select copies to the clipboard, double-click
+# copies a token, right-click opens the pane menu. Terminal-native selection is
+# still available with shift+drag, and links open with ctrl+click.
+mouse_capture = true
+copy_on_select = true
+
+# Only background workspaces notify, so a pane you are watching stays quiet.
+# "system" talks to the OS directly, which keeps working under `herdr --remote`
+# where the outer terminal is on the wrong machine.
+[ui.toast]
+delivery = "system"
+
+# Ghostty already suppresses copy notifications (app-notifications).
+[ui.toast.clipboard]
+enabled = false
+
+# Match tmux bindings (from modules/home/tmux.nix + tmux defaults).
+# Prefix stays at ctrl+b (both tmux and herdr default).
+# Already-matching defaults: new_tab=prefix+c, next/previous_tab=prefix+n/p,
+# close_pane=prefix+x, zoom=prefix+z, help=prefix+?,
+# split_horizontal=prefix+minus, focus_pane_*=prefix+h/j/k/l.
+[keys]
+split_vertical = ["prefix+|", "prefix+/"]
+rename_tab = "prefix+,"
+close_tab = "prefix+&"
+detach = "prefix+d"
+reload_config = "prefix+r"
+# tmux binds prefix+s to choose-tree, so goto takes it and settings swaps in.
+goto = "prefix+s"
+settings = "prefix+g"

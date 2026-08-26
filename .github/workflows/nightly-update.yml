@@ -1,0 +1,198 @@
+name: nightly-update
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: nightly-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  ATTIC_ENDPOINT: https://attic.k.loutres.me
+  ATTIC_CACHE: loutres-dotfiles
+  ATTIC_PUBLIC_KEY: loutres-dotfiles:Pyh1ltHArGOLVtqd8B1wd6rwWMBLNdT3JXEjlh1db9M=
+  DISCORD_USER_ID: '1218044957957427211'
+  UPDATE_BRANCH: nightly/flake-update
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate private flake inputs
+        env:
+          PAT: ${{ secrets.PRIVATE_INPUTS_PAT }}
+        run: |
+          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
+          for repo in dotfiles-private window-tracker; do
+            git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
+              || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
+          done
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            accept-flake-config = true
+            experimental-features = nix-command flakes
+            extra-substituters = ${{ env.ATTIC_ENDPOINT }}/${{ env.ATTIC_CACHE }}
+            extra-trusted-public-keys = ${{ env.ATTIC_PUBLIC_KEY }}
+
+      - name: nix flake update
+        run: nix flake update
+
+      - name: Refresh brew cask hashes
+        run: |
+          set -euo pipefail
+          file=modules/os/darwin/cask-hashes.json
+          for name in $(jq -r 'keys[]' "$file"); do
+            url=$(nix eval --raw --impure --expr "
+              let
+                flake = builtins.getFlake (toString ./.);
+                pkgs = import flake.inputs.nixpkgs {
+                  system = \"aarch64-darwin\";
+                  overlays = [ flake.inputs.brew-nix.overlays.default ];
+                  config.allowUnfree = true;
+                };
+              in
+                builtins.head pkgs.brewCasks.\"$name\".src.urls
+            ")
+            raw=$(nix-prefetch-url --type sha256 "$url")
+            sri=$(nix hash convert --hash-algo sha256 --to sri "$raw")
+            old=$(jq -r --arg n "$name" '.[$n]' "$file")
+            if [ "$old" != "$sri" ]; then
+              tmp=$(mktemp)
+              jq --arg n "$name" --arg h "$sri" '.[$n] = $h' "$file" > "$tmp"
+              mv "$tmp" "$file"
+              echo "$name: $old -> $sri"
+            fi
+          done
+
+      - name: Commit and push update branch
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet flake.lock modules/os/darwin/cask-hashes.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes."
+            exit 0
+          fi
+          git add flake.lock modules/os/darwin/cask-hashes.json
+          git commit -m 'chore: nightly flake update'
+          git push --force origin "HEAD:${UPDATE_BRANCH}"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build matrix
+        id: matrix
+        run: |
+          set -euo pipefail
+          hosts=$(nix eval --json '.#ci.hosts')
+          runners=$(cat .github/runners.json)
+          matrix=$(jq -c -n \
+            --argjson hosts "$hosts" \
+            --argjson runners "$runners" \
+            '{include: ($hosts | map(. + {runner: $runners[.system]}))}')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "$matrix" | jq .
+
+  build:
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.update.outputs.matrix) }}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.UPDATE_BRANCH }}
+
+      - name: Authenticate private flake inputs
+        env:
+          PAT: ${{ secrets.PRIVATE_INPUTS_PAT }}
+        run: |
+          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
+          for repo in dotfiles-private window-tracker; do
+            git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
+              || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
+          done
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            accept-flake-config = true
+            experimental-features = nix-command flakes
+            extra-substituters = ${{ env.ATTIC_ENDPOINT }}/${{ env.ATTIC_CACHE }}
+            extra-trusted-public-keys = ${{ env.ATTIC_PUBLIC_KEY }}
+
+      - name: Build ${{ matrix.label }}
+        run: nix build --print-out-paths '.#${{ matrix.attr }}'
+
+      - name: Install attic client
+        run: nix profile install nixpkgs#attic-client
+
+      - name: Push closure to attic
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+        run: |
+          attic login loutres "${ATTIC_ENDPOINT}" "$ATTIC_TOKEN"
+          attic push "loutres:${ATTIC_CACHE}" ./result
+
+  open-pr:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Open or refresh PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          existing=$(gh pr list \
+            --head "${UPDATE_BRANCH}" \
+            --base "$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)" \
+            --state open --json number --jq '.[0].number // ""')
+          if [ -z "$existing" ]; then
+            url=$(gh pr create \
+              --head "${UPDATE_BRANCH}" \
+              --title 'chore: nightly flake update' \
+              --body $'Automated nightly `nix flake update` + brew cask hash refresh.\n\nAll host closures were built on CI and pushed to the `'"${ATTIC_CACHE}"$'` attic cache, so `darwin-rebuild switch` / `nixos-rebuild switch` / `home-manager switch` after merge should be download-only.')
+            echo "created=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+          else
+            echo "created=false" >> "$GITHUB_OUTPUT"
+            echo "PR #${existing} already open; branch was force-pushed."
+          fi
+
+      - name: Notify Discord
+        if: steps.pr.outputs.created == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          set -euo pipefail
+          payload=$(jq -n \
+            --arg url "$PR_URL" \
+            --arg user "$DISCORD_USER_ID" \
+            '{
+              content: "<@\($user)> nightly update PR opened: \($url)",
+              allowed_mentions: { users: [$user] }
+            }')
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            -d "$payload" \
+            "$DISCORD_WEBHOOK_URL"
