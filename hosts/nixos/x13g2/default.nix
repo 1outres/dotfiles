@@ -12,7 +12,9 @@
     ./power.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x13-amd
     ../../../modules/os/nixos/sshd.nix
+    ../../../modules/os/nixos/catppuccin-system.nix
     ../../../modules/os/nixos/gnome.nix
+    ../../../modules/os/nixos/hyprland.nix
     ../../../modules/os/nixos/keyd.nix
     ../../../modules/os/nixos/onepassword.nix
   ];

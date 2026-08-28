@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  config,
+  pkgs,
+  username,
+  ...
+}:
 
 {
   imports = [ ./desktop.nix ];
@@ -9,6 +14,22 @@
 
   # hyprlock は PAM でパスワードを検証する。専用スタックが無いと解錠できない。
   security.pam.services.hyprlock = { };
+
+  # 輝度キーは brightnessctl と swayosd が sysfs に直接書いて実現する。両者の
+  # udev ルールが backlight を video グループへ開放し、swayosd の polkit
+  # アクションはシステムのプロファイルからしか読まれないので、ユーザの
+  # home.packages ではなくここに置く。
+  services.udev.packages = [
+    pkgs.brightnessctl
+    pkgs.swayosd
+  ];
+  environment.systemPackages = [ pkgs.swayosd ];
+  users.users.${username}.extraGroups = [ "video" ];
+
+  # waybar の電源プロファイルと Bluetooth のモジュールが読む先。GNOME では
+  # gnome-settings-daemon が同じ役目を負う。
+  services.power-profiles-daemon.enable = true;
+  services.blueman.enable = true;
 
   # GNOME は fcitx5 を XDG autostart から起動するが、Hyprland は
   # デスクトップ環境ではないので同じ経路が無い。hyprland-session.target
