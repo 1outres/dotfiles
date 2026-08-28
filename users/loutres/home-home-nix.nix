@@ -7,13 +7,13 @@
     ../../modules/home/gcr-ssh-agent.nix
     ../../modules/home/ghostty-linux.nix
     ../../modules/home/gnome-unattended.nix
-    ../../modules/home/hyprland.nix
-    ../../modules/home/hyprlock.nix
-    ../../modules/home/mako.nix
     ../../modules/home/paseo.nix
     ../../modules/home/playwright-mcp-hermes.nix
-    ../../modules/home/waybar.nix
-    ../../modules/home/wofi.nix
+    ./home-nix/hyprland.nix
+    ./home-nix/hyprlock.nix
+    ./home-nix/mako.nix
+    ./home-nix/waybar.nix
+    ./home-nix/wofi.nix
   ];
 
   # Only the CLI, not modules/home/onepassword.nix: the SSH agent and
