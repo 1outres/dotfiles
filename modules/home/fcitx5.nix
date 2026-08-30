@@ -38,4 +38,16 @@
       0=Default
     '';
   };
+
+  # Quick Phrase asks for Super+grave, the same key GNOME uses to walk the
+  # windows of one app (modules/home/gnome-window-switching.nix). fcitx5 reads
+  # the key through the input method channel, so it wins whenever a text field
+  # has the focus and the window switch does nothing.
+  home.file.".config/fcitx5/addon/quickphrase.conf" = {
+    force = true;
+    text = ''
+      [Addon]
+      Enabled=False
+    '';
+  };
 }
