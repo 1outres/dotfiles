@@ -28,6 +28,8 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Authenticate private flake inputs
         env:
@@ -80,6 +82,8 @@ jobs:
 
       - name: Commit and push update branch
         id: commit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
@@ -91,7 +95,9 @@ jobs:
           fi
           git add flake.lock modules/os/darwin/cask-hashes.json
           git commit -m 'chore: nightly flake update'
-          git push --force origin "HEAD:${UPDATE_BRANCH}"
+          git push --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "HEAD:${UPDATE_BRANCH}"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Build matrix
@@ -118,6 +124,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.UPDATE_BRANCH }}
+          persist-credentials: false
 
       - name: Authenticate private flake inputs
         env:
@@ -156,6 +163,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Open or refresh PR
         id: pr
