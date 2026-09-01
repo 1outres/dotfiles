@@ -67,3 +67,41 @@ runs:
           || { echo "attic is not registered as a substituter"; exit 1; }
         nix config show trusted-public-keys | grep -q "$ATTIC_PUBLIC_KEY" \
           || { echo "attic returned a public key we do not expect"; exit 1; }
+
+    # Temporary. The daemon answers 401 for the cache even though the token is
+    # valid for pushing, and neither a hand-written /etc/nix/netrc nor `attic
+    # use` changed that. This pins down whether nix never got the netrc or
+    # whether curl refuses to send the credentials it holds.
+    - name: Diagnose the cache authentication
+      shell: bash
+      env:
+        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
+        ATTIC_CACHE: ${{ inputs.attic-cache }}
+        ATTIC_TOKEN: ${{ inputs.attic-token }}
+      run: |
+        set -uo pipefail
+        info="$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info"
+        host=${ATTIC_ENDPOINT#*://}; host=${host%%/*}
+
+        echo "--- what nix resolved ---"
+        nix config show netrc-file
+        nix config show substituters
+
+        echo "--- netrc files on disk ---"
+        for f in /etc/nix/netrc "$HOME/.config/nix/netrc" "$HOME/.config/attic/nix/netrc"; do
+          if sudo test -e "$f"; then
+            echo "$f: $(sudo sed -E 's/(password) .*/\1 <redacted>/' "$f")"
+          else
+            echo "$f: missing"
+          fi
+        done
+
+        echo "--- can curl authenticate at all ---"
+        printf 'machine %s password %s\n' "$host" "$ATTIC_TOKEN" > /tmp/netrc-nologin
+        printf 'machine %s login attic password %s\n' "$host" "$ATTIC_TOKEN" > /tmp/netrc-login
+        chmod 600 /tmp/netrc-nologin /tmp/netrc-login
+        curl -sS -o /dev/null -w "netrc without login: %{http_code}\n" --netrc-file /tmp/netrc-nologin "$info"
+        curl -sS -o /dev/null -w "netrc with login:    %{http_code}\n" --netrc-file /tmp/netrc-login "$info"
+        curl -sS -o /dev/null -w "bearer header:       %{http_code}\n" -H "Authorization: Bearer $ATTIC_TOKEN" "$info"
+        curl -sS -o /dev/null -w "no credentials:      %{http_code}\n" "$info"
+        rm -f /tmp/netrc-nologin /tmp/netrc-login
