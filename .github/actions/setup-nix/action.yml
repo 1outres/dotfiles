@@ -46,10 +46,11 @@ runs:
     # Substituting is done by the daemon, which runs as root, so a token under
     # $HOME never reaches it and every path misses with HTTP 401.
     #
-    # It has to go in this exact file. Determinate's /etc/nix/nix.conf sets
-    # netrc-file = /nix/var/determinate/netrc *after* it includes the
-    # nix.custom.conf that carries the installer's extra-conf, so any netrc-file
-    # passed there is overridden and the daemon reads this path regardless.
+    # Determinate's /etc/nix/nix.conf sets its own netrc-file *after* including
+    # the nix.custom.conf that carries the installer's extra-conf, so a
+    # netrc-file passed there is silently overridden. Appending to nix.conf
+    # instead wins on last-one-wins. The file says not to edit it, which holds
+    # for a real machine; here it is rebuilt from scratch every run.
     - name: Give the daemon the cache token
       shell: bash
       env:
@@ -58,24 +59,12 @@ runs:
         ATTIC_TOKEN: ${{ inputs.attic-token }}
       run: |
         set -euo pipefail
-        netrc=/nix/var/determinate/netrc
+        netrc=/etc/nix/netrc
         host=${ATTIC_ENDPOINT#*://}
-        sudo mkdir -p "$(dirname "$netrc")"
-        sudo touch "$netrc"
-
-        echo '--- netrc before ---'
-        sudo sed -E 's/(password) [^ ]*/\1 <redacted>/g' "$netrc"
-
-        # Prepend rather than append: the file already holds a FlakeHub entry,
-        # and a trailing `default` line would swallow anything put after it.
-        { printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN"
-          sudo cat "$netrc"
-        } | sudo tee "$netrc.tmp" >/dev/null
-        sudo mv "$netrc.tmp" "$netrc"
+        printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
+          | sudo tee "$netrc" >/dev/null
         sudo chmod 600 "$netrc"
-
-        echo '--- netrc after ---'
-        sudo sed -E 's/(password) [^ ]*/\1 <redacted>/g' "$netrc"
+        echo "netrc-file = $netrc" | sudo tee -a /etc/nix/nix.conf >/dev/null
 
         # The daemon parses the netrc when it starts. Service names come from
         # nix-installer's configure_determinate_nixd_init_service.
