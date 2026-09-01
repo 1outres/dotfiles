@@ -75,6 +75,21 @@ runs:
           --netrc-file /etc/nix/netrc "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
         [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
 
+    # Temporary: show what the daemon actually reads. A netrc it can use through
+    # curl still comes back 401 through nix, so the config it sees must differ.
+    - name: Diagnose the daemon configuration
+      shell: bash
+      run: |
+        set -uo pipefail
+        echo "--- /etc/nix contents ---"
+        sudo ls -la /etc/nix/
+        echo "--- /etc/nix/nix.conf ---"
+        sudo cat /etc/nix/nix.conf
+        echo "--- /etc/nix/nix.custom.conf ---"
+        sudo cat /etc/nix/nix.custom.conf
+        echo "--- config as root sees it ---"
+        sudo nix config show | grep -iE "netrc|substituters|trusted"
+
     - name: Install the attic client
       shell: bash
       run: nix profile install nixpkgs#attic-client
