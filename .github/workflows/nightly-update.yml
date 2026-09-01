@@ -136,15 +136,16 @@ jobs:
       - name: Build ${{ matrix.label }}
         run: nix build --print-out-paths '.#${{ matrix.attr }}'
 
-      # Five hosts pushing at the default -j5 open up to 25 uploads at once, and
-      # atticd holds ten database connections. Past that its pool times out and
-      # the server answers 500 after minutes of waiting.
+      # atticd holds ten database connections and cannot be configured to hold
+      # more: it hands sea-orm a bare URL, so sqlx keeps its default of ten.
+      # Five hosts pushing concurrently have to stay well under that, and -j2
+      # still timed the pool out.
       - name: Push closure to attic
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           attic login loutres "${ATTIC_ENDPOINT}" "$ATTIC_TOKEN"
-          attic push --jobs 2 "loutres:${ATTIC_CACHE}" ./result
+          attic push --jobs 1 "loutres:${ATTIC_CACHE}" ./result
 
   open-pr:
     needs: build
