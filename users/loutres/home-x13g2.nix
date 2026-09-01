@@ -22,7 +22,6 @@
     ../../modules/home/onepassword.nix
     ../../modules/home/parsec.nix
     ../../modules/home/paseo.nix
-    ../../modules/home/t3code.nix
     ../../modules/home/vicinae.nix
     ../../modules/home/xdg-mime-apps.nix
     ../../modules/home/zen-browser.nix
