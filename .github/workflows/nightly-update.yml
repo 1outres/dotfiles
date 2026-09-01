@@ -126,9 +126,6 @@ jobs:
       - name: Build ${{ matrix.label }}
         run: nix build --print-out-paths '.#${{ matrix.attr }}'
 
-      - name: Install attic client
-        run: nix profile install nixpkgs#attic-client
-
       - name: Push closure to attic
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
