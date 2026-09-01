@@ -235,26 +235,6 @@
         "type": "github"
       }
     },
-    "hypr-rdp": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1782380177,
-        "narHash": "sha256-wRygc1coGCjIJEqLE75Wop+Rfapc4FwAL7Tp0giuklo=",
-        "owner": "MuNeNICK",
-        "repo": "hypr-rdp",
-        "rev": "afec3bd9af37bd9a49bedd3d8b80b37a8a52b809",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MuNeNICK",
-        "repo": "hypr-rdp",
-        "type": "github"
-      }
-    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -464,11 +444,11 @@
     },
     "private": {
       "locked": {
-        "lastModified": 1787726519,
-        "narHash": "sha256-ww9JyOpuz7LAWJGdfyh5qYm/PnO59bqyDWpJOS3PPuA=",
+        "lastModified": 1788238272,
+        "narHash": "sha256-cTlwGbxFsrZ3fjNYFMdNO4l4islWCkIdFBsRGYB4zuI=",
         "ref": "refs/heads/main",
-        "rev": "c4805fa425641e6c6b3eda365a43dce993e1ba13",
-        "revCount": 1,
+        "rev": "352db14ad7996aba979ee299c2edfa3342a38f64",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://git@github.com/1outres/dotfiles-private.git"
       },
@@ -535,7 +515,6 @@
         "herdr": "herdr",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
-        "hypr-rdp": "hypr-rdp",
         "llm-agents": "llm-agents",
         "nixcord": "nixcord",
         "nixos-hardware": "nixos-hardware",
