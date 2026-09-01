@@ -47,8 +47,7 @@ runs:
     # Substituting is done by the daemon, which runs as root, so a token under
     # $HOME only ever reaches the client and every path misses with HTTP 401.
     # The file has to be written after the installer runs: it lays out /etc/nix
-    # itself and does not keep a netrc put there beforehand. Where the daemon
-    # looks for it is set above, next to the substituter it belongs to.
+    # itself and does not keep a netrc put there beforehand.
     - name: Give the daemon the cache token
       shell: bash
       env:
@@ -62,7 +61,16 @@ runs:
           | sudo tee /etc/nix/netrc >/dev/null
         sudo chmod 600 /etc/nix/netrc
 
+        # The daemon parses the netrc once at startup, so the file above stays
+        # invisible to it until it is restarted. Service names come from
+        # nix-installer's configure_determinate_nixd_init_service.
+        case "$RUNNER_OS" in
+          Linux) sudo systemctl restart nix-daemon.service ;;
+          macOS) sudo launchctl kickstart -k system/systems.determinate.nix-daemon ;;
+        esac
+
         # Stop here rather than spend an hour rebuilding what the cache holds.
+        nix store info --store daemon >/dev/null
         code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
           --netrc-file /etc/nix/netrc "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
         [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
