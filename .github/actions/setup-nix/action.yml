@@ -42,12 +42,13 @@ runs:
           experimental-features = nix-command flakes
           extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
           extra-trusted-public-keys = ${{ inputs.attic-public-key }}
+          netrc-file = /etc/nix/netrc
 
-    # Substituting is done by the daemon, which runs as root and reads
-    # /etc/nix/netrc. A token under $HOME only ever reaches the client, so
-    # `attic use` alone leaves the daemon unauthenticated and every path misses
-    # with HTTP 401. This has to run after the installer: it lays out /etc/nix
-    # itself and a netrc written beforehand does not survive.
+    # Substituting is done by the daemon, which runs as root, so a token under
+    # $HOME only ever reaches the client and every path misses with HTTP 401.
+    # The file has to be written after the installer runs: it lays out /etc/nix
+    # itself and does not keep a netrc put there beforehand. Where the daemon
+    # looks for it is set above, next to the substituter it belongs to.
     - name: Give the daemon the cache token
       shell: bash
       env:
