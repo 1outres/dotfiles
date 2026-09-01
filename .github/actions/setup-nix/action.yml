@@ -17,7 +17,7 @@ inputs:
     description: Name of the cache on that server.
     required: true
   attic-public-key:
-    description: Public key the cache is expected to sign store paths with.
+    description: Public key the cache signs store paths with.
     required: true
 
 runs:
@@ -40,68 +40,32 @@ runs:
         extra-conf: |
           accept-flake-config = true
           experimental-features = nix-command flakes
+          extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
+          extra-trusted-public-keys = ${{ inputs.attic-public-key }}
+
+    # Substituting is done by the daemon, which runs as root and reads
+    # /etc/nix/netrc. A token under $HOME only ever reaches the client, so
+    # `attic use` alone leaves the daemon unauthenticated and every path misses
+    # with HTTP 401. This has to run after the installer: it lays out /etc/nix
+    # itself and a netrc written beforehand does not survive.
+    - name: Give the daemon the cache token
+      shell: bash
+      env:
+        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
+        ATTIC_CACHE: ${{ inputs.attic-cache }}
+        ATTIC_TOKEN: ${{ inputs.attic-token }}
+      run: |
+        set -euo pipefail
+        host=${ATTIC_ENDPOINT#*://}
+        printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
+          | sudo tee /etc/nix/netrc >/dev/null
+        sudo chmod 600 /etc/nix/netrc
+
+        # Stop here rather than spend an hour rebuilding what the cache holds.
+        code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
+          --netrc-file /etc/nix/netrc "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
+        [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
 
     - name: Install the attic client
       shell: bash
       run: nix profile install nixpkgs#attic-client
-
-    # `attic use` is what writes the substituter, its public key and the token
-    # into nix.conf. Writing a netrc by hand and passing netrc-file through the
-    # installer did not reach the daemon: every path missed with HTTP 401 and
-    # the whole closure was built from source.
-    - name: Point nix at the attic cache
-      shell: bash
-      env:
-        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
-        ATTIC_CACHE: ${{ inputs.attic-cache }}
-        ATTIC_TOKEN: ${{ inputs.attic-token }}
-        ATTIC_PUBLIC_KEY: ${{ inputs.attic-public-key }}
-      run: |
-        set -euo pipefail
-        attic login loutres "$ATTIC_ENDPOINT" "$ATTIC_TOKEN"
-        attic use "loutres:$ATTIC_CACHE"
-
-        # Stop here rather than spend an hour rebuilding what the cache already
-        # holds. The key check also catches the server handing back a new one.
-        nix config show substituters | grep -q "$ATTIC_ENDPOINT" \
-          || { echo "attic is not registered as a substituter"; exit 1; }
-        nix config show trusted-public-keys | grep -q "$ATTIC_PUBLIC_KEY" \
-          || { echo "attic returned a public key we do not expect"; exit 1; }
-
-    # Temporary. The daemon answers 401 for the cache even though the token is
-    # valid for pushing, and neither a hand-written /etc/nix/netrc nor `attic
-    # use` changed that. This pins down whether nix never got the netrc or
-    # whether curl refuses to send the credentials it holds.
-    - name: Diagnose the cache authentication
-      shell: bash
-      env:
-        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
-        ATTIC_CACHE: ${{ inputs.attic-cache }}
-        ATTIC_TOKEN: ${{ inputs.attic-token }}
-      run: |
-        set -uo pipefail
-        info="$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info"
-        host=${ATTIC_ENDPOINT#*://}; host=${host%%/*}
-
-        echo "--- what nix resolved ---"
-        nix config show netrc-file
-        nix config show substituters
-
-        echo "--- netrc files on disk ---"
-        for f in /etc/nix/netrc "$HOME/.config/nix/netrc" "$HOME/.config/attic/nix/netrc"; do
-          if sudo test -e "$f"; then
-            echo "$f: $(sudo sed -E 's/(password) .*/\1 <redacted>/' "$f")"
-          else
-            echo "$f: missing"
-          fi
-        done
-
-        echo "--- can curl authenticate at all ---"
-        printf 'machine %s password %s\n' "$host" "$ATTIC_TOKEN" > /tmp/netrc-nologin
-        printf 'machine %s login attic password %s\n' "$host" "$ATTIC_TOKEN" > /tmp/netrc-login
-        chmod 600 /tmp/netrc-nologin /tmp/netrc-login
-        curl -sS -o /dev/null -w "netrc without login: %{http_code}\n" --netrc-file /tmp/netrc-nologin "$info"
-        curl -sS -o /dev/null -w "netrc with login:    %{http_code}\n" --netrc-file /tmp/netrc-login "$info"
-        curl -sS -o /dev/null -w "bearer header:       %{http_code}\n" -H "Authorization: Bearer $ATTIC_TOKEN" "$info"
-        curl -sS -o /dev/null -w "no credentials:      %{http_code}\n" "$info"
-        rm -f /tmp/netrc-nologin /tmp/netrc-login
