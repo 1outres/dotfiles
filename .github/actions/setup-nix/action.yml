@@ -73,6 +73,13 @@ runs:
           macOS) sudo launchctl kickstart -k system/systems.determinate.nix-daemon ;;
         esac
 
+        echo "netrc-file as root resolves it:"
+        sudo "$(command -v nix)" config show netrc-file
+
+        # Also hand it to the daemon as a client override: trusted-users lists
+        # runner, so settings sent over the daemon protocol are honoured.
+        echo "NIX_CONFIG=netrc-file = $netrc" >> "$GITHUB_ENV"
+
         # Stop here rather than spend an hour rebuilding what the cache holds.
         nix store info --store daemon >/dev/null
         code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
