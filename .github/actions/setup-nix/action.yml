@@ -1,0 +1,62 @@
+name: Set up Nix
+description: >-
+  Install Nix with the attic cache usable as a substituter and the private flake
+  inputs fetchable.
+
+inputs:
+  private-inputs-pat:
+    description: Token that can read the private flake input repositories.
+    required: true
+  attic-token:
+    description: Token for the attic cache.
+    required: true
+  attic-endpoint:
+    description: Base URL of the attic server.
+    required: true
+  attic-cache:
+    description: Name of the cache on that server.
+    required: true
+  attic-public-key:
+    description: Public key the cache signs store paths with.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate private flake inputs
+      shell: bash
+      env:
+        PAT: ${{ inputs.private-inputs-pat }}
+      run: |
+        git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
+        for repo in dotfiles-private window-tracker; do
+          git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
+            || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
+        done
+
+    # Nix reads the cache token from a netrc file, so it has to exist before the
+    # installer writes the substituter line that points at the cache. Without it
+    # every path misses with HTTP 401 and the whole closure is built from source.
+    - name: Authenticate the attic cache
+      shell: bash
+      env:
+        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
+        ATTIC_TOKEN: ${{ inputs.attic-token }}
+      run: |
+        set -euo pipefail
+        host=${ATTIC_ENDPOINT#*://}
+        sudo mkdir -p /etc/nix
+        sudo touch /etc/nix/netrc
+        sudo chmod 600 /etc/nix/netrc
+        printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
+          | sudo tee /etc/nix/netrc >/dev/null
+
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
+      with:
+        extra-conf: |
+          accept-flake-config = true
+          experimental-features = nix-command flakes
+          extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
+          extra-trusted-public-keys = ${{ inputs.attic-public-key }}
+          netrc-file = /etc/nix/netrc

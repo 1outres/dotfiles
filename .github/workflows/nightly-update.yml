@@ -31,24 +31,13 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Authenticate private flake inputs
-        env:
-          PAT: ${{ secrets.PRIVATE_INPUTS_PAT }}
-        run: |
-          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
-          for repo in dotfiles-private window-tracker; do
-            git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
-              || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
-          done
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+      - uses: ./.github/actions/setup-nix
         with:
-          extra-conf: |
-            accept-flake-config = true
-            experimental-features = nix-command flakes
-            extra-substituters = ${{ env.ATTIC_ENDPOINT }}/${{ env.ATTIC_CACHE }}
-            extra-trusted-public-keys = ${{ env.ATTIC_PUBLIC_KEY }}
+          private-inputs-pat: ${{ secrets.PRIVATE_INPUTS_PAT }}
+          attic-token: ${{ secrets.ATTIC_TOKEN }}
+          attic-endpoint: ${{ env.ATTIC_ENDPOINT }}
+          attic-cache: ${{ env.ATTIC_CACHE }}
+          attic-public-key: ${{ env.ATTIC_PUBLIC_KEY }}
 
       - name: nix flake update
         run: nix flake update
@@ -126,24 +115,13 @@ jobs:
           ref: ${{ env.UPDATE_BRANCH }}
           persist-credentials: false
 
-      - name: Authenticate private flake inputs
-        env:
-          PAT: ${{ secrets.PRIVATE_INPUTS_PAT }}
-        run: |
-          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
-          for repo in dotfiles-private window-tracker; do
-            git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
-              || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
-          done
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+      - uses: ./.github/actions/setup-nix
         with:
-          extra-conf: |
-            accept-flake-config = true
-            experimental-features = nix-command flakes
-            extra-substituters = ${{ env.ATTIC_ENDPOINT }}/${{ env.ATTIC_CACHE }}
-            extra-trusted-public-keys = ${{ env.ATTIC_PUBLIC_KEY }}
+          private-inputs-pat: ${{ secrets.PRIVATE_INPUTS_PAT }}
+          attic-token: ${{ secrets.ATTIC_TOKEN }}
+          attic-endpoint: ${{ env.ATTIC_ENDPOINT }}
+          attic-cache: ${{ env.ATTIC_CACHE }}
+          attic-public-key: ${{ env.ATTIC_PUBLIC_KEY }}
 
       - name: Build ${{ matrix.label }}
         run: nix build --print-out-paths '.#${{ matrix.attr }}'
