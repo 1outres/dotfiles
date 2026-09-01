@@ -23,6 +23,7 @@ inputs.nixpkgs.lib.nixosSystem {
   specialArgs = args;
   modules = [
     ../modules/shared/nix.nix
+    ../modules/shared/attic.nix
     ../modules/os/nixos/core.nix
     hostModule
     inputs.home-manager.nixosModules.home-manager

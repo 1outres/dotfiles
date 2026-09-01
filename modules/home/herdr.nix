@@ -47,7 +47,7 @@ let
   };
 in
 {
-  home.packages = [ inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr ];
+  home.packages = [ inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr ];
 
   home.file.".config/herdr/config.toml" = {
     source = pkgs.concatText "herdr-config.toml" [

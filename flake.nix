@@ -52,11 +52,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    herdr = {
-      url = "github:ogulcancelik/herdr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # No nixpkgs.follows here on purpose: sitka builds with buildGo125Module,
     # which the nixpkgs it pins is known to have. Following ours would break
     # the build whenever unstable retires that builder.

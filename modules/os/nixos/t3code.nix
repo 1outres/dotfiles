@@ -16,8 +16,8 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = inputs.self.lib.t3codePackage pkgs;
-      defaultText = lib.literalExpression "inputs.self.lib.t3codePackage pkgs";
+      default = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.t3code;
+      defaultText = lib.literalExpression "inputs.llm-agents.packages.\${pkgs.stdenv.hostPlatform.system}.t3code";
       description = "The t3code package providing the `t3` server CLI.";
     };
 
