@@ -37,22 +37,25 @@ runs:
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@main
       with:
+        # Determinate Nix, which this action installs by default, re-sets
+        # netrc-file in /etc/nix/nix.conf *after* including the file that
+        # carries extra-conf, and regenerates both whenever its daemon
+        # restarts. The daemon then always resolves netrc-file to
+        # /nix/var/determinate/netrc, holding whatever FlakeHub put there, so a
+        # private substituter can never be authenticated. Upstream Nix takes
+        # netrc-file as given. We do not use FlakeHub, which is what Determinate
+        # buys here.
+        determinate: false
         extra-conf: |
           accept-flake-config = true
           experimental-features = nix-command flakes
           extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
           extra-trusted-public-keys = ${{ inputs.attic-public-key }}
+          netrc-file = /etc/nix/netrc
 
     # Substituting is done by the daemon, which runs as root, so a token under
-    # $HOME never reaches it and every path misses with HTTP 401.
-    #
-    # It has to be this exact path: `nix config show netrc-file` as root reports
-    # it whatever we set, because Determinate's nix.conf re-sets netrc-file
-    # after including the nix.custom.conf that carries the installer's
-    # extra-conf, and rewrites itself when the daemon restarts.
-    #
-    # Write it after that restart, not before: the restart regenerates the file
-    # and a token put there first is gone by the time anything reads it.
+    # $HOME never reaches it and every path misses with HTTP 401. Write the file
+    # after the installer, which lays out /etc/nix itself.
     - name: Give the daemon the cache token
       shell: bash
       env:
@@ -61,27 +64,19 @@ runs:
         ATTIC_TOKEN: ${{ inputs.attic-token }}
       run: |
         set -euo pipefail
-        netrc=/nix/var/determinate/netrc
+        netrc=/etc/nix/netrc
         host=${ATTIC_ENDPOINT#*://}
-
-        # Service names come from nix-installer's
-        # configure_determinate_nixd_init_service.
-        case "$RUNNER_OS" in
-          Linux) sudo systemctl restart nix-daemon.service ;;
-          macOS) sudo launchctl kickstart -k system/systems.determinate.nix-daemon ;;
-        esac
-        nix store info --store daemon >/dev/null
-
-        sudo mkdir -p "$(dirname "$netrc")"
         printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
           | sudo tee "$netrc" >/dev/null
         sudo chmod 600 "$netrc"
 
-        echo "netrc as it stands now:"
-        sudo sed -E 's/(password) [^ ]*/\1 <redacted>/g' "$netrc"
-        echo "curl with that file answers:"
-        sudo curl -sS -o /dev/null -w '%{http_code}\n' \
-          --netrc-file "$netrc" "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info"
+        echo "netrc-file as root resolves it:"
+        sudo "$(command -v nix)" config show netrc-file
+
+        # Stop here rather than spend an hour rebuilding what the cache holds.
+        code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
+          --netrc-file "$netrc" "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
+        [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
 
     - name: Install the attic client
       shell: bash
