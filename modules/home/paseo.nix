@@ -1,8 +1,15 @@
 { inputs, pkgs, ... }:
 
+let
+  paseoPackages = inputs.paseo.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
-  # Paseo CLI (orchestrator for coding agents), packaged by the upstream flake.
-  home.packages = [ inputs.paseo.packages.${pkgs.stdenv.hostPlatform.system}.paseo ];
+  # Paseo CLI (orchestrator for coding agents) and its desktop app, both from
+  # the upstream flake so the client can never drift from the daemon version.
+  home.packages = [
+    paseoPackages.paseo
+    paseoPackages.desktop
+  ];
 
   # Default client connection so --host / password need not be passed each time:
   # the CLI reads PASEO_HOST and PASEO_PASSWORD from the environment. The secret
