@@ -42,12 +42,15 @@ runs:
           experimental-features = nix-command flakes
           extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
           extra-trusted-public-keys = ${{ inputs.attic-public-key }}
-          netrc-file = /etc/nix/netrc
 
     # Substituting is done by the daemon, which runs as root, so a token under
-    # $HOME only ever reaches the client and every path misses with HTTP 401.
-    # The file has to be written after the installer runs: it lays out /etc/nix
-    # itself and does not keep a netrc put there beforehand.
+    # $HOME never reaches it and every path misses with HTTP 401.
+    #
+    # It has to go in this exact file. Determinate's /etc/nix/nix.conf sets
+    # netrc-file = /nix/var/determinate/netrc *after* it includes the
+    # nix.custom.conf that carries the installer's extra-conf, so any netrc-file
+    # passed there is overridden and the daemon reads this path regardless.
+    # Append rather than overwrite: the file already holds the FlakeHub entry.
     - name: Give the daemon the cache token
       shell: bash
       env:
@@ -56,13 +59,14 @@ runs:
         ATTIC_TOKEN: ${{ inputs.attic-token }}
       run: |
         set -euo pipefail
+        netrc=/nix/var/determinate/netrc
         host=${ATTIC_ENDPOINT#*://}
+        sudo mkdir -p "$(dirname "$netrc")"
         printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
-          | sudo tee /etc/nix/netrc >/dev/null
-        sudo chmod 600 /etc/nix/netrc
+          | sudo tee -a "$netrc" >/dev/null
+        sudo chmod 600 "$netrc"
 
-        # The daemon parses the netrc once at startup, so the file above stays
-        # invisible to it until it is restarted. Service names come from
+        # The daemon parses the netrc when it starts. Service names come from
         # nix-installer's configure_determinate_nixd_init_service.
         case "$RUNNER_OS" in
           Linux) sudo systemctl restart nix-daemon.service ;;
@@ -72,23 +76,8 @@ runs:
         # Stop here rather than spend an hour rebuilding what the cache holds.
         nix store info --store daemon >/dev/null
         code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
-          --netrc-file /etc/nix/netrc "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
+          --netrc-file "$netrc" "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
         [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
-
-    # Temporary: show what the daemon actually reads. A netrc it can use through
-    # curl still comes back 401 through nix, so the config it sees must differ.
-    - name: Diagnose the daemon configuration
-      shell: bash
-      run: |
-        set -uo pipefail
-        echo "--- /etc/nix contents ---"
-        sudo ls -la /etc/nix/
-        echo "--- /etc/nix/nix.conf ---"
-        sudo cat /etc/nix/nix.conf
-        echo "--- /etc/nix/nix.custom.conf ---"
-        sudo cat /etc/nix/nix.custom.conf
-        echo "--- config as root sees it ---"
-        sudo nix config show | grep -iE "netrc|substituters|trusted"
 
     - name: Install the attic client
       shell: bash
