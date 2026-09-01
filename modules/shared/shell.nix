@@ -1,4 +1,12 @@
-{ config, hostname, inputs, lib, pkgs, private, ... }:
+{
+  config,
+  hostname,
+  inputs,
+  lib,
+  pkgs,
+  private,
+  ...
+}:
 
 let
   llmAgents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
@@ -37,21 +45,8 @@ let
   };
 
   # orb is an OrbStack VM living on the mbp, so it is only reachable from there.
-  herdrRemoteHosts =
-    lib.optional (hostname == "mbp") {
-      label = "orb";
-      target = "orb";
-    }
-    ++ [
-      {
-        label = "home";
-        target = private.lan.devHostIp;
-      }
-    ];
-
-  herdrHostOrder = lib.concatStringsSep " " ([ "local" ] ++ map (host: host.label) herdrRemoteHosts);
-
-  herdrRemoteTargets = lib.concatMapStringsSep " " (host: "${host.label} ${host.target}") herdrRemoteHosts;
+  tmuxRemoteEntries =
+    lib.optional (hostname == "mbp") "SSH orb" ++ lib.optional (hostname != "home-nix") "Mosh home-nix";
 in
 {
   home.packages = [
@@ -81,6 +76,7 @@ in
     pkgs.lsof
     pkgs.gnumake
     pkgs.mtr
+    pkgs.mosh
     pkgs.ngrok
     sternWithKubectlPlugin
     pkgs.speedtest-cli
@@ -93,7 +89,8 @@ in
     pkgs.whois
     pkgs.yq-go
     pkgs.zip
-  ] ++ lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.netbird;
+  ]
+  ++ lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.netbird;
 
   home.file.".p10k.zsh".source = ./p10k.zsh;
 
@@ -252,23 +249,21 @@ in
         fi
 
         local is_orbstack_guest session_id sessions
+        local -a entries
         is_orbstack_guest=0
         [[ -d /opt/orbstack-guest ]] && is_orbstack_guest=1
 
         sessions=$(tmux list-sessions 2>/dev/null)
+        entries=("Create New Session")
+
+        if [[ -z "''${SSH_CLIENT:-}" && "$is_orbstack_guest" -eq 0 ]]; then
+          entries=(${lib.escapeShellArgs tmuxRemoteEntries} "Create New Session")
+        fi
 
         if [[ -z "$sessions" ]]; then
-          if [[ -n "''${SSH_CLIENT:-}" || "$is_orbstack_guest" -eq 1 ]]; then
-            session_id=$(printf "Create New Session\n" | fzf | cut -d: -f1)
-          else
-            session_id=$(printf "SSH orb\nSSH dev\nCreate New Session\n" | fzf | cut -d: -f1)
-          fi
+          session_id=$(printf "%s\n" "''${entries[@]}" | fzf)
         else
-          if [[ -n "''${SSH_CLIENT:-}" || "$is_orbstack_guest" -eq 1 ]]; then
-            session_id=$( (printf "Create New Session\n"; tmux list-sessions | cut -d: -f1) | fzf )
-          else
-            session_id=$( (printf "SSH orb\nSSH dev\nCreate New Session\n"; tmux list-sessions | cut -d: -f1) | fzf )
-          fi
+          session_id=$( (printf "%s\n" "''${entries[@]}"; print -r -- "$sessions" | cut -d: -f1) | fzf )
         fi
 
         case "$session_id" in
@@ -278,8 +273,8 @@ in
           "SSH orb")
             ssh orb
             ;;
-          "SSH dev")
-            ssh ${private.lan.devHostIp}
+          "Mosh home-nix")
+            mosh -- ${lib.escapeShellArg private.lan.devHostIp} env ZSH_AUTO_ATTACH_TMUX=1 zsh -l
             ;;
           "")
             ;;
@@ -287,122 +282,6 @@ in
             tmux attach-session -t "$session_id"
             ;;
         esac
-      }
-
-      typeset -ga __herdr_hosts=(${herdrHostOrder})
-      typeset -gA __herdr_remote_targets=(${herdrRemoteTargets})
-
-      __herdr_selectable_hosts() {
-        if [[ -n "''${SSH_CLIENT:-}" || -d /opt/orbstack-guest ]]; then
-          print -r -- local
-        else
-          print -rl -- "''${__herdr_hosts[@]}"
-        fi
-      }
-
-      __herdr_host_sessions() {
-        local host=$1 target listing errors errfile rc
-        target=''${__herdr_remote_targets[$host]:-}
-
-        if [[ -z "$target" ]]; then
-          herdr session list 2>/dev/null |
-            awk -v host="$host" 'NR > 1 && NF > 0 { print host ": " $1 }'
-          return
-        fi
-
-        errfile=$(mktemp)
-        # ConnectTimeout only bounds the TCP handshake, and the key lives in
-        # the 1Password agent: right after login it is not running yet, and
-        # once it is it asks for approval. Authentication is what stalls, so
-        # the whole run needs its own limit.
-        listing=$(timeout 5 ssh -o BatchMode=yes -o ConnectTimeout=2 -- "$target" 'herdr session list' 2>"$errfile")
-        rc=$?
-        errors=$(<"$errfile")
-        rm -f "$errfile"
-
-        # The host answered but the agent could not sign yet. Keep it in the
-        # picker and offer its default session: attaching runs ssh in the
-        # foreground, where 1Password can ask for approval. A host that is not
-        # there at all still drops out.
-        if [[ $rc -eq 124 || "$errors" == *"Permission denied"* ]]; then
-          print -r -- "$host: default"
-          return
-        fi
-
-        print -r -- "$listing" | awk -v host="$host" 'NR > 1 && NF > 0 { print host ": " $1 }'
-      }
-
-      __herdr_session_entries() {
-        setopt localoptions no_monitor no_notify
-
-        local workdir host
-        local -a hosts
-        hosts=("''${(@f)$(__herdr_selectable_hosts)}")
-        workdir=$(mktemp -d)
-
-        for host in "''${hosts[@]}"; do
-          __herdr_host_sessions "$host" >"$workdir/$host" &
-        done
-        wait
-
-        for host in "''${hosts[@]}"; do
-          cat "$workdir/$host"
-        done
-
-        rm -rf "$workdir"
-      }
-
-      __herdr_select_session() {
-        {
-          printf "Create New Session\n"
-          __herdr_session_entries
-        } | fzf
-      }
-
-      __herdr_select_host() {
-        __herdr_selectable_hosts | fzf --prompt "host> "
-      }
-
-      __herdr_launch() {
-        local host=$1 name=$2 target
-        local -a args
-
-        target=''${__herdr_remote_targets[$host]:-}
-        [[ -n "$target" ]] && args+=(--remote "$target")
-        # herdr addresses its "default" session without --session; passing it
-        # explicitly would create a separate session under sessions/default.
-        [[ -n "$name" && "$name" != default ]] && args+=(--session "$name")
-
-        herdr "''${args[@]}"
-      }
-
-      attach_herdr_session_if_needed() {
-        if ! command -v herdr >/dev/null 2>&1 || ! command -v fzf >/dev/null 2>&1; then
-          return 0
-        fi
-
-        local selection host name
-        while true; do
-          selection=$(__herdr_select_session)
-
-          case "$selection" in
-            "")
-              return 0
-              ;;
-            "Create New Session")
-              host=$(__herdr_select_host)
-              [[ -z "$host" ]] && continue
-              name=""
-              vared -p "session name (blank for default): " -c name
-              __herdr_launch "$host" "$name"
-              ;;
-            *)
-              host=''${selection%%:*}
-              name=''${selection#*: }
-              __herdr_launch "$host" "$name"
-              ;;
-          esac
-        done
       }
 
       up-line-or-local-history() {
@@ -506,8 +385,9 @@ in
           cd today
         fi
 
-        if [[ -z "''${HERDR_ENV:-}" && -z "''${TMUX:-}" && ( -n "''${GHOSTTY_RESOURCES_DIR:-}" || "''${TERM_PROGRAM:-}" == "ghostty" || "$TERM" == "xterm-ghostty" ) ]]; then
-          attach_herdr_session_if_needed
+        if [[ -z "''${TMUX:-}" && ( -n "''${ZSH_AUTO_ATTACH_TMUX:-}" || -n "''${GHOSTTY_RESOURCES_DIR:-}" || "''${TERM_PROGRAM:-}" == "ghostty" || "$TERM" == "xterm-ghostty" ) ]]; then
+          unset ZSH_AUTO_ATTACH_TMUX
+          attach_tmux_session_if_needed
         fi
       fi
     '';
