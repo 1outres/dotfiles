@@ -194,7 +194,6 @@
 
       lib = {
         inherit mkDarwin mkNixos mkHome;
-        t3codePackage = import ./lib/t3codePackage.nix;
       };
     };
 }
