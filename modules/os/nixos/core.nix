@@ -75,7 +75,20 @@ in
     allowedUDPPorts = [ config.services.tailscale.port ];
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+
+    # Nothing prunes Docker on its own, and the tilt loop here pushes a new
+    # image tag on every build, so it fills the disk until a nix build dies
+    # with ENOSPC. Volumes stay out of it: a stopped compose stack still owns
+    # its data, and prune cannot tell that from a leftover. The day is offset
+    # from nix-gc, which systemd's "weekly" puts on Monday 00:00.
+    autoPrune = {
+      enable = true;
+      dates = "Sun 03:00";
+      flags = [ "--all" ];
+    };
+  };
 
   networking.hosts = {
     "${mniEndpointIp}" = private.mni.hostnames;

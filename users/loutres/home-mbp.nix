@@ -10,5 +10,6 @@
     ../../modules/home/ghostty.nix
     ../../modules/home/ollama.nix
     ../../modules/home/sillytavern.nix
+    ../../modules/home/zen-browser.nix
   ];
 }
