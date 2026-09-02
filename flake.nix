@@ -102,6 +102,7 @@
       mkDarwin = import ./lib/mkDarwin.nix { inherit inputs; };
       mkNixos = import ./lib/mkNixos.nix { inherit inputs; };
       mkHome = import ./lib/mkHome.nix { inherit inputs; };
+      mkSwitchOutputs = import ./lib/mkSwitchOutputs.nix { inherit inputs self; };
 
       darwinHosts = {
         mbp = {
@@ -151,10 +152,26 @@
         };
       };
 
-      sanitizeLabel = builtins.replaceStrings [ "@" ] [ "-" ];
+      sanitizeLabel = import ./lib/sanitizeName.nix;
+
+      switchOutputs = forAllSystems (
+        system:
+        mkSwitchOutputs {
+          inherit
+            system
+            darwinHosts
+            nixosHosts
+            homeHosts
+            ;
+        }
+      );
     in
     {
       formatter = forAllSystems (system: (import nixpkgs { inherit system; }).nixfmt-rfc-style);
+
+      apps = lib.mapAttrs (_: outputs: outputs.apps) switchOutputs;
+
+      packages = lib.mapAttrs (_: outputs: outputs.packages) switchOutputs;
 
       darwinConfigurations = lib.mapAttrs (_: mkDarwin) darwinHosts;
 
