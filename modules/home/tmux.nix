@@ -48,6 +48,9 @@ in
       bind l select-pane -R
 
       set -g set-clipboard on
+      # mosh 1.4.0 only accepts OSC 52 when the selection is "c", but tmux
+      # sends it empty. Force "c" so copies reach the clipboard over mosh.
+      set -as terminal-overrides ",*:Ms=\E]52;c;%p2%s\007"
 
       bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
       bind -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "send-keys -M"
