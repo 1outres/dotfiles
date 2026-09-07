@@ -23,6 +23,7 @@
     ../../modules/home/parsec.nix
     ../../modules/home/paseo.nix
     ../../modules/home/vicinae.nix
+    ../../modules/home/xdg-fonts.nix
     ../../modules/home/xdg-mime-apps.nix
     ../../modules/home/zen-browser.nix
   ];

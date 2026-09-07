@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
 {
+  # ONLYOFFICE and other apps with their own font scanner only look at the
+  # standard font directories, so the fonts have to exist as files in one
+  # place rather than only as fontconfig entries.
+  fonts.fontDir.enable = true;
+
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-color-emoji
