@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 
 {
+  imports = [ ./fonts.nix ];
+
   services.xserver.enable = true;
 
   services.displayManager.gdm.enable = true;
@@ -26,34 +28,6 @@
       ];
       waylandFrontend = true;
     };
-  };
-
-  # 日本語 + Latin + 絵文字の基本フォント。Nerd Font は waybar / wofi /
-  # hyprlock のアイコングリフに要る。
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    noto-fonts-color-emoji
-    nerd-fonts.jetbrains-mono
-  ];
-
-  # The Noto Sans CJK variants share one priority, so without an explicit order
-  # Japanese text can end up drawn with the SC (simplified Chinese) glyphs.
-  fonts.fontconfig.defaultFonts = {
-    serif = [
-      "Noto Serif CJK JP"
-      "Noto Color Emoji"
-    ];
-    sansSerif = [
-      "Noto Sans CJK JP"
-      "Noto Color Emoji"
-    ];
-    monospace = [
-      "JetBrainsMono Nerd Font"
-      "Noto Color Emoji"
-    ];
-    emoji = [ "Noto Color Emoji" ];
   };
 
   # 音声出力は PipeWire に統一 (GNOME 標準構成)。
