@@ -30,6 +30,7 @@
   # nautilus and a Bluetooth manager already ship with GNOME, so only the tools
   # it does not cover are listed here.
   home.packages = [
+    pkgs.anydesk
     pkgs.fastfetch
     pkgs.gnome-tweaks
     pkgs.google-chrome
