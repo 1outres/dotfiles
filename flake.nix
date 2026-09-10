@@ -47,11 +47,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # No nixpkgs.follows here on purpose: sitka builds with buildGo125Module,
     # which the nixpkgs it pins is known to have. Following ours would break
     # the build whenever unstable retires that builder.

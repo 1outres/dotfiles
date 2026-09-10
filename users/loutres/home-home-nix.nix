@@ -8,7 +8,6 @@
     ../../modules/home/ghostty-linux.nix
     ../../modules/home/gnome-unattended.nix
     ../../modules/home/paseo.nix
-    ../../modules/home/playwright-mcp-hermes.nix
     ./home-nix/hyprland.nix
     ./home-nix/hyprlock.nix
     ./home-nix/mako.nix
