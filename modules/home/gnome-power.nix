@@ -20,10 +20,12 @@
     };
 
     "org/gnome/settings-daemon/plugins/power" = {
-      # Never suspend on idle: with the lid open the machine stays up, and
-      # closing the lid is what suspends it.
+      # On AC the machine stays up with the lid open, so a build or an SSH
+      # session survives an empty desk. On battery there is nothing worth
+      # keeping alive, so it suspends instead of spending the charge.
       sleep-inactive-ac-type = "nothing";
-      sleep-inactive-battery-type = "nothing";
+      sleep-inactive-battery-type = "suspend";
+      sleep-inactive-battery-timeout = 900;
       power-button-action = "nothing";
     };
   };

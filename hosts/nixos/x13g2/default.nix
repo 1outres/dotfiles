@@ -9,7 +9,9 @@
 {
   imports = [
     inputs.private.nixosModules.hardware-x13g2
+    ./panel-power.nix
     ./power.nix
+    ./tlp.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x13-amd
     ../../../modules/os/nixos/sshd.nix
     ../../../modules/os/nixos/catppuccin-system.nix

@@ -53,7 +53,6 @@ in
         "privacy"
         "mpris"
         "tray"
-        "power-profiles-daemon"
         "backlight"
         "pulseaudio"
         "bluetooth"
@@ -122,17 +121,6 @@ in
       tray = {
         icon-size = 16;
         spacing = 10;
-      };
-
-      power-profiles-daemon = {
-        format = "{icon}";
-        tooltip-format = "Power profile: {profile}\nDriver: {driver}";
-        format-icons = {
-          default = "󰾅";
-          performance = "󰓅";
-          balanced = "󰾅";
-          power-saver = "󰌪";
-        };
       };
 
       backlight = {
@@ -334,7 +322,6 @@ in
       #privacy,
       #mpris,
       #tray,
-      #power-profiles-daemon,
       #backlight,
       #pulseaudio,
       #bluetooth,
@@ -350,7 +337,6 @@ in
         transition: background 220ms cubic-bezier(0.23, 1, 0.32, 1);
       }
 
-      #power-profiles-daemon:hover,
       #backlight:hover,
       #pulseaudio:hover,
       #bluetooth:hover,
@@ -372,18 +358,6 @@ in
 
       #mpris.paused {
         color: @overlay1;
-      }
-
-      #power-profiles-daemon {
-        color: @lavender;
-      }
-
-      #power-profiles-daemon.performance {
-        color: @peach;
-      }
-
-      #power-profiles-daemon.power-saver {
-        color: @green;
       }
 
       #backlight {

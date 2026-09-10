@@ -26,9 +26,8 @@
   environment.systemPackages = [ pkgs.swayosd ];
   users.users.${username}.extraGroups = [ "video" ];
 
-  # waybar の電源プロファイルと Bluetooth のモジュールが読む先。GNOME では
-  # gnome-settings-daemon が同じ役目を負う。
-  services.power-profiles-daemon.enable = true;
+  # waybar の Bluetooth モジュールが読む先。GNOME では gnome-settings-daemon
+  # が同じ役目を負う。
   services.blueman.enable = true;
 
   # GNOME は fcitx5 を XDG autostart から起動するが、Hyprland は
