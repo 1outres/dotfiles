@@ -48,11 +48,14 @@ in
       bind l select-pane -R
 
       set -g set-clipboard on
-      # mosh 1.4.0 only accepts OSC 52 when the selection is "c", but tmux
-      # sends it empty. ncurses also drops an Ms that never reads %p1, so keep
-      # %p1 next to the literal "c". Scoped to the TERM that mosh-server sets,
-      # so tmux outside mosh keeps the Ms from its own terminfo.
-      set -as terminal-overrides ",xterm-256color:Ms=\e]52;c%p1%s;%p2%s\a"
+      # mosh 1.4.0 only accepts OSC 52 when the selection is exactly "c", but
+      # tmux passes on whatever selection the pane sent: empty for its own
+      # copy-mode copy, "c" for a sequence forwarded from an app like neovim.
+      # So write "c" when the selection is empty and keep it otherwise.
+      # ncurses drops an Ms that never reads %p1, so the branch has to read it.
+      # Scoped to the TERM that mosh-server sets, so tmux outside mosh keeps
+      # the Ms from its own terminfo.
+      set -as terminal-overrides ",xterm-256color:Ms=\e]52;%?%p1%l%t%p1%s%ec%;;%p2%s\a"
 
       bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
       bind -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "send-keys -M"

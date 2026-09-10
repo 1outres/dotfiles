@@ -53,6 +53,7 @@ in
     llmAgents.claude-code
     llmAgents.codex
     llmAgents.opencode
+    llmAgents.pi
     pkgs.ansible
     pkgs.argocd
     pkgs.attic-client
