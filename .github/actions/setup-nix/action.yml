@@ -50,7 +50,13 @@ runs:
           accept-flake-config = true
           experimental-features = nix-command flakes
           extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
-          extra-trusted-public-keys = ${{ inputs.attic-public-key }}
+          # The hosts get these two from modules/shared/nix.nix, but a runner
+          # never applies that module. The flake adds both caches as
+          # substituters, so without the keys here Nix fetches from them and
+          # then drops every path as unsigned, building the lot from source.
+          # trusted-public-keys is a restricted setting, so the flake cannot
+          # carry the keys itself.
+          extra-trusted-public-keys = ${{ inputs.attic-public-key }} nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
           netrc-file = /etc/nix/netrc
 
     # Substituting is done by the daemon, which runs as root, so a token under

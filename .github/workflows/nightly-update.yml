@@ -115,9 +115,6 @@ jobs:
           ref: ${{ env.UPDATE_BRANCH }}
           persist-credentials: false
 
-      # kubectl has no aarch64-darwin build in any cache, so the macOS runner
-      # compiles Kubernetes from source. That needs more room than the ~14 GB
-      # the image leaves free, and Xcode is the largest thing Nix does not use.
       - name: Free up disk space
         if: runner.os == 'macOS'
         run: |
