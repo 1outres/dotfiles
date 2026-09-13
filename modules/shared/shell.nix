@@ -243,30 +243,23 @@ in
         fi
       }
 
-      attach_tmux_session_if_needed() {
-        if ! command -v tmux >/dev/null 2>&1 || ! command -v fzf >/dev/null 2>&1; then
-          return 0
-        fi
-
-        local is_orbstack_guest session_id sessions
+      __tmux_menu_select_entry() {
+        local sessions
         local -a entries
-        is_orbstack_guest=0
-        [[ -d /opt/orbstack-guest ]] && is_orbstack_guest=1
-
-        sessions=$(tmux list-sessions 2>/dev/null)
         entries=("Create New Session")
 
-        if [[ -z "''${SSH_CLIENT:-}" && "$is_orbstack_guest" -eq 0 ]]; then
+        if [[ -z "''${SSH_CLIENT:-}" && ! -d /opt/orbstack-guest ]]; then
           entries=(${lib.escapeShellArgs tmuxRemoteEntries} "Create New Session")
         fi
 
-        if [[ -z "$sessions" ]]; then
-          session_id=$(printf "%s\n" "''${entries[@]}" | fzf)
-        else
-          session_id=$( (printf "%s\n" "''${entries[@]}"; print -r -- "$sessions" | cut -d: -f1) | fzf )
-        fi
+        sessions=$(tmux list-sessions -F '#{session_name}' 2>/dev/null)
+        [[ -n "$sessions" ]] && entries+=("''${(@f)sessions}")
 
-        case "$session_id" in
+        printf "%s\n" "''${entries[@]}" | fzf
+      }
+
+      __tmux_menu_run_entry() {
+        case "$1" in
           "Create New Session")
             tmux new-session
             ;;
@@ -276,12 +269,21 @@ in
           "Mosh home-nix")
             mosh -- ${lib.escapeShellArg private.lan.devHostIp} env ZSH_AUTO_ATTACH_TMUX=1 zsh -l
             ;;
-          "")
-            ;;
           *)
-            tmux attach-session -t "$session_id"
+            tmux attach-session -t "$1"
             ;;
         esac
+      }
+
+      attach_tmux_session_if_needed() {
+        if ! command -v tmux >/dev/null 2>&1 || ! command -v fzf >/dev/null 2>&1; then
+          return 0
+        fi
+
+        local entry
+        while entry=$(__tmux_menu_select_entry) && [[ -n "$entry" ]]; do
+          __tmux_menu_run_entry "$entry"
+        done
       }
 
       up-line-or-local-history() {
