@@ -50,11 +50,17 @@ in
       run ${lsregister} -f ${lib.escapeShellArg appBundle}
 
       for scheme in http https; do
-        run ${duti} -s "$bundleId" "$scheme"
+        currentHandler=$(${duti} -d "$scheme")
+        if [[ "$currentHandler" != "$bundleId" ]]; then
+          run ${duti} -s "$bundleId" "$scheme"
+        fi
       done
 
       for contentType in public.html public.xhtml; do
-        run ${duti} -s "$bundleId" "$contentType" all
+        currentHandler=$(${duti} -d "$contentType")
+        if [[ "$currentHandler" != "$bundleId" ]]; then
+          run ${duti} -s "$bundleId" "$contentType" all
+        fi
       done
     '';
   };
