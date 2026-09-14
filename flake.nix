@@ -38,6 +38,8 @@
     # rebuild every agent from source.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    pi-harness.url = "git+https://github.com/1outres/pi-harness.git";
+
     paseo = {
       url = "github:getpaseo/paseo";
       inputs.nixpkgs.follows = "nixpkgs";

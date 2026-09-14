@@ -1,15 +1,13 @@
-{ config, ... }:
+{ config, inputs, ... }:
 
-let
-  link = path: {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.agents.privateDirectory}/pi/${path}";
-  };
-in
 {
-  imports = [ ./agents.nix ];
+  imports = [
+    ./agents.nix
+    inputs.pi-harness.homeManagerModules.default
+  ];
 
-  home.file = {
-    ".pi/agent/settings.json" = link "settings.json";
-    ".pi/agent/models.json" = link "models.json";
+  programs.pi-harness = {
+    enable = true;
+    sourceDirectory = "${config.home.homeDirectory}/ghq/github.com/1outres/pi-harness";
   };
 }

@@ -29,7 +29,8 @@ runs:
         PAT: ${{ inputs.private-inputs-pat }}
       run: |
         git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
-        for repo in dotfiles-private window-tracker; do
+        git config --global --add url."https://x-access-token:${PAT}@github.com/".insteadOf https://github.com/
+        for repo in dotfiles-private window-tracker pi-harness; do
           git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
             || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
         done

@@ -159,6 +159,28 @@
         "type": "github"
       }
     },
+    "home-manager_3": {
+      "inputs": {
+        "nixpkgs": [
+          "pi-harness",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789273010,
+        "narHash": "sha256-E7dWx+utzZPpqQsBUd5sMimKTWMEEbTKFD+ya99Shps=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "fdc36b12804b0179b24a5ffd282e4c95c37072e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "fdc36b12804b0179b24a5ffd282e4c95c37072e2",
+        "type": "github"
+      }
+    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -319,6 +341,22 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "lastModified": 1789149629,
+        "narHash": "sha256-H6GwaZzZf+4npqv0tph94w9tZddSjFjmQrVsW0z78uk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "eaad089433ca2bb662274377d33df3d0e51ef28b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
         "lastModified": 1767313136,
         "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
         "owner": "NixOS",
@@ -353,6 +391,25 @@
         "type": "github"
       }
     },
+    "pi-harness": {
+      "inputs": {
+        "home-manager": "home-manager_3",
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1789364790,
+        "narHash": "sha256-d8UxtuUZM4+gzKej1BoWGnV3iev2FtzRAr6vWI/80sY=",
+        "ref": "refs/heads/main",
+        "rev": "2ea717b16219e060d780c55eace2d7607088df41",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://github.com/1outres/pi-harness.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/1outres/pi-harness.git"
+      }
+    },
     "private": {
       "locked": {
         "lastModified": 1789264463,
@@ -379,6 +436,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "paseo": "paseo",
+        "pi-harness": "pi-harness",
         "private": "private",
         "sitka": "sitka",
         "window-tracker": "window-tracker",
@@ -387,7 +445,7 @@
     },
     "sitka": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1787220729,

@@ -52,7 +52,6 @@ in
   home.packages = [
     llmAgents.claude-code
     llmAgents.codex
-    llmAgents.pi
     pkgs.ansible
     pkgs.argocd
     pkgs.attic-client
