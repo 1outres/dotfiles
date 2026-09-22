@@ -38,7 +38,7 @@
     # rebuild every agent from source.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    pi-harness.url = "git+https://github.com/1outres/pi-harness.git";
+    pi-harness.url = "git+ssh://git@github.com/1outres/pi-harness.git";
 
     paseo = {
       url = "github:getpaseo/paseo";

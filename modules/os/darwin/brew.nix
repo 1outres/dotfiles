@@ -27,7 +27,6 @@ in
     pkgs.brewCasks."1password"
     pkgs.brewCasks.notion
     pkgs.brewCasks."proton-mail"
-    pkgs.brewCasks.nani
     pkgs.brewCasks.slack
     pkgs.brewCasks.orbstack
     pkgs.brewCasks.notion-calendar

@@ -397,17 +397,17 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1789364790,
-        "narHash": "sha256-d8UxtuUZM4+gzKej1BoWGnV3iev2FtzRAr6vWI/80sY=",
+        "lastModified": 1789367134,
+        "narHash": "sha256-AwkSJ0yrnlYuqA2+jGf6GRKTPzGsTMMp+7lAERufTCA=",
         "ref": "refs/heads/main",
-        "rev": "2ea717b16219e060d780c55eace2d7607088df41",
-        "revCount": 2,
+        "rev": "15de9ce30510ec7e91a1b3ab9733e5f95a132298",
+        "revCount": 1,
         "type": "git",
-        "url": "https://github.com/1outres/pi-harness.git"
+        "url": "ssh://git@github.com/1outres/pi-harness.git"
       },
       "original": {
         "type": "git",
-        "url": "https://github.com/1outres/pi-harness.git"
+        "url": "ssh://git@github.com/1outres/pi-harness.git"
       }
     },
     "private": {

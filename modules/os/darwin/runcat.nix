@@ -19,16 +19,6 @@ let
     '';
   };
 
-  ollamaUsage = pkgs.writeShellApplication {
-    name = "runcat-ollama-usage";
-    runtimeInputs = [
-      pkgs.curl
-      pkgs.jq
-      pkgs.coreutils
-    ];
-    text = builtins.readFile ./runcat/ollama-usage.sh;
-  };
-
   mkAgent = program: {
     command = program;
     serviceConfig = {
@@ -42,6 +32,4 @@ let
 in
 {
   launchd.user.agents.runcat-claude-usage = mkAgent "${claudeUsage}/bin/runcat-claude-usage";
-  launchd.user.agents.runcat-codex-usage = mkAgent "${codexUsage}/bin/runcat-codex-usage";
-  launchd.user.agents.runcat-ollama-usage = mkAgent "${ollamaUsage}/bin/runcat-ollama-usage";
-}
+  launchd.user.agents.runcat-codex-usage = mkAgent "${codexUsage}/bin/runcat-codex-usage";}
