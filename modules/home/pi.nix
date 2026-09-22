@@ -1,13 +1,7 @@
-{ config, inputs, ... }:
+{ inputs, pkgs, ... }:
 
 {
-  imports = [
-    ./agents.nix
-    inputs.pi-harness.homeManagerModules.default
-  ];
+  imports = [ ./agents.nix ];
 
-  programs.pi-harness = {
-    enable = true;
-    sourceDirectory = "${config.home.homeDirectory}/ghq/github.com/1outres/pi-harness";
-  };
+  home.packages = [ inputs.pi-harness.packages.${pkgs.stdenv.hostPlatform.system}.pi ];
 }
