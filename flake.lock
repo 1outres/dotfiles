@@ -3,11 +3,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1790090744,
-        "narHash": "sha256-XczBV5bhaEuzSM0+2VLVu48p5UH/Fd8Fy2FLEYvB6MA=",
+        "lastModified": 1790105709,
+        "narHash": "sha256-rI8eAisQrabySP/9TMRy3O4WmcIkkN7Gue8ueTQb1iE=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "b8b39528bb2341a5e3469ebbf6975b38fc5a1096",
+        "rev": "212edfdd7a35bb66b9537451e627d890442c5d7b",
         "type": "github"
       },
       "original": {
@@ -377,11 +377,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790099956,
-        "narHash": "sha256-0eDgtTXYZwAfWYMA51AjwKorsDVNma3Q12q5TxMGfBM=",
+        "lastModified": 1790104953,
+        "narHash": "sha256-q/ErCwmwEN/juc/pqEEw77IoEnsvNenveQEI43TS0uQ=",
         "owner": "1outres",
         "repo": "pi",
-        "rev": "4b6a7b3ab2d7723c34c97643a25572bd5c54023b",
+        "rev": "2f597bbe3df797391477c291b5761fcb92b1e162",
         "type": "github"
       },
       "original": {
@@ -396,11 +396,11 @@
         "pi": "pi"
       },
       "locked": {
-        "lastModified": 1790100131,
-        "narHash": "sha256-zj4CrdrGqF+0RzM6DBZOgg6oaw/jXZtTs2TT5kLSww4=",
+        "lastModified": 1790105371,
+        "narHash": "sha256-xC+SfWb/RfzjueFzshQ/hi9NwQUH6b3YJM9vrXYmsK4=",
         "ref": "refs/heads/main",
-        "rev": "2caa367dbc994e7af526ee2eccd2520cbe574d1f",
-        "revCount": 10,
+        "rev": "5a0d2dd27b00d60e453e58d1603994aab3456b86",
+        "revCount": 11,
         "type": "git",
         "url": "ssh://git@github.com/1outres/pi-harness.git"
       },
