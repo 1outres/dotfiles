@@ -22,6 +22,12 @@ in
     settings."*".IdentityAgent = "~/.1password/agent.sock";
   };
 
+  # With the desktop app closed the agent socket refuses connections, so ssh
+  # falls back to the passphrase-protected key in ~/.ssh. A GUI app has no tty,
+  # so ssh would spawn seahorse ssh-askpass and pop up a dialog on every
+  # background git fetch. Let ssh fail instead of asking.
+  home.sessionVariables.SSH_ASKPASS_REQUIRE = "never";
+
   programs.git = {
     signing = {
       format = "ssh";
