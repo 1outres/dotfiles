@@ -19,6 +19,7 @@
     ../../../modules/os/nixos/hyprland.nix
     ../../../modules/os/nixos/keyd.nix
     ../../../modules/os/nixos/onepassword.nix
+    ../../../modules/os/nixos/tmcit-ca.nix
   ];
 
   # Tray app for the NetBird client. Only useful where there is a desktop, so
