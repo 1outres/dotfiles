@@ -1,0 +1,3 @@
+[
+  (import ./mosh.nix)
+]

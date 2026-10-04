@@ -19,6 +19,7 @@ inputs.darwin.lib.darwinSystem {
   modules = [
     ../modules/shared/nix.nix
     ../modules/os/darwin/core.nix
+    { nixpkgs.overlays = import ../overlays; }
     ../modules/os/darwin/home-manager.nix
     ../modules/os/darwin/fonts.nix
     ../modules/os/darwin/ghostty.nix

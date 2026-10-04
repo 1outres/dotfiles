@@ -25,6 +25,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../modules/shared/nix.nix
     ../modules/shared/attic.nix
     ../modules/os/nixos/core.nix
+    { nixpkgs.overlays = import ../overlays; }
     hostModule
     inputs.home-manager.nixosModules.home-manager
     {
