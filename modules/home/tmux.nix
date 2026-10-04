@@ -10,6 +10,7 @@ let
     home-nix = "forest";
     x13g2 = "coral";
     linux = "snow";
+    home-wsl = "sky";
   };
   statusTheme = statusThemeByHost.${hostname};
 in

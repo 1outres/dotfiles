@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixcord = {
       url = "github:FlameFlag/nixcord";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -125,6 +130,14 @@
           system = "x86_64-linux";
           hostModule = ./hosts/nixos/x13g2/default.nix;
           homeModule = ./users/loutres/home-x13g2.nix;
+        };
+
+        home-wsl = {
+          hostname = "home-wsl";
+          username = "loutres";
+          system = "x86_64-linux";
+          hostModule = ./hosts/nixos/home-wsl/default.nix;
+          homeModule = ./users/loutres/home-home-wsl.nix;
         };
       };
 
