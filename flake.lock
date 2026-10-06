@@ -416,11 +416,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791279127,
-        "narHash": "sha256-3T+lCaMUyBfT0OylUBMFJqpIhN9v5uz/4a5+6+Gy+Ew=",
+        "lastModified": 1791303006,
+        "narHash": "sha256-VTNtnY4PysWdUbThNneVma1aV3W/0rhZiuLX3sEjC7E=",
         "owner": "1outres",
         "repo": "pi",
-        "rev": "cbcb726e3861aa4950b0d6762632bd329845aa90",
+        "rev": "c832cced22f50675c504d49fa63f903bd669f828",
         "type": "github"
       },
       "original": {
@@ -436,11 +436,11 @@
         "pi": "pi"
       },
       "locked": {
-        "lastModified": 1791280955,
-        "narHash": "sha256-FdKHg4rAthcjCSxWTvEzOpMzBaYtDQjsqsX0bkdHh/g=",
+        "lastModified": 1791303265,
+        "narHash": "sha256-DYeUhk3zZFBz0O6Z4XTHXuoNm9LrKY78T5YZyXewA8Q=",
         "ref": "refs/heads/main",
-        "rev": "3ac0ff7320f43a087816c7e5d4637f21fbdc7d40",
-        "revCount": 23,
+        "rev": "a3be7019171fe98ffd2605532f00a72e7469f60e",
+        "revCount": 24,
         "type": "git",
         "url": "ssh://git@github.com/1outres/pi-harness.git"
       },
