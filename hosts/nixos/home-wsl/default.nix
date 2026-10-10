@@ -1,6 +1,7 @@
 {
   hostname,
   inputs,
+  lib,
   pkgs,
   system,
   username,
@@ -21,7 +22,14 @@ in
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
+    inputs.self.nixosModules.sshd
+    inputs.self.nixosModules.mosh
+    ./t3code.nix
   ];
+
+  # Mirrored networking shares the port space with Windows, whose own OpenSSH
+  # server already holds 22. Clients reach this sshd with `-p 2222`.
+  services.openssh.ports = lib.mkForce [ 2222 ];
 
   wsl = {
     enable = true;
