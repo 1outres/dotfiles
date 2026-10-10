@@ -50,11 +50,6 @@
     # the build whenever unstable retires that builder.
     sitka.url = "github:1outres/sitka";
 
-    window-tracker = {
-      url = "git+ssh://git@github.com/1outres/window-tracker.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Not MarceColl/zen-browser-flake, which the old configuration used: that
     # repository stopped being updated in October 2024.
     #

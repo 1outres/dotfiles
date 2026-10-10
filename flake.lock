@@ -478,7 +478,6 @@
         "pi-harness": "pi-harness",
         "private": "private",
         "sitka": "sitka",
-        "window-tracker": "window-tracker",
         "zen-browser": "zen-browser"
       }
     },
@@ -555,26 +554,6 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "type": "github"
-      }
-    },
-    "window-tracker": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786528206,
-        "narHash": "sha256-kGYREQT8h/EaUjRfS/HfHqgslCOsh2D54DcshcICb1k=",
-        "ref": "refs/heads/master",
-        "rev": "5aa4571e1ea853b71bb28207a4c18eb03ac21cd2",
-        "revCount": 3,
-        "type": "git",
-        "url": "ssh://git@github.com/1outres/window-tracker.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/1outres/window-tracker.git"
       }
     },
     "zen-browser": {

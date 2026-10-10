@@ -30,7 +30,6 @@ inputs.darwin.lib.darwinSystem {
     ../modules/os/darwin/runcat.nix
     ../modules/os/darwin/playwright-mcp.nix
     ../modules/os/darwin/zathura.nix
-    ../modules/os/darwin/window-tracker.nix
     ../modules/os/darwin/omniwm.nix
     # ../modules/os/darwin/cloudflare-warp.nix
     hostModule
