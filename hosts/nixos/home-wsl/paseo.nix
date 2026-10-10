@@ -13,7 +13,6 @@ let
     "mni-staging"
     "punisute-prod"
   ];
-  piHarnessPlugin = inputs.pi-harness.packages.${pkgs.stdenv.hostPlatform.system}.paseo-plugin;
   # Runs Claude Code on a subscription OAuth token (`claude setup-token`)
   # instead of the login in ~/.claude, for the claude-sub-token Paseo provider.
   # The token is not in secrets.env, because every agent gets that environment.
@@ -67,8 +66,7 @@ in
     # drop plugin registrations and toggles made from the CLI or the app.
     # config.json is runtime state owned by Paseo and is not tracked in git.
     # It must keep daemon.cors.allowedOrigins for the proxied domain,
-    # features.webUi.enabled, pluginsEnabled, plugins.pi-harness pointing
-    # at /etc/paseo/plugins/pi-harness, and agents.providers.claude-sub-token
+    # features.webUi.enabled, and agents.providers.claude-sub-token
     # (extends "claude") with command /run/current-system/sw/bin/claude-sub-token.
 
     # No external relay: traffic stays on LAN / NetBird.
@@ -84,9 +82,4 @@ in
   # No SSH_AUTH_SOCK yet: home-nix pointed it at the GNOME gcr agent, which WSL
   # does not run. Add it once this host has an agent.
   systemd.services.paseo.environment.KUBECONFIG = builtins.concatStringsSep ":" kubeconfigs;
-
-  # A fixed path lets the runtime config.json keep one plugin path across
-  # pi-harness updates, and the system generation keeps the build from GC.
-  environment.etc."paseo/plugins/pi-harness".source =
-    "${piHarnessPlugin}/share/paseo/plugins/pi-harness";
 }

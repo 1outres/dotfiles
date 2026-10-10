@@ -30,7 +30,7 @@ runs:
       run: |
         git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf ssh://git@github.com/
         git config --global --add url."https://x-access-token:${PAT}@github.com/".insteadOf https://github.com/
-        for repo in dotfiles-private pi-harness; do
+        for repo in dotfiles-private; do
           git ls-remote "ssh://git@github.com/1outres/$repo.git" HEAD >/dev/null \
             || { echo "PRIVATE_INPUTS_PAT cannot read 1outres/$repo"; exit 1; }
         done

@@ -43,17 +43,10 @@
     # rebuild every agent from source.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    pi-harness.url = "git+ssh://git@github.com/1outres/pi-harness.git";
-
     paseo = {
       url = "github:getpaseo/paseo";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # No nixpkgs.follows here on purpose: sitka builds with buildGo125Module,
-    # which the nixpkgs it pins is known to have. Following ours would break
-    # the build whenever unstable retires that builder.
-    sitka.url = "github:1outres/sitka";
 
     # Not MarceColl/zen-browser-flake, which the old configuration used: that
     # repository stopped being updated in October 2024.
