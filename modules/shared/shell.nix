@@ -46,7 +46,7 @@ let
 
   # orb is an OrbStack VM living on the mbp, so it is only reachable from there.
   tmuxRemoteEntries =
-    lib.optional (hostname == "mbp") "SSH orb" ++ lib.optional (hostname != "home-nix") "Mosh home-nix";
+    lib.optional (hostname == "mbp") "SSH orb" ++ lib.optional (hostname != "home-wsl") "Mosh home-wsl";
 in
 {
   home.packages = [
@@ -265,8 +265,8 @@ in
           "SSH orb")
             ssh orb
             ;;
-          "Mosh home-nix")
-            mosh -- ${lib.escapeShellArg private.lan.devHostIp} env ZSH_AUTO_ATTACH_TMUX=1 zsh -l
+          "Mosh home-wsl")
+            mosh --ssh="ssh -p 2222" -- ${lib.escapeShellArg private.lan.homeWslIp} env ZSH_AUTO_ATTACH_TMUX=1 zsh -l
             ;;
           *)
             tmux attach-session -t "$1"
