@@ -24,7 +24,7 @@ in
     inputs.nixos-wsl.nixosModules.default
     inputs.self.nixosModules.sshd
     inputs.self.nixosModules.mosh
-    ./t3code.nix
+    ./paseo.nix
   ];
 
   # Mirrored networking shares the port space with Windows, whose own OpenSSH
