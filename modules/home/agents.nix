@@ -15,7 +15,6 @@ in
 
   config.home.file = {
     ".agents/skills" = link "shared/skills";
-    ".pi/agent/AGENTS.md" = link "shared/instructions.md";
     ".codex/AGENTS.md" = link "shared/instructions.md";
   };
 }

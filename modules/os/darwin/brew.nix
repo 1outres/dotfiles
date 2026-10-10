@@ -34,14 +34,9 @@ in
     pkgs.brewCasks.skim
     pkgs.brewCasks.obsidian
     pkgs.brewCasks.monitorcontrol
-    pkgs.brewCasks.alt-tab
     pkgs.brewCasks.thorium
-    pkgs.brewCasks.stats
     pkgs.brewCasks.kap
     pkgs.brewCasks.thunderbird
-    pkgs.brewCasks.paseo
-    pkgs.brewCasks.t3-code
-    pkgs.brewCasks.thebrowsercompany-dia
     pkgs.brewCasks.mattermost
   ] ++ pkgs.lib.mapAttrsToList mkCaskWithHash casksWithHash;
 }

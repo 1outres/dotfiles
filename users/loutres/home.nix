@@ -8,7 +8,6 @@
     ../../modules/home/git-ai-commit.nix
     ../../modules/home/lazygit.nix
     ../../modules/home/neovim.nix
-    ../../modules/home/pi.nix
     ../../modules/home/sitka.nix
     ../../modules/home/tmux.nix
     ../../modules/shared/git.nix
