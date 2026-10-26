@@ -27,6 +27,13 @@ in
     signing.format = lib.mkDefault null;
   };
 
+  # Go fetches the private mNi-Cloud modules through the SSH rewrite above, but
+  # the public checksum database cannot see them, so `go install` of an mNi tool
+  # (such as mnibuilder in each controller's Makefile) fails without this.
+  xdg.configFile."go/env".text = ''
+    GOPRIVATE=github.com/mNi-Cloud
+  '';
+
   programs.delta = {
     enable = true;
     enableGitIntegration = true;

@@ -24,6 +24,7 @@ in
     inputs.nixos-wsl.nixosModules.default
     inputs.self.nixosModules.sshd
     inputs.self.nixosModules.mosh
+    ./dsh.nix
     ./paseo.nix
   ];
 
@@ -49,6 +50,32 @@ in
   # but nixpkgs dropped it once the project was archived.
   environment.systemPackages = [ winOpen ];
   environment.sessionVariables.BROWSER = "win-open";
+
+  # NixOS-WSL turns off boot.modprobeConfig, so boot.kernelModules is never
+  # loaded here. The kernel still loads most modules on demand, but it does so
+  # in the WSL VM root, so kernel.modprobe must stay /sbin/modprobe: a Nix store
+  # path does not exist there. The vhost modules are never loaded on demand,
+  # because their device nodes only appear after the modules load.
+  # Kata Containers and KubeVirt in the mNi e2e kind cluster need them, and a
+  # privileged kind node only sees the host devices that exist when Docker
+  # starts it.
+  systemd.services.kvm-guest-modules = {
+    description = "Load kernel modules for KVM guests";
+    wantedBy = [ "multi-user.target" ];
+    before = [ "docker.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.kmod}/bin/modprobe -a kvm_amd tun vhost_net vhost_vsock";
+    };
+  };
+
+  # Mirrored networking sends local TCP to 127.0.0.1 out through loopback0 and
+  # back in. Docker drops packets for ports published on 127.0.0.1 unless they
+  # come in on lo, so every such port (kind API server, local registry) times
+  # out. This turns off those raw table rules. Packets from the LAN to
+  # 127.0.0.1 are still dropped by the kernel (route_localnet is 0).
+  systemd.services.docker.environment.DOCKER_INSECURE_NO_IPTABLES_RAW = "1";
 
   networking.hostName = hostname;
 
