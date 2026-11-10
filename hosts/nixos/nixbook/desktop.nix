@@ -27,11 +27,4 @@ in
       "--sessions ${sessions}/share/wayland-sessions"
     ];
   };
-
-  # Hyprland writes its stock config on first start. That config opens these
-  # with the terminal and app launcher keys.
-  environment.systemPackages = [
-    pkgs.kitty
-    pkgs.hyprlauncher
-  ];
 }
