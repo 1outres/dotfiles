@@ -1,18 +1,39 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
+  toLuaModule = value: "return ${lib.generators.toLua { } value}\n";
+
   # The Lua files read the commands they run from this module, so every
   # command comes from the Nix store instead of whatever is on PATH.
   programs = {
-    terminal = lib.getExe pkgs.kitty;
+    terminal = lib.getExe config.programs.ghostty.package;
     menu = lib.getExe pkgs.hyprlauncher;
     shutdown = lib.getExe pkgs.hyprshutdown;
     wpctl = lib.getExe' pkgs.wireplumber "wpctl";
     brightnessctl = lib.getExe pkgs.brightnessctl;
     playerctl = lib.getExe pkgs.playerctl;
   };
+
+  cursor = {
+    inherit (config.home.pointerCursor) name size;
+  };
 in
 {
+  imports = [ ./ghostty-linux.nix ];
+
+  # Without a cursor theme Hyprland draws its own built-in fallback cursor.
+  home.pointerCursor = {
+    enable = true;
+    package = pkgs.adwaita-icon-theme;
+    name = "Adwaita";
+    size = 24;
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -26,7 +47,11 @@ in
 
     extraLuaFiles = {
       programs = {
-        content = "return ${lib.generators.toLua { } programs}\n";
+        content = toLuaModule programs;
+        autoLoad = false;
+      };
+      cursor = {
+        content = toLuaModule cursor;
         autoLoad = false;
       };
       monitors = ./hyprland-lua/monitors.lua;

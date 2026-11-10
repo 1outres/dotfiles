@@ -1,2 +1,4 @@
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
+local cursor = require("cursor")
+
+hl.env("XCURSOR_THEME", cursor.name)
+hl.env("XCURSOR_SIZE", tostring(cursor.size))
