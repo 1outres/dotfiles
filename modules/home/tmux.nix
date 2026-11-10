@@ -4,14 +4,16 @@ let
   # Per-host status line theme color (wfxr/tmux-power `@tmux_power_theme`).
   # Presets: gold redwine moon forest violet snow coral sky everforest,
   # or any hex like '#cb1b45'. No fallback: a new host must be added here.
+  # The machines used directly at hand share one color.
+  clientTheme = "gold";
   statusThemeByHost = {
-    mbp = "gold";
+    mbp = clientTheme;
+    x13g2 = clientTheme;
+    nixbook = clientTheme;
     orb = "violet";
     home-nix = "forest";
-    x13g2 = "coral";
     linux = "snow";
     home-wsl = "sky";
-    nixbook = "moon";
   };
   statusTheme = statusThemeByHost.${hostname};
 in
