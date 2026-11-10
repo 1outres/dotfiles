@@ -41,8 +41,20 @@ hl.bind("XF86AudioRaiseVolume",  exec(programs.wpctl, "set-volume -l 1 @DEFAULT_
 hl.bind("XF86AudioLowerVolume",  exec(programs.wpctl, "set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      repeatable)
 hl.bind("XF86AudioMute",         exec(programs.wpctl, "set-mute @DEFAULT_AUDIO_SINK@ toggle"),     repeatable)
 hl.bind("XF86AudioMicMute",      exec(programs.wpctl, "set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   repeatable)
-hl.bind("XF86MonBrightnessUp",   exec(programs.brightnessctl, "-e4 -n2 set 5%+"),                 repeatable)
-hl.bind("XF86MonBrightnessDown", exec(programs.brightnessctl, "-e4 -n2 set 5%-"),                 repeatable)
+-- brightnessctl only reaches the built-in panel's backlight. The external
+-- displays cannot be dimmed from here because apple-dcp gives Linux no
+-- DDC/CI bus for them.
+local function setBuiltinBrightness(step)
+    return function()
+        local monitor = hl.get_active_monitor()
+        if monitor and monitor.name:find("^eDP%-") then
+            hl.exec_cmd(programs.brightnessctl .. " -e4 -n2 set " .. step)
+        end
+    end
+end
+
+hl.bind("XF86MonBrightnessUp",   setBuiltinBrightness("5%+"), repeatable)
+hl.bind("XF86MonBrightnessDown", setBuiltinBrightness("5%-"), repeatable)
 
 local locked = { locked = true }
 
