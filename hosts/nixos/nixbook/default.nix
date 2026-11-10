@@ -9,6 +9,7 @@
 {
   imports = [
     ./aurora.nix
+    ./desktop.nix
     ../../../modules/os/nixos/locale.nix
   ];
 
