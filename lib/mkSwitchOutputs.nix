@@ -4,7 +4,6 @@
   system,
   darwinHosts ? { },
   nixosHosts ? { },
-  homeHosts ? { },
 }:
 let
   inherit (inputs.nixpkgs) lib;
@@ -20,7 +19,6 @@ let
   kinds = {
     darwin = {
       hosts = darwinHosts;
-      selectableByHostname = true;
       attrPath = name: ''darwinConfigurations."${name}".system'';
       activate = ''
         sudo -H ${nixEnv} --profile ${systemProfile} --set "$result"
@@ -30,20 +28,10 @@ let
 
     nixos = {
       hosts = nixosHosts;
-      selectableByHostname = true;
       attrPath = name: ''nixosConfigurations."${name}".config.system.build.toplevel'';
       activate = ''
         sudo -H ${nixEnv} --profile ${systemProfile} --set "$result"
         sudo -H "$result/bin/switch-to-configuration" switch
-      '';
-    };
-
-    home = {
-      hosts = homeHosts;
-      selectableByHostname = false;
-      attrPath = name: ''homeConfigurations."${name}".activationPackage'';
-      activate = ''
-        "$result/activate"
       '';
     };
   };
@@ -71,8 +59,6 @@ let
     }) (lib.filterAttrs (_: host: host.system == system) kind.hosts)
   ) (lib.attrValues kinds);
 
-  selectable = lib.filter (target: target.kind.selectableByHostname) targets;
-
   dispatcher = pkgs.writeShellApplication {
     name = "switch";
     runtimeInputs = [ pkgs.coreutils ];
@@ -82,10 +68,10 @@ let
       ${
         lib.concatMapStrings (target: ''
           ${target.hostname}) exec ${lib.getExe target.package} "$@" ;;
-        '') selectable
+        '') targets
       }*)
         echo "error: no switch target for host '$nodename' on ${system}." >&2
-        echo "known hosts: ${lib.concatMapStringsSep ", " (target: target.hostname) selectable}" >&2
+        echo "known hosts: ${lib.concatMapStringsSep ", " (target: target.hostname) targets}" >&2
         exit 1
         ;;
       esac
@@ -94,7 +80,7 @@ let
 
   packages =
     lib.listToAttrs (map (target: lib.nameValuePair target.package.name target.package) targets)
-    // lib.optionalAttrs (selectable != [ ]) { switch = dispatcher; };
+    // lib.optionalAttrs (targets != [ ]) { switch = dispatcher; };
 
   descriptions =
     lib.listToAttrs (

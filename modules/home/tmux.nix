@@ -12,7 +12,6 @@ let
     nixbook = clientTheme;
     orb = "violet";
     home-nix = "forest";
-    linux = "snow";
     home-wsl = "sky";
   };
   statusTheme = statusThemeByHost.${hostname};

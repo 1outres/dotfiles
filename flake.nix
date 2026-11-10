@@ -93,7 +93,6 @@
       modulesIn = import ./lib/modulesIn.nix lib;
       mkDarwin = import ./lib/mkDarwin.nix { inherit inputs; };
       mkNixos = import ./lib/mkNixos.nix { inherit inputs; };
-      mkHome = import ./lib/mkHome.nix { inherit inputs; };
       mkSwitchOutputs = import ./lib/mkSwitchOutputs.nix { inherit inputs self; };
 
       darwinHosts = {
@@ -148,18 +147,6 @@
         };
       };
 
-      homeHosts = {
-        "loutres@linux" = {
-          hostname = "linux";
-          username = "loutres";
-          system = "x86_64-linux";
-          homeDirectory = "/home/loutres";
-          hostModules = [
-            ./hosts/linux/default.nix
-          ];
-        };
-      };
-
       sanitizeLabel = import ./lib/sanitizeName.nix;
 
       switchOutputs = forAllSystems (
@@ -169,7 +156,6 @@
             system
             darwinHosts
             nixosHosts
-            homeHosts
             ;
         }
       );
@@ -185,8 +171,6 @@
 
       nixosConfigurations = lib.mapAttrs (_: mkNixos) nixosHosts;
 
-      homeConfigurations = lib.mapAttrs (_: mkHome) homeHosts;
-
       ci.hosts =
         lib.mapAttrsToList (name: h: {
           label = sanitizeLabel name;
@@ -197,12 +181,7 @@
           label = sanitizeLabel name;
           attr = ''nixosConfigurations."${name}".config.system.build.toplevel'';
           inherit (h) system;
-        }) nixosHosts
-        ++ lib.mapAttrsToList (name: h: {
-          label = sanitizeLabel name;
-          attr = ''homeConfigurations."${name}".activationPackage'';
-          inherit (h) system;
-        }) homeHosts;
+        }) nixosHosts;
 
       nixosModules = modulesIn ./modules/os/nixos;
 
@@ -213,7 +192,7 @@
       sharedModules = modulesIn ./modules/shared;
 
       lib = {
-        inherit mkDarwin mkNixos mkHome;
+        inherit mkDarwin mkNixos;
       };
     };
 }

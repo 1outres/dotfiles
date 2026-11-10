@@ -8,7 +8,7 @@
 let
   # Per-host color direction, so the running host is obvious at a glance.
   # Kept in the same order as the tmux status line (modules/home/tmux.nix):
-  # mbp = gold, orb = violet, home-nix = forest, x13g2 = coral, linux = snow.
+  # mbp = gold, orb = violet, home-nix = forest, x13g2 = coral.
   # Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord, gruvbox,
   # one-dark, solarized, kanagawa, rose-pine, vesper.
   # No fallback: a new host must be added here.
@@ -28,10 +28,6 @@ let
     x13g2 = {
       name = "rose-pine";
       accent = "#eb6f92";
-    };
-    linux = {
-      name = "nord";
-      accent = "#88c0d0";
     };
   };
   hostTheme = themeByHost.${hostname};
