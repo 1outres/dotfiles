@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home/claude.nix
+    ../../modules/home/clipboard.nix
     ../../modules/home/codex.nix
     ../../modules/home/core.nix
     ../../modules/home/git-ai-commit.nix
