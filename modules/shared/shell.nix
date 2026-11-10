@@ -299,8 +299,6 @@ in
       }
       zle -N down-line-or-local-history
 
-      bindkey -v
-
       __fzf_select_history() {
         if ! command -v fzf >/dev/null 2>&1; then
           zle -M "fzf not found"
@@ -370,11 +368,51 @@ in
       }
       zle -N fzf-select-kube-context-widget __fzf_select_kube_context
 
-      for map in emacs viins vicmd; do
-        bindkey -M "$map" '^R' fzf-select-history-widget
-        bindkey -M "$map" '^F' fzf-select-ghq-repo-widget
-        bindkey -M "$map" '^K' fzf-select-kube-context-widget
-      done
+      __fzf_copy_file() {
+        if ! command -v fd >/dev/null 2>&1; then
+          zle -M "fd not found"
+          return 0
+        fi
+        if ! command -v fzf >/dev/null 2>&1; then
+          zle -M "fzf not found"
+          return 0
+        fi
+
+        local -a lines
+        lines=("''${(@f)$(fd --type f --hidden --exclude .git | fzf --reverse --multi \
+          --expect=alt-a,alt-c \
+          --header 'enter: path / alt-a: absolute path / alt-c: contents / tab: select' \
+          --preview 'bat --color=always --style=numbers --line-range=:500 {}')}")
+        zle reset-prompt
+
+        local key=''${lines[1]}
+        local -a files=("''${(@)lines[2,-1]}")
+        (( ''${#files} )) || return 0
+
+        local copied
+        case $key in
+          alt-a)
+            local -a absolute=("''${files[@]:a}")
+            print -rn -- "''${(F)absolute}" | pbcopy
+            copied="absolute path"
+            ;;
+          alt-c)
+            cat -- "''${files[@]}" | pbcopy
+            copied="contents"
+            ;;
+          *)
+            print -rn -- "''${(F)files}" | pbcopy
+            copied="path"
+            ;;
+        esac
+        zle -M "copied $copied: ''${(j:, :)files}"
+      }
+      zle -N fzf-copy-file-widget __fzf_copy_file
+
+      bindkey '^R' fzf-select-history-widget
+      bindkey '^F' fzf-select-ghq-repo-widget
+      bindkey '^K' fzf-select-kube-context-widget
+      bindkey '^Y' fzf-copy-file-widget
 
       bindkey '^[OA' up-line-or-local-history
       bindkey '^[OB' down-line-or-local-history
