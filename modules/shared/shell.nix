@@ -54,7 +54,6 @@ in
     llmAgents.codex
     pkgs.ansible
     pkgs.argocd
-    pkgs.attic-client
     pkgs.ffmpeg
     pkgs.zsh
     pkgs.htop

@@ -26,7 +26,6 @@ inputs.darwin.lib.darwinSystem {
     ../modules/os/darwin/shell.nix
     ../modules/os/darwin/defaults.nix
     ../modules/os/darwin/brew.nix
-    ../modules/shared/attic.nix
     ../modules/os/darwin/runcat.nix
     ../modules/os/darwin/playwright-mcp.nix
     ../modules/os/darwin/zathura.nix

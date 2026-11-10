@@ -1,23 +1,10 @@
 name: Set up Nix
 description: >-
-  Install Nix with the attic cache usable as a substituter and the private flake
-  inputs fetchable.
+  Install Nix with the private flake inputs fetchable.
 
 inputs:
   private-inputs-pat:
     description: Token that can read the private flake input repositories.
-    required: true
-  attic-token:
-    description: Token for the attic cache.
-    required: true
-  attic-endpoint:
-    description: Base URL of the attic server.
-    required: true
-  attic-cache:
-    description: Name of the cache on that server.
-    required: true
-  attic-public-key:
-    description: Public key the cache signs store paths with.
     required: true
 
 runs:
@@ -38,53 +25,16 @@ runs:
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@main
       with:
-        # Determinate Nix, which this action installs by default, re-sets
-        # netrc-file in /etc/nix/nix.conf *after* including the file that
-        # carries extra-conf, and regenerates both whenever its daemon
-        # restarts. The daemon then always resolves netrc-file to
-        # /nix/var/determinate/netrc, holding whatever FlakeHub put there, so a
-        # private substituter can never be authenticated. Upstream Nix takes
-        # netrc-file as given. We do not use FlakeHub, which is what Determinate
-        # buys here.
+        # Upstream Nix, as on the hosts. We do not use FlakeHub, which is what
+        # Determinate buys here.
         determinate: false
         extra-conf: |
           accept-flake-config = true
           experimental-features = nix-command flakes
-          extra-substituters = ${{ inputs.attic-endpoint }}/${{ inputs.attic-cache }}
           # The hosts get these two from modules/shared/nix.nix, but a runner
           # never applies that module. The flake adds both caches as
           # substituters, so without the keys here Nix fetches from them and
           # then drops every path as unsigned, building the lot from source.
           # trusted-public-keys is a restricted setting, so the flake cannot
           # carry the keys itself.
-          extra-trusted-public-keys = ${{ inputs.attic-public-key }} nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
-          netrc-file = /etc/nix/netrc
-
-    # Substituting is done by the daemon, which runs as root, so a token under
-    # $HOME never reaches it and every path misses with HTTP 401. Write the file
-    # after the installer, which lays out /etc/nix itself.
-    - name: Give the daemon the cache token
-      shell: bash
-      env:
-        ATTIC_ENDPOINT: ${{ inputs.attic-endpoint }}
-        ATTIC_CACHE: ${{ inputs.attic-cache }}
-        ATTIC_TOKEN: ${{ inputs.attic-token }}
-      run: |
-        set -euo pipefail
-        netrc=/etc/nix/netrc
-        host=${ATTIC_ENDPOINT#*://}
-        printf 'machine %s password %s\n' "${host%%/*}" "$ATTIC_TOKEN" \
-          | sudo tee "$netrc" >/dev/null
-        sudo chmod 600 "$netrc"
-
-        echo "netrc-file as root resolves it:"
-        sudo "$(command -v nix)" config show netrc-file
-
-        # Stop here rather than spend an hour rebuilding what the cache holds.
-        code=$(sudo curl -sS -o /dev/null -w '%{http_code}' \
-          --netrc-file "$netrc" "$ATTIC_ENDPOINT/$ATTIC_CACHE/nix-cache-info")
-        [ "$code" = 200 ] || { echo "the cache answered $code for the daemon token"; exit 1; }
-
-    - name: Install the attic client
-      shell: bash
-      run: nix profile install nixpkgs#attic-client
+          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=

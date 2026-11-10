@@ -14,9 +14,6 @@ permissions:
   pull-requests: write
 
 env:
-  ATTIC_ENDPOINT: https://attic.k.loutres.me
-  ATTIC_CACHE: loutres-dotfiles
-  ATTIC_PUBLIC_KEY: loutres-dotfiles:Pyh1ltHArGOLVtqd8B1wd6rwWMBLNdT3JXEjlh1db9M=
   DISCORD_USER_ID: '1218044957957427211'
   UPDATE_BRANCH: nightly/flake-update
 
@@ -34,10 +31,6 @@ jobs:
       - uses: ./.github/actions/setup-nix
         with:
           private-inputs-pat: ${{ secrets.PRIVATE_INPUTS_PAT }}
-          attic-token: ${{ secrets.ATTIC_TOKEN }}
-          attic-endpoint: ${{ env.ATTIC_ENDPOINT }}
-          attic-cache: ${{ env.ATTIC_CACHE }}
-          attic-public-key: ${{ env.ATTIC_PUBLIC_KEY }}
 
       - name: nix flake update
         run: nix flake update
@@ -125,24 +118,9 @@ jobs:
       - uses: ./.github/actions/setup-nix
         with:
           private-inputs-pat: ${{ secrets.PRIVATE_INPUTS_PAT }}
-          attic-token: ${{ secrets.ATTIC_TOKEN }}
-          attic-endpoint: ${{ env.ATTIC_ENDPOINT }}
-          attic-cache: ${{ env.ATTIC_CACHE }}
-          attic-public-key: ${{ env.ATTIC_PUBLIC_KEY }}
 
       - name: Build ${{ matrix.label }}
         run: nix build --print-out-paths '.#${{ matrix.attr }}'
-
-      # atticd holds ten database connections and cannot be configured to hold
-      # more: it hands sea-orm a bare URL, so sqlx keeps its default of ten.
-      # Five hosts pushing concurrently have to stay well under that, and -j2
-      # still timed the pool out.
-      - name: Push closure to attic
-        env:
-          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-        run: |
-          attic login loutres "${ATTIC_ENDPOINT}" "$ATTIC_TOKEN"
-          attic push --jobs 1 "loutres:${ATTIC_CACHE}" ./result
 
   open-pr:
     needs: build
@@ -166,7 +144,7 @@ jobs:
             url=$(gh pr create \
               --head "${UPDATE_BRANCH}" \
               --title 'chore: nightly flake update' \
-              --body $'Automated nightly `nix flake update` + brew cask hash refresh.\n\nAll host closures were built on CI and pushed to the `'"${ATTIC_CACHE}"$'` attic cache, so `darwin-rebuild switch` / `nixos-rebuild switch` / `home-manager switch` after merge should be download-only.')
+              --body $'Automated nightly `nix flake update` + brew cask hash refresh.\n\nAll host closures were built on CI.')
             echo "created=true" >> "$GITHUB_OUTPUT"
             echo "url=$url" >> "$GITHUB_OUTPUT"
           else
