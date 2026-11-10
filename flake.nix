@@ -44,9 +44,10 @@
     # rebuild every agent from source.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # No nixpkgs.follows here either, for the same reason: nixbook takes its
-    # kernel and guest Mesa from Aurora's own package set to hit Aurora's
-    # signed cache (hosts/nixos/nixbook/aurora.nix).
+    # No nixpkgs.follows here either, for the same reason: nixbook is built
+    # from the nixpkgs Aurora pins (see nixosHosts.nixbook below) and takes
+    # its kernel and guest Mesa from Aurora's own package set, so both hit
+    # Aurora's signed cache (hosts/nixos/nixbook/aurora.nix).
     aurora.url = "github:aurora-silicon/nixos-aurora/channel-testing";
 
     paseo = {
@@ -144,6 +145,10 @@
           system = "aarch64-linux";
           hostModule = ./hosts/nixos/nixbook/default.nix;
           homeModule = ./users/loutres/home-nixbook.nix;
+          # Aurora's overlay rebuilds a lot of packages with their test suites
+          # on. Only the nixpkgs Aurora pins yields the same derivations its CI
+          # pushes to the Aurora cache; ours would build all of them locally.
+          nixpkgs = inputs.aurora.inputs.nixpkgs;
         };
       };
 

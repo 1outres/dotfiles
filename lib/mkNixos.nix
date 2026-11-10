@@ -6,6 +6,7 @@
   system,
   hostModule,
   homeModule ? (../users + "/${username}/home.nix"),
+  nixpkgs ? inputs.nixpkgs,
 }:
 let
   args = {
@@ -18,7 +19,7 @@ let
     private = inputs.private.values;
   };
 in
-inputs.nixpkgs.lib.nixosSystem {
+nixpkgs.lib.nixosSystem {
   inherit system;
   specialArgs = args;
   modules = [
