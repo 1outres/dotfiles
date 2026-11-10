@@ -18,6 +18,7 @@
     ../../../modules/os/nixos/gnome.nix
     ../../../modules/os/nixos/hyprland.nix
     ../../../modules/os/nixos/keyd.nix
+    ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/onepassword.nix
     ../../../modules/os/nixos/tmcit-ca.nix
   ];
@@ -41,28 +42,12 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  time.timeZone = "Asia/Tokyo";
-
   # "us" even though the built-in keyboard is JIS: keyd remaps that board to its
   # printed layout (modules/os/nixos/keyd.nix), and the external one is already
   # US. This also lands in localed, which GNOME reads on login and writes into
   # org.gnome.desktop.input-sources, so leaving it at "jp" would undo the
   # session layout on every login.
   services.xserver.xkb.layout = "us";
-
-  # Keep the interface language English, but format dates, money and addresses
-  # the Japanese way.
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ja_JP.UTF-8";
-    LC_IDENTIFICATION = "ja_JP.UTF-8";
-    LC_MEASUREMENT = "ja_JP.UTF-8";
-    LC_MONETARY = "ja_JP.UTF-8";
-    LC_NAME = "ja_JP.UTF-8";
-    LC_NUMERIC = "ja_JP.UTF-8";
-    LC_PAPER = "ja_JP.UTF-8";
-    LC_TELEPHONE = "ja_JP.UTF-8";
-    LC_TIME = "ja_JP.UTF-8";
-  };
 
   networking.networkmanager.enable = true;
 

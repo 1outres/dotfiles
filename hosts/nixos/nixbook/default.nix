@@ -9,6 +9,7 @@
 {
   imports = [
     ./aurora.nix
+    ../../../modules/os/nixos/locale.nix
   ];
 
   networking.hostName = hostname;
@@ -28,6 +29,8 @@
   # Aurora's first boot set this to false after it rekeyed the disk. Leaving it
   # true would bring back its first-password PAM hooks.
   aurora.firstboot.passwordHooks = false;
+
+  security.sudo.wheelNeedsPassword = false;
 
   users.users.${username} = {
     isNormalUser = true;
