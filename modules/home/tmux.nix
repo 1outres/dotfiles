@@ -11,6 +11,7 @@ let
     x13g2 = "coral";
     linux = "snow";
     home-wsl = "sky";
+    nixbook = "moon";
   };
   statusTheme = statusThemeByHost.${hostname};
 in

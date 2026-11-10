@@ -31,10 +31,11 @@ runs:
         extra-conf: |
           accept-flake-config = true
           experimental-features = nix-command flakes
-          # The hosts get these two from modules/shared/nix.nix, but a runner
-          # never applies that module. The flake adds both caches as
-          # substituters, so without the keys here Nix fetches from them and
-          # then drops every path as unsigned, building the lot from source.
+          # The hosts get these keys from modules/shared/nix.nix and, on
+          # nixbook, from the Aurora module, but a runner never applies those
+          # modules. The flake adds all three caches as substituters, so
+          # without the keys here Nix fetches from them and then drops every
+          # path as unsigned, building the lot from source.
           # trusted-public-keys is a restricted setting, so the flake cannot
           # carry the keys itself.
-          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
+          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g= aurora-nixos-1:ZxmPNEWsrzgXai+W+dlTE8cachb1xaatfXKK8X8go14=

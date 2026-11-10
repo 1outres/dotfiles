@@ -5,6 +5,7 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://cache.numtide.com"
+      "https://aurorasilicon.org/nixos-aurora/cache"
     ];
   };
 
@@ -42,6 +43,11 @@
     # builds made against the nixpkgs this flake pins, so following ours would
     # rebuild every agent from source.
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    # No nixpkgs.follows here either, for the same reason: nixbook takes its
+    # kernel and guest Mesa from Aurora's own package set to hit Aurora's
+    # signed cache (hosts/nixos/nixbook/aurora.nix).
+    aurora.url = "github:aurora-silicon/nixos-aurora/channel-testing";
 
     paseo = {
       url = "github:getpaseo/paseo";
@@ -131,6 +137,14 @@
           system = "x86_64-linux";
           hostModule = ./hosts/nixos/home-wsl/default.nix;
           homeModule = ./users/loutres/home-home-wsl.nix;
+        };
+
+        nixbook = {
+          hostname = "nixbook";
+          username = "loutres";
+          system = "aarch64-linux";
+          hostModule = ./hosts/nixos/nixbook/default.nix;
+          homeModule = ./users/loutres/home-nixbook.nix;
         };
       };
 
