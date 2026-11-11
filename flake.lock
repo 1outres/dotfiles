@@ -128,11 +128,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794371629,
-        "narHash": "sha256-vvg5u8rhf81W5F9I+GPwaV5Yj/BNTQJtmhEp6QbU64g=",
+        "lastModified": 1794387775,
+        "narHash": "sha256-j+S1nK0aIbJOmQZmc9KJpgh5L3OkgApwh9/9sxxGGP8=",
         "owner": "1outres",
         "repo": "chena",
-        "rev": "942ebba9bf1deeecaee413dfbc7ad27978f2d375",
+        "rev": "557de31d31946285ce8c3fff6074768acdac379a",
         "type": "github"
       },
       "original": {
@@ -613,11 +613,11 @@
     },
     "private": {
       "locked": {
-        "lastModified": 1793932958,
-        "narHash": "sha256-SbDrXCHcIF0aff/9HwRU5GAX3u//3IIsaSEu6NTuwXo=",
+        "lastModified": 1794386611,
+        "narHash": "sha256-ORwafCG1SwFJ2tKkooJoIUHCzRTfyM87xTdfv8/GUOU=",
         "ref": "refs/heads/main",
-        "rev": "b2674a18dd1f9960aceec5c1efae3ee3a971f9be",
-        "revCount": 36,
+        "rev": "41024bff7e24db40a3988b26d1526d4ed33993b1",
+        "revCount": 37,
         "type": "git",
         "url": "ssh://git@github.com/1outres/dotfiles-private.git"
       },
@@ -642,7 +642,8 @@
         "nixpkgs": "nixpkgs_4",
         "paseo": "paseo",
         "private": "private",
-        "zen-browser": "zen-browser"
+        "zen-browser": "zen-browser",
+        "my-dsh-plugins": "my-dsh-plugins"
       }
     },
     "systems": {
@@ -737,6 +738,26 @@
       "original": {
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
+        "type": "github"
+      }
+    },
+    "my-dsh-plugins": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794374960,
+        "narHash": "sha256-t4umjUlHIssMI25KuVb2tuytm/Fk6qsMGamgadleaZg=",
+        "owner": "1outres",
+        "repo": "my-dsh-plugins",
+        "rev": "287d7c9a80494c1f9360c2252dec0825e9f6f42f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1outres",
+        "repo": "my-dsh-plugins",
         "type": "github"
       }
     }
