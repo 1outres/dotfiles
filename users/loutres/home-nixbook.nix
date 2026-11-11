@@ -22,6 +22,7 @@ in
     ../../modules/home/google-chrome.nix
     ../../modules/home/onepassword.nix
     ../../modules/home/onepassword-autostart.nix
+    ../../modules/home/ssh-away-agent.nix
   ];
 
   chena = {

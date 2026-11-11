@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   osConfig,
   private,
   ...
@@ -34,7 +35,7 @@ in
       key = signingKey;
       # op-ssh-sign hands the signing over to the desktop app, so the private
       # key never leaves 1Password.
-      signer = "${osConfig.programs._1password-gui.package}/share/1password/op-ssh-sign";
+      signer = lib.mkDefault "${osConfig.programs._1password-gui.package}/share/1password/op-ssh-sign";
       signByDefault = true;
     };
 
