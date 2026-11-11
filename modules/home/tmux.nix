@@ -69,6 +69,12 @@ in
     '';
   };
 
+  options.tmuxWheel.lines = lib.mkOption {
+    type = lib.types.ints.positive;
+    default = 5;
+    description = "Lines that copy mode scrolls for each wheel event. tmux's own default is 5.";
+  };
+
   config = {
     assertions = [
       {
@@ -112,6 +118,17 @@ in
 
         bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
         bind -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "send-keys -M"
+
+        ${lib.concatMapStrings
+          (table: ''
+            bind -T ${table} WheelUpPane select-pane \; send-keys -X -N ${toString config.tmuxWheel.lines} scroll-up
+            bind -T ${table} WheelDownPane select-pane \; send-keys -X -N ${toString config.tmuxWheel.lines} scroll-down
+          '')
+          [
+            "copy-mode"
+            "copy-mode-vi"
+          ]
+        }
       '';
     };
   };

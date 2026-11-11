@@ -1,7 +1,15 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (config.chena.style) colors;
+
+  fcitx5Remote = lib.getExe' pkgs.fcitx5 "fcitx5-remote";
 in
 {
   imports = [
@@ -17,7 +25,17 @@ in
   chena = {
     enable = true;
     keyboard.options = [ "ctrl:nocaps" ];
+    touchpad.scrollFactor = 0.5;
+
+    # Tapping Cmd works like the Eisu and Kana keys on a Mac keyboard: left
+    # turns Japanese input off and right turns it on.
+    extraLua.input-method = ''
+      hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("${fcitx5Remote} -c"), { release = true })
+      hl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd("${fcitx5Remote} -o"), { release = true })
+    '';
   };
+
+  tmuxWheel.lines = 2;
 
   tmuxPower.greys = {
     G01 = colors.desktop;
