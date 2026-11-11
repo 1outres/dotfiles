@@ -26,6 +26,12 @@ in
     enable = true;
     keyboard.options = [ "ctrl:nocaps" ];
     touchpad.scrollFactor = 0.5;
+    wallpaper = ../../bg.png;
+
+    # The roBa firmware already flips its scroll, which suits macOS with
+    # natural scrolling on. Flipping it again here makes it scroll like a
+    # normal mouse.
+    devices."zmk-project-roba-mouse".naturalScroll = true;
 
     # Tapping Cmd works like the Eisu and Kana keys on a Mac keyboard: left
     # turns Japanese input off and right turns it on.

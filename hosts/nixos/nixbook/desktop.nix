@@ -6,5 +6,8 @@
     ../../../modules/os/nixos/fonts.nix
   ];
 
-  chena.enable = true;
+  chena = {
+    enable = true;
+    wallpaper = ../../../bg.png;
+  };
 }
