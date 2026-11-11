@@ -16,5 +16,6 @@ in
   config.home.file = {
     ".agents/skills" = link "shared/skills";
     ".codex/AGENTS.md" = link "shared/instructions.md";
+    ".dsh/AGENTS.md" = link "shared/instructions.md";
   };
 }
