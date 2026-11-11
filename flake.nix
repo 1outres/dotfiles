@@ -63,6 +63,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # No nixpkgs.follows: the CLI's build takes go_1_24 from the nixpkgs its
+    # own flake pins, and our nixpkgs does not have to keep that attribute.
+    mni.url = "github:mNi-Cloud/cli";
+
     # Not MarceColl/zen-browser-flake, which the old configuration used: that
     # repository stopped being updated in October 2024.
     #

@@ -325,6 +325,24 @@
         "type": "github"
       }
     },
+    "mni": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1790305130,
+        "narHash": "sha256-TS66+zqG/DLmdhhX/Zbc1h8pYIS8wiUi8B3DPHXsih0=",
+        "owner": "mNi-Cloud",
+        "repo": "cli",
+        "rev": "91c24bd5415f3805b34511a6eaf0110eb2ae2540",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mNi-Cloud",
+        "repo": "cli",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -518,6 +536,22 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "lastModified": 1767313136,
+        "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ac62194c3917d5f474c1a844b6fd6da2db95077d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
         "lastModified": 1794042290,
         "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
         "owner": "NixOS",
@@ -601,10 +635,11 @@
         "darwin": "darwin",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
+        "mni": "mni",
         "nixcord": "nixcord",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "paseo": "paseo",
         "private": "private",
         "zen-browser": "zen-browser"

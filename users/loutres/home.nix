@@ -8,6 +8,7 @@
     ../../modules/home/core.nix
     ../../modules/home/git-ai-commit.nix
     ../../modules/home/lazygit.nix
+    ../../modules/home/mni.nix
     ../../modules/home/neovim.nix
     ../../modules/home/tmux.nix
     ../../modules/shared/git.nix
