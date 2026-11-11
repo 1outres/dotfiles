@@ -39,6 +39,30 @@
     '';
   };
 
+  # fcitx5 alone decides whether Japanese input is on. On Linux the Kana and
+  # Eisu keys of a Mac or JIS keyboard arrive as Hangul and Hangul_Hanja. The
+  # defaults use Hangul as a toggle and Hangul_Hanja as "on", and they pass a
+  # key that changes nothing on to mozc. Mozc reads those keys as its own on
+  # and off, so it can go into its direct mode while fcitx5 still shows it as
+  # active, and then no key brings Japanese back.
+  home.file.".config/fcitx5/config" = {
+    force = true;
+    text = ''
+      [Hotkey]
+      ConsumeRedundantActivateKeys=True
+
+      [Hotkey/TriggerKeys]
+      0=Control+space
+      1=Zenkaku_Hankaku
+
+      [Hotkey/ActivateKeys]
+      0=Hangul
+
+      [Hotkey/DeactivateKeys]
+      0=Hangul_Hanja
+    '';
+  };
+
   # Quick Phrase asks for Super+grave, the same key GNOME uses to walk the
   # windows of one app (modules/home/gnome-window-switching.nix). fcitx5 reads
   # the key through the input method channel, so it wins whenever a text field
