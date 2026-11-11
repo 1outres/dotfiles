@@ -343,6 +343,26 @@
         "type": "github"
       }
     },
+    "my-dsh-plugins": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794374960,
+        "narHash": "sha256-t4umjUlHIssMI25KuVb2tuytm/Fk6qsMGamgadleaZg=",
+        "owner": "1outres",
+        "repo": "my-dsh-plugins",
+        "rev": "287d7c9a80494c1f9360c2252dec0825e9f6f42f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1outres",
+        "repo": "my-dsh-plugins",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -613,11 +633,11 @@
     },
     "private": {
       "locked": {
-        "lastModified": 1794386611,
-        "narHash": "sha256-ORwafCG1SwFJ2tKkooJoIUHCzRTfyM87xTdfv8/GUOU=",
+        "lastModified": 1794390834,
+        "narHash": "sha256-4dtl7mwh2T1DkjKiRIU7/FHXA85bcjCaqepcLdZXVTo=",
         "ref": "refs/heads/main",
-        "rev": "41024bff7e24db40a3988b26d1526d4ed33993b1",
-        "revCount": 37,
+        "rev": "4730fe5e46c9969330d3c2648ce7f839b8521126",
+        "revCount": 38,
         "type": "git",
         "url": "ssh://git@github.com/1outres/dotfiles-private.git"
       },
@@ -636,14 +656,14 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "mni": "mni",
+        "my-dsh-plugins": "my-dsh-plugins",
         "nixcord": "nixcord",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_4",
         "paseo": "paseo",
         "private": "private",
-        "zen-browser": "zen-browser",
-        "my-dsh-plugins": "my-dsh-plugins"
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -738,26 +758,6 @@
       "original": {
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "type": "github"
-      }
-    },
-    "my-dsh-plugins": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1794374960,
-        "narHash": "sha256-t4umjUlHIssMI25KuVb2tuytm/Fk6qsMGamgadleaZg=",
-        "owner": "1outres",
-        "repo": "my-dsh-plugins",
-        "rev": "287d7c9a80494c1f9360c2252dec0825e9f6f42f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "1outres",
-        "repo": "my-dsh-plugins",
         "type": "github"
       }
     }
