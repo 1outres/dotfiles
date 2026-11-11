@@ -27,6 +27,7 @@ in
 
   chena = {
     enable = true;
+    shell = "shoji-bar-4";
     keyboard.options = [ "ctrl:nocaps" ];
     touchpad.scrollFactor = 0.5;
     wallpaper = ../../bg.png;
@@ -55,6 +56,11 @@ in
       })
     '';
   };
+
+  # wgpu tries Vulkan first, and the only Vulkan device it takes here is
+  # lavapipe, which draws on the CPU and makes every animation slow. OpenGL
+  # goes to the Asahi GPU.
+  systemd.user.services.shoji-bar-4.Service.Environment = [ "WGPU_BACKEND=gl" ];
 
   tmuxWheel.lines = 2;
 
