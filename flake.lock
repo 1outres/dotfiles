@@ -350,11 +350,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794374960,
-        "narHash": "sha256-t4umjUlHIssMI25KuVb2tuytm/Fk6qsMGamgadleaZg=",
+        "lastModified": 1794396716,
+        "narHash": "sha256-Ta9f1E2ihHmPY5Dl19YxulPKaXRLzdLDbZP9fbj06+4=",
         "owner": "1outres",
         "repo": "my-dsh-plugins",
-        "rev": "287d7c9a80494c1f9360c2252dec0825e9f6f42f",
+        "rev": "a2230b57598d91ba0916fd5ebd9dded78c522e14",
         "type": "github"
       },
       "original": {
