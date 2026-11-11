@@ -10,6 +10,7 @@
   imports = [
     ./aurora.nix
     ./desktop.nix
+    ./serial-agent.nix
     ../../../modules/os/nixos/fcitx5-hyprland.nix
     ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/tmcit-ca.nix
