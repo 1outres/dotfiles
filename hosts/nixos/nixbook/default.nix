@@ -11,6 +11,7 @@
     ./aurora.nix
     ./desktop.nix
     ../../../modules/os/nixos/locale.nix
+    ../../../modules/os/nixos/tmcit-ca.nix
   ];
 
   networking.hostName = hostname;
