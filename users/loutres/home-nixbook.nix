@@ -1,16 +1,17 @@
-{ config, inputs, ... }:
+{ inputs, ... }:
 
 {
   imports = [
     ./home.nix
     inputs.chena.homeModules.default
-    ../../modules/home/ghostty-linux.nix
+    # chena themes Ghostty, so this takes only the behavior settings and not
+    # the Linux font override in ghostty-linux.nix.
+    ../../modules/home/ghostty.nix
     ../../modules/home/google-chrome.nix
   ];
 
   chena = {
     enable = true;
-    terminal = config.programs.ghostty.package;
     keyboard.options = [ "ctrl:nocaps" ];
   };
 }

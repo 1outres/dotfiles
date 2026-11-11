@@ -8,13 +8,15 @@
     # (POWERLEVEL9K_TERM_SHELL_INTEGRATION), and also reports title and cwd.
     enableZshIntegration = false;
     package = lib.mkDefault null;
+    # The look stays at mkDefault so that a desktop such as chena can theme the
+    # terminal to match the rest of the screen.
     settings = {
       app-notifications = "no-clipboard-copy";
-      background-blur = true;
-      background-opacity = 0.8;
+      background-blur = lib.mkDefault true;
+      background-opacity = lib.mkDefault 0.8;
       clipboard-read = "allow";
       clipboard-write = "allow";
-      font-family = [
+      font-family = lib.mkDefault [
         "Monaspace Krypton NF"
         "M+1Code Nerd Font"
       ];
