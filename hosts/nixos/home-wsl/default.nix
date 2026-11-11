@@ -32,6 +32,13 @@ in
   # server already holds 22. Clients reach this sshd with `-p 2222`.
   services.openssh.ports = lib.mkForce [ 2222 ];
 
+  # dsh runs every command in a user namespace where root-owned files look like
+  # nobody, and ssh refuses to read an included config file that root does not
+  # own. Nixpkgs always adds the systemd-ssh-proxy include to the client config,
+  # so every ssh call inside dsh would fail before it connects. The shortcuts
+  # that the include provides (.host, machine/*) are not useful in WSL.
+  programs.ssh.systemd-ssh-proxy.enable = false;
+
   wsl = {
     enable = true;
     # Creates the user (isNormalUser, uid 1000, wheel) and makes it the login
