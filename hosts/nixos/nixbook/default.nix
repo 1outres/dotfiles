@@ -13,6 +13,7 @@
     ./serial-agent.nix
     ../../../modules/os/nixos/fcitx5-hyprland.nix
     ../../../modules/os/nixos/locale.nix
+    ../../../modules/os/nixos/onepassword.nix
     ../../../modules/os/nixos/tmcit-ca.nix
   ];
 

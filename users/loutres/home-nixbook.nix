@@ -20,6 +20,8 @@ in
     # the Linux font override in ghostty-linux.nix.
     ../../modules/home/ghostty.nix
     ../../modules/home/google-chrome.nix
+    ../../modules/home/onepassword.nix
+    ../../modules/home/onepassword-autostart.nix
   ];
 
   chena = {
@@ -38,6 +40,18 @@ in
     extraLua.input-method = ''
       hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("${fcitx5Remote} -c"), { release = true })
       hl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd("${fcitx5Remote} -o"), { release = true })
+    '';
+
+    # Keep the vault from showing through blur or in a screen share.
+    extraLua.onepassword = ''
+      hl.window_rule({
+          name  = "float-1password",
+          match = { class = "^(1Password)$" },
+
+          float           = true,
+          no_blur         = true,
+          no_screen_share = true,
+      })
     '';
   };
 
