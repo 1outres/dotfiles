@@ -1,4 +1,10 @@
-{ pkgs, hostname, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  hostname,
+  ...
+}:
 
 let
   # Per-host status line theme color (wfxr/tmux-power `@tmux_power_theme`).
@@ -15,43 +21,98 @@ let
     home-wsl = "sky";
   };
   statusTheme = statusThemeByHost.${hostname};
+
+  # tmux-power writes its grey shades into the script instead of reading
+  # options, so the only way to change them is to edit those lines.
+  stockGreys = {
+    G01 = "#080808";
+    G02 = "#121212";
+    G03 = "#1c1c1c";
+    G04 = "#262626";
+    G05 = "#303030";
+    G06 = "#3a3a3a";
+    G07 = "#444444";
+    G08 = "#4e4e4e";
+    G09 = "#585858";
+    G10 = "#626262";
+    G11 = "#6c6c6c";
+    G12 = "#767676";
+  };
+
+  inherit (config.tmuxPower) greys;
+
+  powerTheme =
+    if greys == null then
+      pkgs.tmuxPlugins.power-theme
+    else
+      pkgs.tmuxPlugins.power-theme.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace tmux-power.tmux ${
+            lib.concatStringsSep " " (
+              lib.mapAttrsToList (
+                name: stock: "--replace-fail '${name}=${stock}' '${name}=${greys.${name}}'"
+              ) stockGreys
+            )
+          }
+        '';
+      });
 in
 {
-  programs.tmux = {
-    enable = true;
-    mouse = true;
-    terminal = "tmux-256color";
-    shell = "${pkgs.zsh}/bin/zsh";
-    plugins = with pkgs; [
+  options.tmuxPower.greys = lib.mkOption {
+    type = lib.types.nullOr (lib.types.attrsOf lib.types.str);
+    default = null;
+    example = lib.literalExpression ''{ G01 = "#191a21"; G02 = "#191a21"; ... G12 = "#f8f8f2"; }'';
+    description = ''
+      Colors for tmux-power's grey shades G01 (darkest) to G12 (lightest), so
+      the status line can match a desktop theme. The per-host color stays.
+      Null keeps the plugin's own greys.
+    '';
+  };
+
+  config = {
+    assertions = [
       {
-        plugin = tmuxPlugins.sensible;
-      }
-      {
-        plugin = tmuxPlugins.power-theme;
-        extraConfig = ''
-          set -g @tmux_power_theme '${statusTheme}'
-        '';
+        assertion = greys == null || lib.attrNames greys == lib.attrNames stockGreys;
+        message = "tmuxPower.greys must set exactly G01 to G12.";
       }
     ];
-    extraConfig = ''
-      set -ag terminal-overrides ",ghostty:RGB"
-      set -g allow-passthrough on
-      set -g extended-keys on
-      set -g extended-keys-format csi-u
 
-      bind | split-window -h
-      bind - split-window -v
+    programs.tmux = {
+      enable = true;
+      mouse = true;
+      terminal = "tmux-256color";
+      shell = "${pkgs.zsh}/bin/zsh";
+      plugins = with pkgs; [
+        {
+          plugin = tmuxPlugins.sensible;
+        }
+        {
+          plugin = powerTheme;
+          extraConfig = ''
+            set -g @tmux_power_theme '${statusTheme}'
+          '';
+        }
+      ];
+      extraConfig = ''
+        set -ag terminal-overrides ",ghostty:RGB"
+        set -g allow-passthrough on
+        set -g extended-keys on
+        set -g extended-keys-format csi-u
 
-      bind -n C-left previous-window
-      bind -n C-right next-window
+        bind | split-window -h
+        bind - split-window -v
 
-      bind h select-pane -L
-      bind j select-pane -D
-      bind k select-pane -U
-      bind l select-pane -R
+        bind -n C-left previous-window
+        bind -n C-right next-window
 
-      bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
-      bind -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "send-keys -M"
-    '';
+        bind h select-pane -L
+        bind j select-pane -D
+        bind k select-pane -U
+        bind l select-pane -R
+
+        bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+        bind -n WheelDownPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "send-keys -M"
+      '';
+    };
   };
 }

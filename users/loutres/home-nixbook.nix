@@ -1,5 +1,8 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 
+let
+  inherit (config.chena.style) colors;
+in
 {
   imports = [
     ./home.nix
@@ -14,5 +17,20 @@
   chena = {
     enable = true;
     keyboard.options = [ "ctrl:nocaps" ];
+  };
+
+  tmuxPower.greys = {
+    G01 = colors.desktop;
+    G02 = colors.desktop;
+    G03 = colors.surface;
+    G04 = colors.surface;
+    G05 = colors.background;
+    G06 = colors.selection;
+    G07 = colors.border;
+    G08 = colors.border;
+    G09 = colors.muted;
+    G10 = colors.muted;
+    G11 = colors.muted;
+    G12 = colors.text;
   };
 }
