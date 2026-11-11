@@ -32,6 +32,11 @@ in
     touchpad.scrollFactor = 0.5;
     wallpaper = ../../bg.png;
 
+    clamshell = {
+      switch = "Apple SMC power/lid events";
+      output = "eDP-1";
+    };
+
     # The roBa firmware already flips its scroll, which suits macOS with
     # natural scrolling on. Flipping it again here makes it scroll like a
     # normal mouse.
