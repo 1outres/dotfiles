@@ -50,6 +50,14 @@
     # Aurora's signed cache (hosts/nixos/nixbook/aurora.nix).
     aurora.url = "github:aurora-silicon/nixos-aurora/channel-testing";
 
+    chena = {
+      url = "github:1outres/chena";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
     paseo = {
       url = "github:getpaseo/paseo";
       inputs.nixpkgs.follows = "nixpkgs";

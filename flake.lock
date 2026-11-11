@@ -118,6 +118,29 @@
         "type": "github"
       }
     },
+    "chena": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794356546,
+        "narHash": "sha256-HTUBAZ7/f7lrxDCAlro64wqBt/tcb4PBQxqBO39AqxY=",
+        "owner": "1outres",
+        "repo": "chena",
+        "rev": "05d3fab04f4bb15ebbad577003a5d56b64ec3d2a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1outres",
+        "repo": "chena",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -574,6 +597,7 @@
         "aurora": "aurora",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",
+        "chena": "chena",
         "darwin": "darwin",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
