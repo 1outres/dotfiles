@@ -128,11 +128,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794396911,
-        "narHash": "sha256-g078unDlA0ofRESnUpeRbNtc8DtDL2Oj1bodEmZoolI=",
+        "lastModified": 1794398368,
+        "narHash": "sha256-SOZAdeiXblAnIDSzx9+ZsWYLHhEXNfUjDh93SEF4h9g=",
         "owner": "1outres",
         "repo": "chena",
-        "rev": "eaa4bdd8fc0e518c5a1f6b7001d3d6d7e2edf381",
+        "rev": "b428ee6eb4b9e20e1f4d4ce717e09cd231babbac",
         "type": "github"
       },
       "original": {
