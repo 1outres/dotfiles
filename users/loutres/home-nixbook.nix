@@ -31,6 +31,7 @@ in
     keyboard.options = [ "ctrl:nocaps" ];
     touchpad.scrollFactor = 0.5;
     wallpaper = ../../bg.png;
+    airpods.enable = true;
 
     clamshell = {
       switch = "Apple SMC power/lid events";

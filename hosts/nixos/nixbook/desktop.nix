@@ -9,5 +9,6 @@
   chena = {
     enable = true;
     wallpaper = ../../../bg.png;
+    airpods.appleDeviceId = true;
   };
 }
