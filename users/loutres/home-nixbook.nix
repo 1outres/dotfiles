@@ -16,6 +16,7 @@ in
     ../../modules/home/onepassword-autostart.nix
     ../../modules/home/ssh-away-agent.nix
     ../../modules/home/zen-browser.nix
+    ../../modules/home/zen-browser-widevine.nix
   ];
 
   chena = {
