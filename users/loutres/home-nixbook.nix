@@ -64,6 +64,10 @@ in
     '';
   };
 
+  # Without shell integration Ghostty cannot tell an idle prompt from a running
+  # program, so it asks before every close, and its dialog selects Cancel.
+  programs.ghostty.settings.confirm-close-surface = false;
+
   # wgpu tries Vulkan first, and the only Vulkan device it takes here is
   # lavapipe, which draws on the CPU and makes every animation slow. OpenGL
   # goes to the Asahi GPU.
