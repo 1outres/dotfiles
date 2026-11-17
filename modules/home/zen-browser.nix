@@ -32,7 +32,9 @@ in
 
   programs.zen-browser = {
     enable = true;
-    setAsDefaultBrowser = true;
+    # On hosts where apps write mimeapps.list themselves, the user picks the
+    # default browser there.
+    setAsDefaultBrowser = config.xdg.mimeApps.enable;
   };
 
   # setAsDefaultBrowser only writes xdg.mimeApps and $BROWSER, and macOS reads

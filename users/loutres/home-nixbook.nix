@@ -23,6 +23,7 @@ in
     ../../modules/home/onepassword.nix
     ../../modules/home/onepassword-autostart.nix
     ../../modules/home/ssh-away-agent.nix
+    ../../modules/home/zen-browser.nix
   ];
 
   chena = {
