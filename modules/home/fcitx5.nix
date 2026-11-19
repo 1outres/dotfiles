@@ -1,9 +1,7 @@
 { ... }:
 
-# fcitx5 writes the session layout into org.gnome.desktop.input-sources about a
-# second after login, so this profile has the last word over
-# modules/home/gnome-keyboard.nix and the two have to agree on "us". The
-# built-in JIS keyboard gets its printed layout from keyd instead
+# The layout here has to agree with chena.keyboard.layout on "us". The built-in
+# JIS keyboard of x13g2 gets its printed layout from keyd instead
 # (modules/os/nixos/keyd.nix).
 #
 # The file is managed rather than left to fcitx5 because fcitx5 rewrites it from
@@ -63,10 +61,9 @@
     '';
   };
 
-  # Quick Phrase asks for Super+grave, the same key GNOME uses to walk the
-  # windows of one app (modules/home/gnome-window-switching.nix). fcitx5 reads
-  # the key through the input method channel, so it wins whenever a text field
-  # has the focus and the window switch does nothing.
+  # Quick Phrase asks for Super+grave. fcitx5 reads the key through the input
+  # method channel, so it would take that key from the desktop whenever a text
+  # field has the focus.
   home.file.".config/fcitx5/addon/quickphrase.conf" = {
     force = true;
     text = ''

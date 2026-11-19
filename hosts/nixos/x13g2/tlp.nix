@@ -1,21 +1,14 @@
 { ... }:
 
-# TLP takes over from power-profiles-daemon on this host. Both write the same
-# knobs and systemd marks them as conflicting, so only one of them can run.
+# TLP and not power-profiles-daemon. Both write the same knobs and systemd marks
+# them as conflicting, so only one of them can run.
 #
 # power-profiles-daemon only sets the CPU energy-performance hint and the ACPI
 # platform profile. TLP sets those too, and on top of that it lets the PCIe
 # links, the idle Realtek NIC and the Wi-Fi radio go to sleep, which is where
 # most of the remaining idle draw sits.
-#
-# The price is the power mode switcher in the GNOME menu. It reads
-# power-profiles-daemon over D-Bus, so it has nothing left to show.
 
 {
-  # The GNOME module in nixpkgs turns this on. TLP refuses to start while it
-  # is running.
-  services.power-profiles-daemon.enable = false;
-
   services.tlp = {
     enable = true;
 

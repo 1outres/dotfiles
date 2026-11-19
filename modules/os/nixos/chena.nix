@@ -3,7 +3,8 @@
 {
   imports = [
     inputs.chena.nixosModules.default
-    ../../../modules/os/nixos/fonts.nix
+    ./fcitx5-hyprland.nix
+    ./fonts.nix
   ];
 
   chena = {

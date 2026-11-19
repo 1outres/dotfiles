@@ -1,6 +1,5 @@
 {
   config,
-  hostname,
   lib,
   osConfig,
   pkgs,
@@ -15,7 +14,7 @@
 # with `ssh-add -D`, or it expires after the lifetime set below.
 
 let
-  awayKey = private.signing.awayKeys.${hostname};
+  awayKey = private.signing.awayKey;
   awayKeyFile = pkgs.writeText "ssh-away-key.pub" awayKey;
 
   agentSocket = "\${XDG_RUNTIME_DIR}/${config.services.ssh-agent.socket}";

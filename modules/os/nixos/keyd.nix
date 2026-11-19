@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
-# The built-in keyboard is JIS and the external one is US. GNOME gives every
-# keyboard the same layout — Mutter has no per-device input source — so the
-# session runs on "us" (modules/home/gnome-keyboard.nix) and the built-in board
-# is remapped down here instead. Both boards then type what is printed on them.
+# The built-in keyboard is JIS and the external one is US. chena gives every
+# keyboard the same layout (chena.keyboard.layout), so the session runs on "us"
+# and the built-in board is remapped down here instead. Both boards then type
+# what is printed on them, also on the login screen and the text console.
 #
 # The direction is not arbitrary: a US board has no key for JIS's yen and ro, so
 # a "jp" session would leave the external keyboard unable to type backslash,

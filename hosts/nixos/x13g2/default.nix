@@ -14,9 +14,7 @@
     ./tlp.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x13-amd
     ../../../modules/os/nixos/sshd.nix
-    ../../../modules/os/nixos/catppuccin-system.nix
-    ../../../modules/os/nixos/gnome.nix
-    ../../../modules/os/nixos/hyprland.nix
+    ../../../modules/os/nixos/chena.nix
     ../../../modules/os/nixos/keyd.nix
     ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/onepassword.nix
@@ -41,13 +39,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # "us" even though the built-in keyboard is JIS: keyd remaps that board to its
-  # printed layout (modules/os/nixos/keyd.nix), and the external one is already
-  # US. This also lands in localed, which GNOME reads on login and writes into
-  # org.gnome.desktop.input-sources, so leaving it at "jp" would undo the
-  # session layout on every login.
-  services.xserver.xkb.layout = "us";
 
   networking.networkmanager.enable = true;
 

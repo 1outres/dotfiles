@@ -14,7 +14,7 @@
   services.xserver.xkb.layout = lib.mkDefault "us";
 
   # This only reaches localed and the GDM greeter. A GNOME session reads its own
-  # dconf key instead, which modules/home/gnome-keyboard.nix sets.
+  # dconf key instead.
   services.xserver.xkb.options = "ctrl:nocaps";
 
   # 音声出力は PipeWire に統一 (GNOME 標準構成)。
