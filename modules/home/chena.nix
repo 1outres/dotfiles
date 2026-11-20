@@ -1,4 +1,9 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  ...
+}:
 
 let
   inherit (config.chena.style) colors;
@@ -35,6 +40,30 @@ in
           no_screen_share = true,
       })
     '';
+  };
+
+  # chena's bar, idle daemon, launcher and clipboard watchers hang off this
+  # target. graphical-session.target is reached by any desktop, such as Rikka
+  # on x13g2, so they would start there too.
+  wayland.systemd.target = "hyprland-session.target";
+
+  # The home-manager modules for these two name graphical-session.target
+  # themselves instead of reading wayland.systemd.target.
+  systemd.user.services = {
+    elephant = {
+      Unit = {
+        PartOf = lib.mkForce [ config.wayland.systemd.target ];
+        After = lib.mkForce [ config.wayland.systemd.target ];
+      };
+      Install.WantedBy = lib.mkForce [ config.wayland.systemd.target ];
+    };
+    walker = {
+      Unit.After = lib.mkForce [
+        config.wayland.systemd.target
+        "elephant.service"
+      ];
+      Install.WantedBy = lib.mkForce [ config.wayland.systemd.target ];
+    };
   };
 
   # Without shell integration Ghostty cannot tell an idle prompt from a running
