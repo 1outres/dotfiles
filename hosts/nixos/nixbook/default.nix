@@ -10,6 +10,7 @@
   imports = [
     ./aurora.nix
     ./serial-agent.nix
+    ../../../modules/os/nixos/bluetooth-public-address.nix
     ../../../modules/os/nixos/chena.nix
     ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/onepassword.nix
@@ -21,6 +22,15 @@
   # nixpkgs.hostPlatform is set by the Aurora module.
 
   aurora.desktop = "minimal";
+
+  # macOS on this machine uses the adapter's own address (6C:7E:67:D9:66:FF).
+  # With a different address here, a device sees the two systems as two hosts
+  # and keeps a pairing for each. This one only adds the locally administered
+  # bit, so no vendor can have given it to a real device.
+  services.bluetooth-public-address = {
+    enable = true;
+    address = "6E:7E:67:D9:66:FF";
+  };
 
   # Filesystem identities of this machine's disk, from the /etc/nixos that the
   # Aurora installer wrote.
