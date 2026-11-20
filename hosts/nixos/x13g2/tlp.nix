@@ -9,6 +9,9 @@
 # most of the remaining idle draw sits.
 
 {
+  # Desktops such as Rikka turn power-profiles-daemon on with mkDefault.
+  services.power-profiles-daemon.enable = false;
+
   services.tlp = {
     enable = true;
 

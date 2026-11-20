@@ -646,6 +646,26 @@
         "url": "ssh://git@github.com/1outres/dotfiles-private.git"
       }
     },
+    "rikka": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795089624,
+        "narHash": "sha256-yV0B7dJCe2o8CSfnugQOm5RUkHOq1KNg/3Q5Wttw138=",
+        "owner": "project-rikka",
+        "repo": "packages",
+        "rev": "308a2f7886fd9e1e2f1f8177f16dae877e2ecb8d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "project-rikka",
+        "repo": "packages",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "aurora": "aurora",
@@ -663,6 +683,7 @@
         "nixpkgs": "nixpkgs_4",
         "paseo": "paseo",
         "private": "private",
+        "rikka": "rikka",
         "zen-browser": "zen-browser"
       }
     },

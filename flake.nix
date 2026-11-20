@@ -63,6 +63,14 @@
       };
     };
 
+    # The prebuilt Rikka desktop and its NixOS module. Its archives are only
+    # autoPatchelf'd here, so following our nixpkgs links them against the
+    # same Mesa and glibc the rest of the system uses.
+    rikka = {
+      url = "github:project-rikka/packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     paseo = {
       url = "github:getpaseo/paseo";
       inputs.nixpkgs.follows = "nixpkgs";

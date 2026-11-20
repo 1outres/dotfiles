@@ -18,6 +18,7 @@
     ../../../modules/os/nixos/keyd.nix
     ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/onepassword.nix
+    ../../../modules/os/nixos/rikka.nix
     ../../../modules/os/nixos/tmcit-ca.nix
   ];
 
