@@ -24,10 +24,11 @@ in
     wallpaper = ../../bg.png;
     airpods.enable = true;
 
-    # The roBa firmware already flips its scroll, which suits macOS with
-    # natural scrolling on. Flipping it again here makes it scroll like a
-    # normal mouse.
+    # The roBa and mona2 firmware already flips its scroll, which suits macOS
+    # with natural scrolling on. Flipping it again here makes it scroll like
+    # a normal mouse.
     devices."zmk-project-roba-mouse".naturalScroll = true;
+    devices."zmk-project-mona2-mouse".naturalScroll = true;
 
     # Keep the vault from showing through blur or in a screen share.
     extraLua.onepassword = ''
