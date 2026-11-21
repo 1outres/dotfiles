@@ -21,6 +21,7 @@ in
 
   chena = {
     touchpad.scrollFactor = 0.5;
+    displays.enable = true;
 
     clamshell = {
       switch = "Apple SMC power/lid events";
