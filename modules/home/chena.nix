@@ -19,7 +19,6 @@ in
 
   chena = {
     enable = true;
-    shell = "shoji-bar-4";
     keyboard.options = [ "ctrl:nocaps" ];
     wallpaper = ../../bg.png;
     airpods.enable = true;

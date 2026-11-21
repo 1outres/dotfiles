@@ -20,6 +20,8 @@
   ];
 
   chena = {
+    shell = "shoji-bar-4";
+
     monitors = [
       {
         output = "";

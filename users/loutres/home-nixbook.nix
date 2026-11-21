@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -39,7 +40,9 @@ in
   # wgpu tries Vulkan first, and the only Vulkan device it takes here is
   # lavapipe, which draws on the CPU and makes every animation slow. OpenGL
   # goes to the Asahi GPU.
-  systemd.user.services.shoji-bar-4.Service.Environment = [ "WGPU_BACKEND=gl" ];
+  systemd.user.services.shoji-bar-4 = lib.mkIf (config.chena.shell == "shoji-bar-4") {
+    Service.Environment = [ "WGPU_BACKEND=gl" ];
+  };
 
   tmuxWheel.lines = 2;
 }
