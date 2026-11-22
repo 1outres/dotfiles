@@ -14,6 +14,7 @@
     ../../../modules/os/nixos/chena.nix
     ../../../modules/os/nixos/locale.nix
     ../../../modules/os/nixos/onepassword.nix
+    ../../../modules/os/nixos/stay-awake-networks.nix
     ../../../modules/os/nixos/tmcit-ca.nix
   ];
 
@@ -30,6 +31,14 @@
   services.bluetooth-public-address = {
     enable = true;
     address = "6E:7E:67:D9:66:FF";
+  };
+
+  services.stay-awake-networks = {
+    enable = true;
+    connections = [
+      "MSF-MS"
+      "Invalid SSL certificate"
+    ];
   };
 
   # Filesystem identities of this machine's disk, from the /etc/nixos that the
