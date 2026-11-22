@@ -13,7 +13,9 @@
     wantedBy = [ "hyprland-session.target" ];
     serviceConfig = {
       ExecStart = "${config.i18n.inputMethod.package}/bin/fcitx5";
-      Restart = "on-failure";
+      # fcitx5 exits with status 0 when Xwayland or its Wayland connection
+      # goes away, so on-failure would leave the session without an IME.
+      Restart = "always";
       RestartSec = 3;
     };
   };
