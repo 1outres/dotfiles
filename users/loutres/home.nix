@@ -10,6 +10,8 @@
     ../../modules/home/lazygit.nix
     ../../modules/home/mni.nix
     ../../modules/home/neovim.nix
+    ../../modules/home/npm.nix
+    ../../modules/home/takumi-guard.nix
     ../../modules/home/tmux.nix
     ../../modules/shared/git.nix
     ../../modules/shared/shell.nix
