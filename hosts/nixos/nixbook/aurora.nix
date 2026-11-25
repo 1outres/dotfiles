@@ -30,4 +30,12 @@ in
   hardware.asahi.pkgs = lib.mkForce auroraPkgs;
   aurora.fexMesa.package = auroraPkgs.aurora-fex-mesa;
   aurora.flatpak.package = auroraPkgs.aurora-flatpak-gl;
+
+  # Aurora plays trackpad clicks from the host, and on this trackpad the
+  # host plays them at full strength, which feels far too hard. These are
+  # the strength and softness of the press waveform that the trackpad
+  # firmware itself used (feature report 0x22 of the actuator).
+  boot.extraModprobeConfig = ''
+    options hid_magicmouse haptic_strength=35 haptic_softness=168
+  '';
 }
