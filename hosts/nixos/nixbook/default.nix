@@ -29,7 +29,9 @@
   # and keeps a pairing for each. This one only adds the locally administered
   # bit, so no vendor can have given it to a real device.
   services.bluetooth-public-address = {
-    enable = true;
+    # Off for now: after btmgmt sets the address, hci0 drops out of the
+    # management index and never comes back, so bluetoothd cannot start.
+    enable = false;
     address = "6E:7E:67:D9:66:FF";
   };
 
