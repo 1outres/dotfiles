@@ -14,11 +14,6 @@
 
     private.url = "git+ssh://git@github.com/1outres/dotfiles-private.git";
 
-    darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,17 +88,6 @@
         home-manager.follows = "home-manager";
       };
     };
-
-    brew-nix = {
-      url = "github:BatteredBunny/brew-nix";
-      inputs.brew-api.follows = "brew-api";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    brew-api = {
-      url = "github:BatteredBunny/brew-api";
-      flake = false;
-    };
   };
 
   outputs =
@@ -117,16 +101,15 @@
       ];
       forAllSystems = lib.genAttrs systems;
       modulesIn = import ./lib/modulesIn.nix lib;
-      mkDarwin = import ./lib/mkDarwin.nix { inherit inputs; };
+      mkHome = import ./lib/mkHome.nix { inherit inputs; };
       mkNixos = import ./lib/mkNixos.nix { inherit inputs; };
       mkSwitchOutputs = import ./lib/mkSwitchOutputs.nix { inherit inputs self; };
 
-      darwinHosts = {
+      homeHosts = {
         mbp = {
           hostname = "mbp";
           username = "loutres";
           system = "aarch64-darwin";
-          hostModule = ./hosts/darwin/mbp/default.nix;
           homeModule = ./users/loutres/home-mbp.nix;
         };
       };
@@ -184,7 +167,7 @@
         mkSwitchOutputs {
           inherit
             system
-            darwinHosts
+            homeHosts
             nixosHosts
             ;
         }
@@ -197,16 +180,16 @@
 
       packages = lib.mapAttrs (_: outputs: outputs.packages) switchOutputs;
 
-      darwinConfigurations = lib.mapAttrs (_: mkDarwin) darwinHosts;
+      homeConfigurations = lib.mapAttrs (_: mkHome) homeHosts;
 
       nixosConfigurations = lib.mapAttrs (_: mkNixos) nixosHosts;
 
       ci.hosts =
         lib.mapAttrsToList (name: h: {
           label = sanitizeLabel name;
-          attr = ''darwinConfigurations."${name}".system'';
+          attr = ''homeConfigurations."${name}".activationPackage'';
           inherit (h) system;
-        }) darwinHosts
+        }) homeHosts
         ++ lib.mapAttrsToList (name: h: {
           label = sanitizeLabel name;
           attr = ''nixosConfigurations."${name}".config.system.build.toplevel'';
@@ -215,14 +198,12 @@
 
       nixosModules = modulesIn ./modules/os/nixos;
 
-      darwinModules = modulesIn ./modules/os/darwin;
-
       homeModules = modulesIn ./modules/home;
 
       sharedModules = modulesIn ./modules/shared;
 
       lib = {
-        inherit mkDarwin mkNixos;
+        inherit mkHome mkNixos;
       };
     };
 }

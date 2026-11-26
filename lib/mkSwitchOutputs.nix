@@ -2,7 +2,7 @@
 
 {
   system,
-  darwinHosts ? { },
+  homeHosts ? { },
   nixosHosts ? { },
 }:
 let
@@ -17,18 +17,19 @@ let
   systemProfile = "/nix/var/nix/profiles/system";
 
   kinds = {
-    darwin = {
-      hosts = darwinHosts;
-      attrPath = name: ''darwinConfigurations."${name}".system'';
+    home = {
+      hosts = homeHosts;
+      attrPath = name: ''homeConfigurations."${name}".activationPackage'';
+      description = name: "Build and activate Home Manager configuration ${name}";
       activate = ''
-        sudo -H ${nixEnv} --profile ${systemProfile} --set "$result"
-        sudo -H "$result/activate"
+        HOME_MANAGER_BACKUP_EXT=hm-backup "$result/activate"
       '';
     };
 
     nixos = {
       hosts = nixosHosts;
       attrPath = name: ''nixosConfigurations."${name}".config.system.build.toplevel'';
+      description = name: "Build ${name} as the current user, then activate it as root";
       activate = ''
         sudo -H ${nixEnv} --profile ${systemProfile} --set "$result"
         sudo -H "$result/bin/switch-to-configuration" switch
@@ -38,8 +39,8 @@ let
 
   # The build has to run as the invoking user. This flake pulls private inputs
   # over git+ssh, and root reaches neither the ssh agent that holds the key nor
-  # the user's ssh config, so `sudo darwin-rebuild switch` fails while it is
-  # still evaluating. Only the activation step below needs root.
+  # the user's ssh config, so `sudo nixos-rebuild switch` fails while it is
+  # still evaluating. Only NixOS activation needs root.
   mkSwitch =
     kind: name:
     pkgs.writeShellApplication {
@@ -86,7 +87,7 @@ let
     lib.listToAttrs (
       map (
         target:
-        lib.nameValuePair target.package.name "Build ${target.name} as the current user, then activate it as root"
+        lib.nameValuePair target.package.name (target.kind.description target.name)
       ) targets
     )
     // {

@@ -50,8 +50,6 @@ let
 in
 {
   home.packages = [
-    llmAgents.claude-code
-    llmAgents.codex
     pkgs.ansible
     pkgs.argocd
     pkgs.ffmpeg
@@ -88,7 +86,11 @@ in
     pkgs.yq-go
     pkgs.zip
   ]
-  ++ lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.netbird;
+  ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    llmAgents.claude-code
+    llmAgents.codex
+    pkgs.netbird
+  ];
 
   home.file.".p10k.zsh".source = ./p10k.zsh;
 

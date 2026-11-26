@@ -35,33 +35,6 @@ jobs:
       - name: nix flake update
         run: nix flake update
 
-      - name: Refresh brew cask hashes
-        run: |
-          set -euo pipefail
-          file=modules/os/darwin/cask-hashes.json
-          for name in $(jq -r 'keys[]' "$file"); do
-            url=$(nix eval --raw --impure --expr "
-              let
-                flake = builtins.getFlake (toString ./.);
-                pkgs = import flake.inputs.nixpkgs {
-                  system = \"aarch64-darwin\";
-                  overlays = [ flake.inputs.brew-nix.overlays.default ];
-                  config.allowUnfree = true;
-                };
-              in
-                builtins.head pkgs.brewCasks.\"$name\".src.urls
-            ")
-            raw=$(nix-prefetch-url --type sha256 "$url")
-            sri=$(nix hash convert --hash-algo sha256 --to sri "$raw")
-            old=$(jq -r --arg n "$name" '.[$n]' "$file")
-            if [ "$old" != "$sri" ]; then
-              tmp=$(mktemp)
-              jq --arg n "$name" --arg h "$sri" '.[$n] = $h' "$file" > "$tmp"
-              mv "$tmp" "$file"
-              echo "$name: $old -> $sri"
-            fi
-          done
-
       - name: Commit and push update branch
         id: commit
         env:
@@ -70,12 +43,12 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet flake.lock modules/os/darwin/cask-hashes.json; then
+          if git diff --quiet flake.lock; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No changes."
             exit 0
           fi
-          git add flake.lock modules/os/darwin/cask-hashes.json
+          git add flake.lock
           git commit -m 'chore: nightly flake update'
           git push --force \
             "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
@@ -144,7 +117,7 @@ jobs:
             url=$(gh pr create \
               --head "${UPDATE_BRANCH}" \
               --title 'chore: nightly flake update' \
-              --body $'Automated nightly `nix flake update` + brew cask hash refresh.\n\nAll host closures were built on CI.')
+              --body $'Automated nightly `nix flake update`.\n\nAll host closures were built on CI.')
             echo "created=true" >> "$GITHUB_OUTPUT"
             echo "url=$url" >> "$GITHUB_OUTPUT"
           else

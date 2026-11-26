@@ -39,12 +39,14 @@ let
 
   git-ai-commit = pkgs.writeShellApplication {
     name = "git-ai-commit";
-    runtimeInputs = [
-      claude-code
-      pkgs.git
-      pkgs.gum
-      pkgs.jq
-    ];
+    runtimeInputs =
+      [
+        pkgs.git
+        pkgs.gum
+        pkgs.jq
+      ]
+      # macOS manages Claude Code outside Nix, so resolve `claude` from PATH there.
+      ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux claude-code;
     text = ''
       if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         echo "error: not inside a git work tree." >&2

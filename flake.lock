@@ -44,46 +44,6 @@
         "type": "github"
       }
     },
-    "brew-api": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1795323018,
-        "narHash": "sha256-pbfE+IVywK8ZkgXjiRnkxTX+59p4ijui5Shw1mI6F9w=",
-        "owner": "BatteredBunny",
-        "repo": "brew-api",
-        "rev": "c7f7ec8c829d07c2c8348c7349417041df2d6537",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BatteredBunny",
-        "repo": "brew-api",
-        "type": "github"
-      }
-    },
-    "brew-nix": {
-      "inputs": {
-        "brew-api": [
-          "brew-api"
-        ],
-        "nix-darwin": "nix-darwin",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792145718,
-        "narHash": "sha256-h5Go3/IBRHALRrzPivujltNar/XlQ8zddcI4tHdn5Bw=",
-        "owner": "BatteredBunny",
-        "repo": "brew-nix",
-        "rev": "c9d44a9d6014dd47c7ac542dccf89b607e3faa12",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BatteredBunny",
-        "repo": "brew-nix",
-        "type": "github"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -138,27 +98,6 @@
       "original": {
         "owner": "1outres",
         "repo": "chena",
-        "type": "github"
-      }
-    },
-    "darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795309925,
-        "narHash": "sha256-xpgrKyUvEMz0yCb+zklEpOFd0VnHyH0oBYce4Umj4e8=",
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "rev": "f673885103fa92c1c5b1d16b8bf2b858906809e2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LnL7",
-        "ref": "master",
-        "repo": "nix-darwin",
         "type": "github"
       }
     },
@@ -360,27 +299,6 @@
       "original": {
         "owner": "1outres",
         "repo": "my-dsh-plugins",
-        "type": "github"
-      }
-    },
-    "nix-darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "brew-nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781761792,
-        "narHash": "sha256-rCPytmKNjctLloB6UgK5CRrHSwV4b0ygxtJLPPp8R14=",
-        "owner": "nix-darwin",
-        "repo": "nix-darwin",
-        "rev": "a1fa429e945becaf60468600daf649be4ba0350c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-darwin",
-        "repo": "nix-darwin",
         "type": "github"
       }
     },
@@ -669,10 +587,7 @@
     "root": {
       "inputs": {
         "aurora": "aurora",
-        "brew-api": "brew-api",
-        "brew-nix": "brew-nix",
         "chena": "chena",
-        "darwin": "darwin",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "mni": "mni",
